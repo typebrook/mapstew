@@ -1,0 +1,19 @@
+name: Generate Mbtiles
+
+on: [push]
+
+jobs:
+  mbtiles:
+    runs-on: ubuntu-latest
+    container:
+      image: osmtw/tilemaker:latest
+    steps:
+      - name: Download latest osm.pbf from geofabrik
+        run: curl -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
+      - name: Make mbtiles
+        run: tilemaker taiwan-latest.osm.pbf --output=taiwan.mbtiles --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
+      - run: ls -al
+      - uses: actions/upload-artifact@master
+        with:
+          name: Upload mbtiles
+          path: taiwan-latest.osm.pbf
