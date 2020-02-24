@@ -9,7 +9,7 @@ jobs:
       image: osmtw/tilemaker:latest
     steps:
       - name: Download latest osm.pbf from geofabrik
-        run: curl -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
+        run: wget http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
       - name: Make mbtiles
         run: tilemaker taiwan-latest.osm.pbf --output=taiwan.mbtiles --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
       - run: ls -al
