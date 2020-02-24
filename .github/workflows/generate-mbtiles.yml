@@ -13,9 +13,8 @@ jobs:
         with:
           args: http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
       - name: Make mbtiles
-        run: tilemaker taiwan-latest.osm.pbf --output=taiwan.mbtiles --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
-      - run: ls -al
+        run: tilemaker taiwan-latest.osm.pbf --output=taiwan.mbtiles --config /resources/config-openmaptiles.json --process /resources/process-openmaptiles.lua
       - uses: actions/upload-artifact@master
         with:
           name: Upload mbtiles
-          path: taiwan-latest.osm.pbf
+          path: taiwan.mbtiles
