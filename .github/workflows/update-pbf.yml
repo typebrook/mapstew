@@ -12,7 +12,7 @@ jobs:
         uses: wei/wget@v1
         with:
           args: http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
-      - name: Upload Release Asset
+      - name: Upload PBF file to Release Asset
         uses: typebrook/upload-release-asset@v1
         env:
           github_api_token: ${{ secrets.GITHUB_TOKEN  }}
@@ -20,4 +20,18 @@ jobs:
           repo: mapstew
           tag: daily-taiwan-pbf
           filename: taiwan-latest.osm.pbf
+          overwrite: true
+
+      - name: Download MD5 for osm.pbf
+        uses: wei/wget@v1
+        with:
+            args: http://download.geofabrik.de/asia/taiwan-latest.osm.pbf.md5
+      - name: Upload MD5 to Release Asset
+        uses: typebrook/upload-release-asset@v1
+        env:
+          github_api_token: ${{ secrets.GITHUB_TOKEN  }}
+          owner: typebrook
+          repo: mapstew
+          tag: daily-taiwan-pbf
+          filename: taiwan-latest.osm.pbf.md5
           overwrite: true
