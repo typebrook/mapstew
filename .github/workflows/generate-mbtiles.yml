@@ -1,6 +1,9 @@
 name: Generate Mbtiles
 
-on: [push]
+on: 
+  push:
+    tags:
+      - test.*
 
 jobs:
   mbtiles:
