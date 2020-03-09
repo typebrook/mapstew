@@ -7,31 +7,43 @@ on:
 jobs:
   pbf:
     runs-on: ubuntu-latest
+    env:
+      github_api_token: ${{ secrets.GITHUB_TOKEN  }}
+      owner: typebrook
+      repo: mapstew
+      tag: daily-taiwan-pbf
+
     steps:
       - name: Download latest osm.pbf from geofabrik
-        uses: wei/wget@v1
+        uses: wei/curl@v1
         with:
-          args: http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
+          args: -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
       - name: Upload PBF file to Release Asset
-        uses: typebrook/upload-release-asset@v1
+        uses: typebrook/github-release@v2
         env:
-          github_api_token: ${{ secrets.GITHUB_TOKEN  }}
-          owner: typebrook
-          repo: mapstew
-          tag: daily-taiwan-pbf
+          type: asset
           filename: taiwan-latest.osm.pbf
           overwrite: true
 
       - name: Download MD5 for osm.pbf
-        uses: wei/wget@v1
+        uses: wei/curl@v1
         with:
-            args: http://download.geofabrik.de/asia/taiwan-latest.osm.pbf.md5
+          args: -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf.md5
       - name: Upload MD5 to Release Asset
-        uses: typebrook/upload-release-asset@v1
+        uses: typebrook/github-release@v2
         env:
-          github_api_token: ${{ secrets.GITHUB_TOKEN  }}
-          owner: typebrook
-          repo: mapstew
-          tag: daily-taiwan-pbf
+          type: asset
           filename: taiwan-latest.osm.pbf.md5
           overwrite: true
+
+      - run: |
+          echo 'Daily OSM PBF file for Taiwan extraction from Geofabrik' > note
+          echo >> note
+          date -u +"%Y-%m-%dT%H:%M:%SZ" >> note
+          echo -n 'md5: ' >> note
+          cat taiwan-latest.osm.pbf.md5 | cut -d ' ' -f1 >> note
+      - name: Update release note
+        uses: typebrook/github-release@v2
+        env:
+          type: edit
+          filename: note
