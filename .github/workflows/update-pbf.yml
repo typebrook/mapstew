@@ -3,6 +3,9 @@ name: Get latest OSM PBF from Geofabrik
 on:
   schedule:
     - cron: '30 7 * * *'
+  push:
+    tags:
+      - test.pbf*
 
 jobs:
   pbf:

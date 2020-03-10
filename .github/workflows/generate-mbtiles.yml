@@ -3,7 +3,7 @@ name: Generate Mbtiles
 on: 
   push:
     tags:
-      - test.*
+      - test.mbtiles*
 
 jobs:
   mbtiles:
