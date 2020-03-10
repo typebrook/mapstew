@@ -1,0 +1,55 @@
+name: Update PBF file on release
+
+on:
+  schedule:
+    - cron: '10 * * * *'
+  push:
+    tags: 
+      - test.update*
+
+jobs:
+  update-pbf:
+    runs-on: ubuntu-latest
+    container:
+      image: ramunasd/osmctools:latest
+    env:
+      DAILY_PBF: taiwan-daily.osm.pbf
+      LATEST_PBF: taiwan-latest.osm.pbf
+      github_api_token: ${{ secrets.GITHUB_TOKEN  }}
+      owner: typebrook
+      repo: mapstew
+      tag: daily-taiwan-pbf
+
+    steps:
+      - name: Download osm.pbf from release
+        uses: wei/curl@v1
+        with:
+          args: -LO https://github.com/typebrook/mapstew/releases/download/daily-taiwan-pbf/${{ env.DAILY_PBF }}
+
+      - name: Update PBF file by osmctools
+        run: osmupdate --hour $DAILY_PBF $LATEST_PBF
+
+      - name: Upload updated PBF file as release asset
+        uses: typebrook/github-release@v2
+        env:
+          type: asset
+          filename: ${{ env.LATEST_PBF }}
+          overwrite: true
+
+      - name: Make release note
+        run: |
+          echo "## $DAILY_PBF" > note
+          echo 'Daily OSM PBF file for Taiwan extraction from Geofabrik.' >> note
+          echo "Contains OSM data up to $(osmconvert $DAILY_PBF --out-timestamp)." >> note
+          echo >> note
+          echo "**md5:** $(md5sum $DAILY_PBF | cut -d ' ' -f1)" >> note
+          echo "**source:** http://download.geofabrik.de/asia/taiwan-latest.osm.pbf" >> note
+          echo >> note
+          echo "## $LATEST_PBF" >> note
+          echo 'Updated OSM PBF file.' >> note
+          echo "Contains OSM data up to $(osmconvert $LATEST_PBF --out-timestamp)." >> note
+      - name: Update release note
+        uses: typebrook/github-release@v2
+        env:
+          type: edit
+          filename: note
