@@ -13,8 +13,8 @@ jobs:
     env:
       DAILY_PBF: taiwan-daily.osm.pbf
       DAILY_PBF_MD5: taiwan-daily.osm.pbf.md5
-      github_api_token: ${{ secrets.GITHUB_TOKEN  }}
-      repo: typebrook/mapstew
+      github_api_token: ${{ secrets.GITHUB_TOKEN }}
+      repo: ${{ github.repository }}
       tag: daily-taiwan-pbf
 
     steps:

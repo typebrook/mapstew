@@ -15,15 +15,16 @@ jobs:
     env:
       DAILY_PBF: taiwan-daily.osm.pbf
       LATEST_PBF: taiwan-latest.osm.pbf
-      github_api_token: ${{ secrets.GITHUB_TOKEN  }}
-      repo: typebrook/mapstew
+      TAIWAN_BBOX: 118.1036,20.72799,122.9312,26.60305
+      github_api_token: ${{ secrets.GITHUB_TOKEN }}
+      repo: ${{ github.repository }}
       tag: daily-taiwan-pbf
 
     steps:
       - name: Check target PBF file
         uses: wei/curl@v1
         with:
-          args: https://api.github.com/repos/typebrook/mapstew/releases/tags/daily-taiwan-pbf -o release
+          args: https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.tag }} -o release
 
       - name: Set target PBF file
         run: |
@@ -33,10 +34,10 @@ jobs:
       - name: Download osm.pbf from release
         uses: wei/curl@v1
         with:
-          args: -Lo target.osm.pbf https://github.com/typebrook/mapstew/releases/download/daily-taiwan-pbf/${{ env.TARGET_PBF }}
+          args: -Lo target.osm.pbf https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.TARGET_PBF }}
 
       - name: Update PBF file by osmctools
-        run: osmupdate --hour -b=118.1036,20.72799,122.9312,26.60305 target.osm.pbf $LATEST_PBF
+        run: osmupdate --hour -b=$TAIWAN_BBOX target.osm.pbf $LATEST_PBF
 
       - name: Upload updated PBF file as release asset
         uses: typebrook/github-release@v3
