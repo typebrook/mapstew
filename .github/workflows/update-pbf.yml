@@ -53,7 +53,7 @@ jobs:
           echo "Contains OSM data up to $(osmconvert $DAILY_PBF --out-timestamp)." >> note
           echo >> note
           echo '**md5:**' $(sed -En 's/^ +"body".+md5[^ ]+ ([[:alnum:]]+).+$/\1/p' release) >> note
-          echo "**source:** http://download.geofabrik.de/asia/taiwan-latest.osm.pbf" >> note
+          echo "**source:** http://download.geofabrik.de/asia/taiwan.html" >> note
           echo >> note
           echo "## $LATEST_PBF" >> note
           echo 'Updated OSM PBF file.' >> note
