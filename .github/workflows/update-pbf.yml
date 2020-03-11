@@ -11,7 +11,7 @@ jobs:
   update-pbf:
     runs-on: ubuntu-latest
     container:
-      image: ramunasd/osmctools:latest
+      image: osmtw/osmctools:latest
     env:
       DAILY_PBF: taiwan-daily.osm.pbf
       LATEST_PBF: taiwan-latest.osm.pbf
