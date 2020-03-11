@@ -1,4 +1,4 @@
-name: Get latest OSM PBF from Geofabrik
+name: Daily PBF fetch
 
 on:
   schedule:

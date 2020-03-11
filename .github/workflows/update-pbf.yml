@@ -1,4 +1,4 @@
-name: Update PBF file on release
+name: Hourly PBF update
 
 on:
   schedule:
