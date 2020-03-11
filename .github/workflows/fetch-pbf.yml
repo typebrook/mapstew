@@ -41,7 +41,7 @@ jobs:
       - name: Make release note
         run: |
           echo "## $DAILY_PBF" > note
-          echo 'Daily OSM PBF file for Taiwan extraction from Geofabrik.' >> note
+          echo 'Daily OSM PBF file with extent of Taiwan, comes from Geofabrik.' >> note
           echo >> note
           echo "**md5:** $(cat $DAILY_PBF_MD5 | cut -d ' ' -f1)" >> note
           echo "**source:** http://download.geofabrik.de/asia/taiwan.html" >> note
