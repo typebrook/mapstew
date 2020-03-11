@@ -16,8 +16,7 @@ jobs:
       DAILY_PBF: taiwan-daily.osm.pbf
       LATEST_PBF: taiwan-latest.osm.pbf
       github_api_token: ${{ secrets.GITHUB_TOKEN  }}
-      owner: typebrook
-      repo: mapstew
+      repo: typebrook/mapstew
       tag: daily-taiwan-pbf
 
     steps:
@@ -30,7 +29,7 @@ jobs:
         run: osmupdate --hour -b=118.1036,20.72799,122.9312,26.60305 $DAILY_PBF $LATEST_PBF
 
       - name: Upload updated PBF file as release asset
-        uses: typebrook/github-release@v2
+        uses: typebrook/github-release@v3
         env:
           type: asset
           filename: ${{ env.LATEST_PBF }}
@@ -49,7 +48,7 @@ jobs:
           echo 'Updated OSM PBF file.' >> note
           echo "Contains OSM data up to $(osmconvert $LATEST_PBF --out-timestamp)." >> note
       - name: Update release note
-        uses: typebrook/github-release@v2
+        uses: typebrook/github-release@v3
         env:
           type: edit
           filename: note
