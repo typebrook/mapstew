@@ -10,6 +10,8 @@ on:
 jobs:
   fetch-pbf:
     runs-on: ubuntu-latest
+    container:
+      image: osmtw/osmctools:latest
     env:
       DAILY_PBF: taiwan-daily.osm.pbf
       DAILY_PBF_MD5: taiwan-daily.osm.pbf.md5
@@ -42,6 +44,7 @@ jobs:
         run: |
           echo "## $DAILY_PBF" > note
           echo 'Daily OSM PBF file with extent of Taiwan, comes from Geofabrik.' >> note
+          echo "Contains OSM data up to $(osmconvert $DAILY_PBF --out-timestamp)." >> note
           echo >> note
           echo "**md5:** $(cat $DAILY_PBF_MD5 | cut -d ' ' -f1)" >> note
           echo "**source:** http://download.geofabrik.de/asia/taiwan.html" >> note
