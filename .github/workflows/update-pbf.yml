@@ -50,7 +50,7 @@ jobs:
 
       - name: Make release note
         run: |
-          echo -e $(sed -En 's/^ +"body": "(.+)"$/\1/p' release) | sed '/source:/ q' > note
+          printf "$(sed -En 's/^ +\"body": "(.+)"$/\1/p' release)" | sed '/source:/ q' > note
           echo >> note
           echo "## $LATEST_PBF" >> note
           echo 'Updated OSM PBF file.' >> note
