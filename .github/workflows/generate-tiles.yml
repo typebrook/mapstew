@@ -23,7 +23,7 @@ jobs:
       - name: Use tilemaker Dockerfile as action
         uses: docker://osmtw/tilemaker:latest
         with:
-          args: ${{ env.LATEST_PBF }} --output=tiles/ --config /resources/config-openmaptiles.json --process /resources/process-openmaptiles.lua
+          args: ${{ env.LATEST_PBF }} --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
       - name: Commit newly-generated tiles
         run: |
           git config --local user.email "typebrook@gmail.com"
