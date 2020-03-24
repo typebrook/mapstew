@@ -16,6 +16,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: gh-pages
+      - name: Merge master branch 
+        run: |
+          git config --local user.email "typebrook@gmail.com"
+          git config --local user.name "typebrook"
+          git merge --no-ff origin/master
       - name: Download osm.pbf from release
         uses: wei/curl@v1
         with:
@@ -26,6 +31,4 @@ jobs:
           args: ${{ env.LATEST_PBF }} --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
       - name: Commit newly-generated tiles
         run: |
-          git config --local user.email "typebrook@gmail.com"
-          git config --local user.name "typebrook"
           git add tiles/* && git commit -m 'update' && git push
