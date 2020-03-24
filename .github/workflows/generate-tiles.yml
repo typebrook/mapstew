@@ -1,6 +1,8 @@
 name: Generate tiles
 
 on: 
+  schedule:
+    - cron: '15 * * * *'
   push:
     tags:
       - test.tiles*
