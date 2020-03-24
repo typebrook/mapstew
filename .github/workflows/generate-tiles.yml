@@ -1,0 +1,31 @@
+name: Generate tiles
+
+on: 
+  push:
+    tags:
+      - test.tiles*
+
+jobs:
+  generate-tiles:
+    runs-on: ubuntu-latest
+    env:
+      LATEST_PBF: taiwan-latest.osm.pbf
+      tag: daily-taiwan-pbf
+    steps:
+      - name: Checkout branch gh-page
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - name: Download osm.pbf from release
+        uses: wei/curl@v1
+        with:
+          args: -LO https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.LATEST_PBF }}
+      - name: Use tilemaker Dockerfile as action
+        uses: docker://osmtw/tilemaker:latest
+        with:
+          args: ${{ env.LATEST_PBF }} --output=tiles/ --config /resources/config-openmaptiles.json --process /resources/process-openmaptiles.lua
+      - name: Commit newly-generated tiles
+        run: |
+          git config --local user.email "typebrook@gmail.com"
+          git config --local user.name "typebrook"
+          git add tiles/* && git commit -m 'update' && git push
