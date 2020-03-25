@@ -24,7 +24,7 @@ jobs:
           git config --local user.email "typebrook@gmail.com"
           git config --local user.name "typebrook"
           git remote update --prune
-          git merge --no-edit origin/master
+          git merge --no-edit --no-ff origin/master
       - name: Download osm.pbf from release
         uses: wei/curl@v1
         with:
