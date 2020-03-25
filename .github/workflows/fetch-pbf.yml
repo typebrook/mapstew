@@ -26,19 +26,19 @@ jobs:
           args: -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
       - run: mv taiwan-latest.osm.pbf $DAILY_PBF
       - name: Upload PBF file to Release Asset
-        uses: typebrook/github-release@v4.1
+        uses: typebrook/github-release@v5
         env:
           type: asset
           filename: ${{ env.DAILY_PBF }}
-          overwrite: true
+          action: overwrite
 
       - run: echo $(md5sum $DAILY_PBF) > $DAILY_PBF_MD5
       - name: Upload MD5 to Release Asset
-        uses: typebrook/github-release@v4.1
+        uses: typebrook/github-release@v5
         env:
           type: asset
           filename: ${{ env.DAILY_PBF_MD5 }}
-          overwrite: true
+          action: overwrite
 
       - name: Make release note
         run: |
@@ -49,7 +49,7 @@ jobs:
           echo "**md5:** $(cat $DAILY_PBF_MD5 | cut -d ' ' -f1)" >> note
           echo "**source:** http://download.geofabrik.de/asia/taiwan.html" >> note
       - name: Update release note
-        uses: typebrook/github-release@v4.1
+        uses: typebrook/github-release@v5
         env:
           type: edit
           filename: note

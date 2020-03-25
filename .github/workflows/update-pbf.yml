@@ -42,11 +42,11 @@ jobs:
           osmconvert updated.osm.pbf -o=$LATEST_PBF -b=$TAIWAN_BBOX --drop-broken-refs
 
       - name: Upload updated PBF file as release asset
-        uses: typebrook/github-release@v4.1
+        uses: typebrook/github-release@v5
         env:
           type: asset
           filename: ${{ env.LATEST_PBF }}
-          overwrite: true
+          action: overwrite
 
       - name: Make release note
         run: |
@@ -56,7 +56,7 @@ jobs:
           echo 'Updated OSM PBF file.' >> note
           echo "Contains OSM data up to $(osmconvert $LATEST_PBF --out-timestamp)." >> note
       - name: Update release note
-        uses: typebrook/github-release@v4.1
+        uses: typebrook/github-release@v5
         env:
           type: edit
           filename: note
