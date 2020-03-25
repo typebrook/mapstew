@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: gh-pages
-          fetch-depth: 2
+          fetch-depth: 3
       - name: Merge master branch 
         run: |
           git config --local user.email "typebrook@gmail.com"
