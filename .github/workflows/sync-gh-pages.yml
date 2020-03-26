@@ -1,0 +1,25 @@
+name: Update gh-pages with changes on master
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  update-pbf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch gh-page
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+
+      - name: Merge master
+        run: |
+          git config --local user.email "typebrook@gmail.com"
+          git config --local user.name "typebrook"
+          git remote update --prune
+          git merge origin/master --no-edit
+          git push
