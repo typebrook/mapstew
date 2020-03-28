@@ -30,4 +30,4 @@ jobs:
         run: |
           git config --local user.email "typebrook@gmail.com"
           git config --local user.name "typebrook"
-          git add tiles/* && git commit -m 'update' && git push
+          [ -n $(gist status --short) ] && git add tiles/* && git commit -m 'update' && git push
