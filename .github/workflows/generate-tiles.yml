@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: gh-pages
+      - run: mkdir -p data/
       - name: Download osm.pbf from release
         uses: wei/curl@v1
         env:
