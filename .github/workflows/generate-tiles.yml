@@ -20,12 +20,14 @@ jobs:
           ref: gh-pages
       - name: Download osm.pbf from release
         uses: wei/curl@v1
+        env:
+          PBF_URL: https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.LATEST_PBF }}
         with:
-          args: -LO https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.LATEST_PBF }}
+          args: -L ${{ env.PBF_URL }} -o data/${{ env.LATEST_PBF }}
       - name: Use tilemaker Dockerfile as action
         uses: docker://osmtw/tilemaker:latest
         with:
-          args: ${{ env.LATEST_PBF }} --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
+          args: data/${{ env.LATEST_PBF }} --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
       - name: Commit newly-generated tiles
         run: |
           git config --local user.email "typebrook@gmail.com"
