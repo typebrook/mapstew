@@ -11,24 +11,47 @@
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+        #menu { position: absolute; background: #fff; padding: 10px; font-family: 'Open Sans', sans-serif; }
     </style>
 </head>
 <body>
 
 <div id='map'></div>
+<div id="menu">
+    <label for="topo">topo</label>
+    <input id="topo" type="radio" name="rtoggle" value="light" checked="checked"/>
+    <label for="maptiler-topo">maptiler-topo</label>
+    <input id="maptiler-topo" type="radio" name="rtoggle" value="dark"/>
+    <label for="osm-liberty">osm-liberty</label>
+    <input id="osm-liberty" type="radio" name="rtoggle" value="dark"/>
+    <label for="basic">basic</label>
+    <input id="basic" type="radio" name="rtoggle" value="dark"/>
+</div>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoibW9yZ2Vua2FmZmVlIiwiYSI6IjIzcmN0NlkifQ.0LRTNgCc-envt9d5MzR75w';
     var map = new mapboxgl.Map({
         container: 'map',
-        style: './basic.json',
-        center: [121.5, 24],
-        zoom: 9,
+        style: './styles/topo.json',
+        center: [121.54648,25.0457],
+        zoom: 12,
         hash: true
     });
     map.addControl(new mapboxgl.NavigationControl());
     map.addControl(new MapboxInspect({
       showInspectMap: true
     }));
+
+    var layerList = document.getElementById('menu');
+    var inputs = layerList.getElementsByTagName('input');
+     
+    function switchLayer(layer) {
+        var layerId = layer.target.id;
+        map.setStyle('./styles/' + layerId + '.json');
+    }
+     
+    for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
 </script>
 
 </body>
