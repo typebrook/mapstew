@@ -1,4 +1,8 @@
-all: data/taipei-latest.osm.pbf
+.PHONY: tiles
+
+all: tiles localhost
+
+tiles: data/taipei-latest.osm.pbf 
 	tilemaker $< --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
 
 clean:
