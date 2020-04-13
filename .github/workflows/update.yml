@@ -1,4 +1,4 @@
-name: Hourly PBF update
+name: Hourly PBF/tile update
 
 on:
   schedule:
@@ -7,19 +7,19 @@ on:
     tags: 
       - test.update*
 
+env:
+  DAILY_PBF: taiwan-daily.osm.pbf
+  LATEST_PBF: taiwan-latest.osm.pbf
+  TAIWAN_BBOX: 118.1036,20.72799,122.9312,26.60305
+  github_api_token: ${{ secrets.GITHUB_TOKEN }}
+  repo: ${{ github.repository }}
+  tag: daily-taiwan-pbf
+
 jobs:
   update-pbf:
     runs-on: ubuntu-latest
     container:
       image: osmtw/osmctools:latest
-    env:
-      DAILY_PBF: taiwan-daily.osm.pbf
-      LATEST_PBF: taiwan-latest.osm.pbf
-      TAIWAN_BBOX: 118.1036,20.72799,122.9312,26.60305
-      github_api_token: ${{ secrets.GITHUB_TOKEN }}
-      repo: ${{ github.repository }}
-      tag: daily-taiwan-pbf
-
     steps:
       - name: Check target PBF file
         uses: wei/curl@v1
@@ -55,8 +55,37 @@ jobs:
           echo "## $LATEST_PBF" >> note
           echo 'Updated OSM PBF file.' >> note
           echo "Contains OSM data up to $(osmconvert $LATEST_PBF --out-timestamp)." >> note
+
       - name: Update release note
         uses: typebrook/github-release@v5
         env:
           type: edit
           filename: note
+
+  generate-tiles:
+    needs: update-pbf
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch gh-page
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+
+      - run: mkdir -p data/
+      - name: Download osm.pbf from release
+        uses: wei/curl@v1
+        env:
+          PBF_URL: https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.LATEST_PBF }}
+        with:
+          args: -L ${{ env.PBF_URL }} -o data/${{ env.LATEST_PBF }}
+
+      - name: Use tilemaker Dockerfile as action
+        uses: docker://osmtw/tilemaker:latest
+        with:
+          args: data/${{ env.LATEST_PBF }} --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
+
+      - name: Commit newly-generated tiles
+        run: |
+          git config --local user.email "typebrook@gmail.com"
+          git config --local user.name "typebrook"
+          [ -n "$(git status --short)" ] && git add tiles/* && git commit -m 'update' && git push || true
