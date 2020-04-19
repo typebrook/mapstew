@@ -61,6 +61,12 @@ jobs:
         env:
           type: edit
           filename: note
+      
+      - name: Upload updated PBF file as artifact for next job
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: ${{ env.LATEST_PBF }}
+          path: ${{ github.workspace }}/${{ env.LATEST_PBF }}
 
   generate-tiles:
     needs: update-pbf
@@ -72,12 +78,10 @@ jobs:
           ref: gh-pages
 
       - run: mkdir -p data/
-      - name: Download osm.pbf from release
-        uses: wei/curl@v1
-        env:
-          PBF_URL: https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.LATEST_PBF }}
+      - uses: actions/download-artifact@v1
         with:
-          args: -L ${{ env.PBF_URL }} -o data/${{ env.LATEST_PBF }}
+          name: ${{ env.LATEST_PBF }}
+          path: data/
 
       - name: Use tilemaker Dockerfile as action
         uses: docker://osmtw/tilemaker:latest
