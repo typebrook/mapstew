@@ -6,7 +6,6 @@
 --[[
 
 	Specific issues:
-	- aerodrome_label layer is not supported
 	- boundary layer is not supported
 	- render_min_height and render_height in buildings layer are not supported
 
@@ -52,10 +51,38 @@ function Set(list)
 	return set
 end
 
+-- Meters per pixel if tile is 256x256
+ZRES5  = 4891.97
+ZRES6  = 2445.98
+ZRES7  = 1222.99
+ZRES8  = 611.5
+ZRES9  = 305.7
+ZRES10 = 152.9
+ZRES11 = 76.4
+ZRES12 = 38.2
+ZRES13 = 19.1
+
+-- Process node/way tags
+aerodromeValues = Set { "international", "public", "regional", "military", "private" }
+
 -- Process node tags
 
-node_keys = { "amenity", "shop", "sport", "tourism", "place", "office", "natural", "addr:housenumber" }
+node_keys = { "amenity", "shop", "sport", "tourism", "place", "office", "natural", "addr:housenumber", "aeroway" }
 function node_function(node)
+	-- Write 'aerodrome_label'
+	local aeroway = node:Find("aeroway")
+	if aeroway == "aerodrome" then
+		node:Layer("aerodrome_label", false)
+		SetNameAttributes(node)
+		node:Attribute("iata", node:Find("iata"))
+		SetEleAttributes(node)
+		node:Attribute("icao", node:Find("icao"))
+
+		local aerodrome_value = node:Find("aerodrome")
+		local class
+		if aerodromeValues[aerodrome_value] then class = aerodrome_value else class = "other" end
+		node:Attribute("class", class)
+	end
 	-- Write 'housenumber'
 	local housenumber = node:Find("addr:housenumber")
 	if housenumber~="" then
@@ -64,28 +91,29 @@ function node_function(node)
 	end
 
 	-- Write 'place'
+	-- note that OpenMapTiles has a rank for countries (1-3), states (1-6) and cities (1-10+);
+	--   we could potentially approximate it for cities based on the population tag
 	local place = node:Find("place")
 	if place ~= "" then
-		local rank = 5
+		local rank = nil
+		local mz = 13
 
-		if     place == "continent"     then rank = 1
-		elseif place == "country"       then rank = 1
-		elseif place == "state"         then rank = 1
-		elseif place == "city"          then rank = 2
-		elseif place == "town"          then rank = 3
-		elseif place == "village"       then rank = 4
-		elseif place == "suburb"        then rank = 3
-		elseif place == "neighbourhood" then rank = 4
-		elseif place == "locality"      then rank = 4 
-		elseif place == "hamlet"        then rank = 4 end
-
-		if rank <= 3 then
-			node:Layer("place", false)
-		else
-			node:Layer("place_detail", false)
+		if     place == "continent"     then mz=2
+		elseif place == "country"       then mz=3; rank=1
+		elseif place == "state"         then mz=4; rank=2
+		elseif place == "city"          then mz=5; rank=3
+		elseif place == "town"          then mz=7
+		elseif place == "village"       then mz=9
+		elseif place == "suburb"        then mz=11
+		elseif place == "hamlet"        then mz=11
+		elseif place == "neighbourhood" then mz=12
+		elseif place == "locality"      then mz=12
 		end
-		node:AttributeNumeric("rank", rank)
+
+		node:Layer("place", false)
 		node:Attribute("class", place)
+		node:MinZoom(mz)
+		if rank then node:AttributeNumeric("rank", rank) end
 		SetNameAttributes(node)
 		return
 	end
@@ -107,10 +135,7 @@ function node_function(node)
 	local natural = node:Find("natural")
 	if natural == "peak" then
 		node:Layer("mountain_peak", false)
-		local ele = node:Find("ele")
-		if ele ~= "" then
-			node:AttributeNumeric("ele", tonumber(ele) or 0)
-		end
+		SetEleAttributes(node)
 		node:AttributeNumeric("rank", 5)
 		SetNameAttributes(node)
 		return
@@ -127,17 +152,18 @@ end
 majorRoadValues = Set { "motorway", "trunk", "primary" }
 mainRoadValues  = Set { "secondary", "motorway_link", "trunk_link", "primary_link", "secondary_link" }
 midRoadValues   = Set { "tertiary", "tertiary_link" }
-minorRoadValues = Set { "unclassified", "residential", "road" }
+minorRoadValues = Set { "unclassified", "residential", "road", "living_street" }
 trackValues     = Set { "cycleway", "byway", "bridleway", "track" }
-pathValues      = Set { "footway", "path" }
+pathValues      = Set { "footway", "path", "steps" }
 linkValues      = Set { "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link" }
+constructionValues = Set { "primary", "secondary", "tertiary", "motorway", "service", "trunk", "track" }
 
 aerowayBuildings= Set { "terminal", "gate", "tower" }
-landuseKeys     = Set { "school", "university", "kindergarten", "college", "library", "hospital", 
+landuseKeys     = Set { "school", "university", "kindergarten", "college", "library", "hospital",
                         "railway", "cemetery", "military", "residential", "commercial", "industrial",
                         "retail", "stadium", "pitch", "playground", "theme_park", "bus_station", "zoo" }
 landcoverKeys   = { wood="wood", forest="wood",
-                    wetland="wetland", 
+                    wetland="wetland",
                     beach="sand", sand="sand",
                     farmland="farmland", farm="farmland", orchard="farmland", vineyard="farmland", plant_nursery="farmland",
                     glacier="ice", ice_shelf="ice",
@@ -168,10 +194,10 @@ poiClasses      = { townhall="town_hall", public_building="town_hall", courthous
 					university="college", college="college",
 					hotel="lodging", motel="lodging", bed_and_breakfast="lodging", guest_house="lodging", hostel="lodging", chalet="lodging", alpine_hut="lodging", dormitory="lodging",
 					chocolate="ice_cream", confectionery="ice_cream",
-					post_box="post",  post_office="post",  
-					cafe="cafe",  
-					school="school",  kindergarten="school", 
-					alcohol="alcohol_shop",  beverages="alcohol_shop",  wine="alcohol_shop",  
+					post_box="post",  post_office="post",
+					cafe="cafe",
+					school="school",  kindergarten="school",
+					alcohol="alcohol_shop",  beverages="alcohol_shop",  wine="alcohol_shop",
 					bar="bar", nightclub="bar",
 					marina="harbor", dock="harbor",
 					car="car", car_repair="car", taxi="car",
@@ -185,11 +211,13 @@ poiClasses      = { townhall="town_hall", public_building="town_hall", courthous
 					bag="clothing_store", clothes="clothing_store",
 					swimming_area="swimming", swimming="swimming",
 					castle="castle", ruins="castle" }
-poiClassRanks   = { hospital=1, railway=2, bus=3, attraction=4, harbor=5, college=6, 
-					school=7, stadium=8, zoo=9, town_hall=10, campsite=11, cemetery=12, 
-					park=13, library=14, police=15, post=16, golf=17, shop=18, grocery=19, 
+poiClassRanks   = { hospital=1, railway=2, bus=3, attraction=4, harbor=5, college=6,
+					school=7, stadium=8, zoo=9, town_hall=10, campsite=11, cemetery=12,
+					park=13, library=14, police=15, post=16, golf=17, shop=18, grocery=19,
 					fast_food=20, clothing_store=21, bar=22 }
-poiKeys = { "amenity", "sport", "tourism", "office", "historic", "leisure", "landuse", "information" }
+poiKeys         = Set { "amenity", "sport", "tourism", "office", "historic", "leisure", "landuse", "information" }
+waterClasses    = Set { "river", "riverbank", "stream", "canal", "drain", "ditch", "dock" }
+waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 
 function way_function(way)
@@ -210,6 +238,7 @@ function way_function(way)
 	local isClosed = way:IsClosed()
 	local housenumber = way:Find("addr:housenumber")
 	local write_name = false
+	local construction = way:Find("construction")
 
 	-- Miscellaneous preprocessing
 	if way:Find("disused") == "yes" then return end
@@ -233,12 +262,21 @@ function way_function(way)
 		way:Attribute("class", h)
 		SetBrunnelAttributes(way)
 
+		-- Construction
+		if highway == "construction" then
+			if constructionValues[construction] then
+				way:Attribute("class", construction .. "_construction")
+			else
+				way:Attribute("class", "minor_construction")
+			end
+		end
+
 		-- Service
 		local service = way:Find("service")
 		if highway == "service" and service ~="" then way:Attribute("service", service) end
 
 		-- Links (ramp)
-		if linkValues[highway] then 
+		if linkValues[highway] then
 			splitHighway = split(highway, "_")
 			highway = splitHighway[1]
 			way:AttributeNumeric("ramp",1)
@@ -270,7 +308,7 @@ function way_function(way)
 			way:AttributeNumeric("ref_length",ref:len())
 		end
 	end
-	
+
 	-- Railways ('transportation' and 'transportation_name', plus 'transportation_name_detail')
 	if railway~="" then
 		way:Layer("transportation", false)
@@ -280,7 +318,7 @@ function way_function(way)
 		SetNameAttributes(way)
 		way:Attribute("class", "rail")
 	end
-	
+
 	-- 'Aeroway'
 	if aeroway~="" then
 		way:Layer("aeroway", isClosed)
@@ -288,27 +326,35 @@ function way_function(way)
 		way:Attribute("ref",way:Find("ref"))
 		write_name = true
 	end
-	
+
+	-- 'aerodrome_label'
+	if aeroway=="aerodrome" then
+	 	way:LayerAsCentroid("aerodrome_label")
+	 	SetNameAttributes(way)
+	 	way:Attribute("iata", way:Find("iata"))
+  		SetEleAttributes(way)
+ 	 	way:Attribute("icao", way:Find("icao"))
+
+ 	 	local aerodrome = way:Find(aeroway)
+ 	 	local class
+ 	 	if aerodromeValues[aerodrome] then class = aerodrome else class = "other" end
+ 	 	way:Attribute("class", class)
+	end
 
 	-- Set 'waterway' and associated
-	if waterway~="" then
-		if     waterway == "riverbank" then way:Layer("water", isClosed); way:Attribute("class", "river");
-		                                    if way:Find("intermittent")=="yes" then way:AttributeNumeric("intermittent",1) end
-		elseif waterway == "dock"      then way:Layer("water", isClosed); way:Attribute("class", "lake"); 
-		                                    way:LayerAsCentroid("water_name_detail"); SetNameAttributes(way); write_name = true
-		elseif waterway == "boatyard"  then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
-		elseif waterway == "dam"       then way:Layer("building",isClosed)
-		elseif waterway == "fuel"      then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
+	if waterwayClasses[waterway] and not isClosed then
+		if waterway == "river" and way:Holds("name") then
+		    way:Layer("waterway",false)
 		else
-			if waterway == "river" and way:Holds("name") then
-				way:Layer("waterway",false)
-			else
-				way:Layer("waterway_detail",false)
-			end
-			way:Attribute("class", waterway)
-			SetNameAttributes(way)
-			SetBrunnelAttributes(way)
+		    way:Layer("waterway_detail",false)
 		end
+		if way:Find("intermittent")=="yes" then way:AttributeNumeric("intermittent", 1) else way:AttributeNumeric("intermittent", 0) end
+		way:Attribute("class", waterway)
+		SetNameAttributes(way)
+		SetBrunnelAttributes(way)
+	elseif waterway == "boatyard"  then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
+	elseif waterway == "dam"       then way:Layer("building",isClosed)
+	elseif waterway == "fuel"      then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
 	end
 
 	-- Set 'building' and associated
@@ -319,12 +365,13 @@ function way_function(way)
 		way:LayerAsCentroid("housenumber", false)
 		way:Attribute("housenumber", housenumber)
 	end
-	
+
 	-- Set 'water'
-	if natural=="water" or natural=="bay" or landuse=="reservoir" then
-		if way:Find("covered")=="yes" then return end
-		local class="lake"; if natural=="bay" then class="ocean" end
-		way:Layer("water", true)
+	if natural=="water" or natural=="bay" or leisure=="swimming_pool" or landuse=="reservoir" or landuse=="basin" or waterClasses[waterway] then
+		if way:Find("covered")=="yes" or not isClosed then return end
+		local class="lake"; if natural=="bay" then class="ocean" elseif waterway~="" then class="river" end
+		way:Layer("water",true)
+		SetMinZoomByArea(way)
 		way:Attribute("class",class)
 		if way:Find("intermittent")=="yes" then way:Attribute("intermittent",1) end
 		if way:Holds("name") then
@@ -341,6 +388,7 @@ function way_function(way)
 	if l=="" then l=leisure end
 	if landcoverKeys[l] then
 		way:Layer("landcover", true)
+		SetMinZoomByArea(way)
 		way:Attribute("class", landcoverKeys[l])
 		if l=="wetland" then way:Attribute("subclass", way:Find("wetland"))
 		else way:Attribute("subclass", l) end
@@ -377,6 +425,11 @@ function way_function(way)
 	end
 end
 
+-- Remap coastlines
+function attribute_function(attr)
+	return { class="ocean" }
+end
+
 -- ==========================================================
 -- Common functions
 
@@ -401,6 +454,17 @@ function SetNameAttributes(obj)
 	-- **** do transliteration
 end
 
+-- Set ele and ele_ft on any object
+function SetEleAttributes(obj)
+    local ele = obj:Find("ele")
+	if ele ~= "" then
+		local meter = tonumber(ele) or 0
+		local feet = math.floor(meter * 3.2808399)
+		obj:AttributeNumeric("ele", meter)
+		obj:AttributeNumeric("ele_ft", feet)
+    end
+end
+
 function SetBrunnelAttributes(obj)
 	if     obj:Find("bridge") == "yes" then obj:Attribute("brunnel", "bridge")
 	elseif obj:Find("tunnel") == "yes" then obj:Attribute("brunnel", "tunnel")
@@ -408,11 +472,23 @@ function SetBrunnelAttributes(obj)
 	end
 end
 
+-- Set minimum zoom level by area
+function SetMinZoomByArea(way)
+	local area=way:Area()
+	if     area>ZRES5^2  then way:MinZoom(6)
+	elseif area>ZRES6^2  then way:MinZoom(7)
+	elseif area>ZRES7^2  then way:MinZoom(8)
+	elseif area>ZRES8^2  then way:MinZoom(9)
+	elseif area>ZRES9^2  then way:MinZoom(10)
+	elseif area>ZRES10^2 then way:MinZoom(11)
+	else                      way:MinZoom(12) end
+end
+
 -- Calculate POIs (typically rank 1-4 go to 'poi' z12-14, rank 5+ to 'poi_detail' z14)
 -- returns rank, class, subclass
 function GetPOIRank(obj)
 	local k,list,v,class,rank
-	
+
 	-- Can we find the tag?
 	for k,list in pairs(poiTags) do
 		if list[obj:Find(k)] then
