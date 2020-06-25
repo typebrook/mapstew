@@ -6,20 +6,27 @@ on:
       - master
 
 jobs:
-  update-pbf:
+  merge-changes-from-master:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout branch gh-page
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           ref: gh-pages
-          fetch-depth: 0
 
       - name: Merge master
-        run: |
-          git config --local user.email "typebrook@gmail.com"
-          git config --local user.name "typebrook"
-          git remote update --prune
-          git merge origin/master --no-edit
+        env:
+          GIT_AUTHOR_NAME: 'auto commit'
+          GIT_COMMITTER_NAME: 'auto commit'
+          EMAIL: 'noreply@localhost'
+        run: >
+          git fetch --depth=1 origin master:master
+
+          git merge origin/master 
+          --allow-unrelated-histories 
+          --strategy-option=theirs
+          --no-edit 
+
+          git checkout -- tiles/ && git commit --amend --no-edit
+
           git push
