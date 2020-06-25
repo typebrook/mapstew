@@ -38,7 +38,7 @@ jobs:
 
       - name: Update PBF file by osmctools
         run: |
-          osmupdate target.osm.pbf updated.osm.pbf --hour -b=$TAIWAN_BBOX
+          osmupdate target.osm.pbf updated.osm.pbf --hour -b=$TAIWAN_BBOX || mv target.osm.pbf updated.osm.pbf
           osmconvert updated.osm.pbf -o=$LATEST_PBF -b=$TAIWAN_BBOX --drop-broken-refs
 
       - name: Upload updated PBF file as release asset
