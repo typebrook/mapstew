@@ -10,7 +10,8 @@
       "type": "vector",
       "tiles": [
         "https://typebrook.github.io/mapstew/tiles/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "maxzoom": 14
     },
     "natural_earth_shaded_relief": {
       "maxzoom": 6,
