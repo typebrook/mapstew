@@ -10,7 +10,6 @@ on:
 env:
   DAILY_PBF: taiwan-daily.osm.pbf
   LATEST_PBF: taiwan-latest.osm.pbf
-  OUTPUT_DIR: output
   TAIWAN_BBOX: 118.1036,20.72799,122.9312,26.60305
   github_api_token: ${{ secrets.GITHUB_TOKEN }}
   repo: ${{ github.repository }}
@@ -40,14 +39,13 @@ jobs:
       - name: Update PBF file by osmctools
         run: |
           osmupdate target.osm.pbf updated.osm.pbf --hour -b=$TAIWAN_BBOX
-          mkdir -p $OUTPUT_DIR
-          osmconvert updated.osm.pbf -o=$OUTPUT_DIR/$LATEST_PBF -b=$TAIWAN_BBOX --drop-broken-refs
+          osmconvert updated.osm.pbf -o=$LATEST_PBF -b=$TAIWAN_BBOX --drop-broken-refs
 
       - name: Upload updated PBF file as release asset
         uses: typebrook/github-release@v5
         env:
           type: asset
-          filename: ${{ env.OUTPUT_DIR }}/${{ env.LATEST_PBF }}
+          filename: ${{ env.LATEST_PBF }}
           action: overwrite
 
       - name: Make release note
@@ -56,7 +54,7 @@ jobs:
           echo >> note
           echo "## $LATEST_PBF" >> note
           echo 'Updated OSM PBF file.' >> note
-          echo "Contains OSM data up to $(osmconvert $OUTPUT_DIR/$LATEST_PBF --out-timestamp)." >> note
+          echo "Contains OSM data up to $(osmconvert $LATEST_PBF --out-timestamp)." >> note
 
       - name: Update release note
         uses: typebrook/github-release@v5
@@ -65,10 +63,10 @@ jobs:
           filename: note
       
       - name: Upload updated PBF file as artifact for next job
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ env.LATEST_PBF }}
-          path: ${{ env.OUTPUT_DIR }}
+          path: ${{ github.workspace }}/${{ env.LATEST_PBF }}
 
   generate-tiles:
     needs: update-pbf
@@ -80,12 +78,10 @@ jobs:
           ref: gh-pages
 
       - run: mkdir -p data/
-      - name: Download osm.pbf from release
-        uses: wei/curl@v1
-        env:
-          PBF_URL: https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.LATEST_PBF }}
+      - uses: actions/download-artifact@v2
         with:
-          args: -L ${{ env.PBF_URL }} -o data/${{ env.LATEST_PBF }}
+          name: ${{ env.LATEST_PBF }}
+          path: data/
 
       - name: Use tilemaker Dockerfile as action
         uses: docker://osmtw/tilemaker:latest
