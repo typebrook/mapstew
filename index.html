@@ -4,58 +4,64 @@
     <meta charset='utf-8' />
     <title>Mapbox GL Inspect</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet' />
     <script src='https://github.com/lukasmartinelli/mapbox-gl-inspect/releases/download/v1.3.1/mapbox-gl-inspect.js'></script>
     <link href='https://github.com/lukasmartinelli/mapbox-gl-inspect/releases/download/v1.3.1/mapbox-gl-inspect.css' rel='stylesheet' />
+    <script src="https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-sync-move@0.3.0/index.min.js"></script>
     <style>
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #map1 { position:absolute; top:0; left: 0; width:50%; height: 100% }
+        #map2 { position:absolute; top:0; right: 0; width:50%; height: 100% }
         #menu { position: absolute; background: #fff; padding: 10px; font-family: 'Open Sans', sans-serif; }
     </style>
 </head>
 <body>
 
-<div id='map'></div>
+<div id='map1'></div>
+<div id='map2'></div>
 <div id="menu">
     <label for="topo">topo</label>
     <input id="topo" type="radio" name="rtoggle" value="light" checked="checked"/>
-    <label for="maptiler-topo">maptiler-topo</label>
-    <input id="maptiler-topo" type="radio" name="rtoggle" value="dark"/>
     <label for="osm-liberty">osm-liberty</label>
     <input id="osm-liberty" type="radio" name="rtoggle" value="dark"/>
-    <label for="maptiler-osm-liberty">maptiler-osm-liberty</label>
-    <input id="maptiler-osm-liberty" type="radio" name="rtoggle" value="dark"/>
     <label for="basic">basic</label>
     <input id="basic" type="radio" name="rtoggle" value="dark"/>
-    <label for="maptiler-basic">maptiler-basic</label>
-    <input id="maptiler-basic" type="radio" name="rtoggle" value="dark"/>
 </div>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoibW9yZ2Vua2FmZmVlIiwiYSI6IjIzcmN0NlkifQ.0LRTNgCc-envt9d5MzR75w';
-    var map = new mapboxgl.Map({
-        container: 'map',
+    var map1 = new mapboxgl.Map({
+        container: 'map1',
         style: './styles/topo.json',
         center: [121.54648,25.0457],
         zoom: 12,
         hash: true
     });
-    map.addControl(new mapboxgl.NavigationControl());
-    map.addControl(new MapboxInspect({
-      showInspectMap: true
-    }));
+    var map2 = new mapboxgl.Map({
+        container: 'map2',
+        style: './styles/maptiler-topo.json',
+        center: [121.54648,25.0457],
+        zoom: 12,
+        hash: true
+    });
+    map1.showTileBoundaries=true;
+    map2.showTileBoundaries=true;
+
+    syncMaps(map1, map2)
+    map1.addControl(new MapboxInspect({ showInspectMap: true }));
+    map2.addControl(new MapboxInspect({ showInspectMap: true }));
 
     var layerList = document.getElementById('menu');
     var inputs = layerList.getElementsByTagName('input');
      
     function switchLayer(layer) {
         var layerId = layer.target.id;
-        map.setStyle('./styles/' + layerId + '.json');
+        map1.setStyle('./styles/' + layerId + '.json');
+        map2.setStyle('./styles/maptiler-' + layerId + '.json');
     }
      
     for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-}
+        inputs[i].onclick = switchLayer;
+    }
 </script>
 
 </body>
