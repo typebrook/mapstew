@@ -21,8 +21,10 @@
 <div id='map1'></div>
 <div id='map2'></div>
 <div id="menu">
+    <label for="topographique">topographique</label>
+    <input id="topographique" type="radio" name="rtoggle" value="light" checked="checked"/>
     <label for="topo">topo</label>
-    <input id="topo" type="radio" name="rtoggle" value="light" checked="checked"/>
+    <input id="topo" type="radio" name="rtoggle" value="dark"/>
     <label for="osm-liberty">osm-liberty</label>
     <input id="osm-liberty" type="radio" name="rtoggle" value="dark"/>
     <label for="basic">basic</label>
@@ -31,14 +33,14 @@
 <script>
     var map1 = new mapboxgl.Map({
         container: 'map1',
-        style: './styles/topo.json',
+        style: './styles/topographique.json',
         center: [121.54648,25.0457],
         zoom: 12,
         hash: true
     });
     var map2 = new mapboxgl.Map({
         container: 'map2',
-        style: './styles/maptiler-topo.json',
+        style: './styles/maptiler-topographique.json',
         center: [121.54648,25.0457],
         zoom: 12,
         hash: true
