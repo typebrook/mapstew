@@ -83,10 +83,13 @@ jobs:
           name: ${{ env.LATEST_PBF }}
           path: data/
 
-      - name: Use tilemaker Dockerfile as action
-        uses: docker://osmtw/tilemaker:latest
+      - name: Use tilemaker Github Action
+        uses: systemed/tilemaker@master
         with:
-          args: data/${{ env.LATEST_PBF }} --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
+          input: data/${{ env.LATEST_PBF }}
+          output: tiles/
+          config: resources/config-openmaptiles.json
+          process: resources/process-openmaptiles.lua
 
       - name: Commit newly-generated tiles
         run: |
