@@ -8,10 +8,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "tiles": [
-        "https://typebrook.github.io/mapstew/tiles/{z}/{x}/{y}.pbf"
-      ],
-      "maxzoom": 14
+      "url": "https://typebrook.github.io/mapstew/resources/tiles.json"
     },
     "natural_earth_shaded_relief": {
       "maxzoom": 6,
