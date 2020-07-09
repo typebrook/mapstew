@@ -17,6 +17,6 @@ data/taipei-latest.osm.pbf: data/taiwan-latest.osm.pbf
 	osmconvert $< -b=121.346,24.926,121.676,25.209 --drop-broken-refs -o=$@
 
 localhost:
-	ls styles/* resource/tile.json | xargs sed -i 's#https://typebrook.github.io/mapstew/#http://localhost:8000/#'
+	ls styles/* resources/tiles.json | xargs sed -i 's#https://typebrook.github.io/mapstew/#http://localhost:8000/#'
 	python3 -m http.server &
 	xdg-open http://localhost:8000 &
