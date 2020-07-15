@@ -10,8 +10,6 @@ on:
 jobs:
   fetch-pbf:
     runs-on: ubuntu-latest
-    container:
-      image: osmtw/osmctools:latest
     env:
       DAILY_PBF: taiwan-daily.osm.pbf
       DAILY_PBF_MD5: taiwan-daily.osm.pbf.md5
@@ -21,9 +19,7 @@ jobs:
 
     steps:
       - name: Download latest osm.pbf from geofabrik
-        uses: wei/curl@v1
-        with:
-          args: -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
+        run: curl -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
       - run: mv taiwan-latest.osm.pbf $DAILY_PBF
       - name: Upload PBF file to Release Asset
         uses: typebrook/github-release@v5
