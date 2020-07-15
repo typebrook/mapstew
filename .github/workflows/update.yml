@@ -18,13 +18,9 @@ env:
 jobs:
   update-pbf:
     runs-on: ubuntu-latest
-    container:
-      image: osmtw/osmctools:latest
     steps:
       - name: Check target PBF file
-        uses: wei/curl@v1
-        with:
-          args: https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.tag }} -o release
+        run: curl https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.tag }} -o release
 
       - name: Set target PBF file
         run: |
@@ -32,14 +28,22 @@ jobs:
           echo "::set-env name=TARGET_PBF::$TARGET_PBF"
 
       - name: Download osm.pbf from release
-        uses: wei/curl@v1
-        with:
-          args: -Lo target.osm.pbf https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.TARGET_PBF }}
+        run: curl -Lo target.osm.pbf https://github.com/${{ github.repository }}/releases/download/${{ env.tag }}/${{ env.TARGET_PBF }}
 
-      - name: Update PBF file by osmctools
-        run: |
-          osmupdate target.osm.pbf updated.osm.pbf --hour -b=$TAIWAN_BBOX || mv target.osm.pbf updated.osm.pbf
-          osmconvert updated.osm.pbf -o=$LATEST_PBF -b=$TAIWAN_BBOX --drop-broken-refs
+      - name: Update PBF file with osmctools
+        uses: ramunasd/osmctools@7154bde
+        continue-on-error: true
+        with:
+          entrypoint: osmupdate
+          args: target.osm.pbf updated.osm.pbf --hour -b=${{ env.TAIWAN_BBOX }}
+      - run: ls updated.osm.pbf &>/dev/null || mv target.osm.pbf updated.osm.pbf
+
+      - name: Extract PBF file with osmctools
+        uses: ramunasd/osmctools@7154bde
+        with:
+          entrypoint: osmconvert
+          args: updated.osm.pbf -o=${{ env.LATEST_PBF }} -b=${{ env.TAIWAN_BBOX }} --drop-broken-refs
+      - run: sudo chmod 666 $LATEST_PBF
 
       - name: Upload updated PBF file as release asset
         uses: typebrook/github-release@v5
