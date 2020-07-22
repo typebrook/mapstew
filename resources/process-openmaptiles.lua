@@ -291,6 +291,20 @@ function way_function(way)
 			-- **** TODO
 		end
 
+		-- rudymap
+		if pathValues[highway] then
+			local bad_visibility = Set { "bad", "horrible", "no" }
+			local challenging_path = Set { "demanding_alpine_hiking", "difficult_alpine_hiking" }
+			if bad_visibility[way:Find("trail_visibility")] or challenging_path[way:Find("sac_scale")] then
+				way:Attribute("difficulty", "hard")
+			end
+	
+			local forbidden = Set { "no", "private", "destination" }
+			if forbidden[way:Find("access")] then
+				way:Attribute("access", "no") 
+			end
+		end
+
 		-- Write names
 		if layer == "motorway" or layer == "trunk" then
 			way:Layer("transportation_name", false)
