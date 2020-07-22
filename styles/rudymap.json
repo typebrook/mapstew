@@ -4,7 +4,7 @@
   "metadata": {
     "mapbox:type": "template",
     "openmaptiles:version": "3.x",
-    "maptiler:copyright": "This style was generated on MapTiler Cloud. Usage outside of MapTiler Cloud requires valid OpenMapTiles Production Package: https://openmaptiles.com/production-package/ -- please contact us."
+    "maputnik:renderer": "mbgljs"
   },
   "center": [
     121.58567496192381,
@@ -32,6 +32,7 @@
       "attribution": "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>"
     }
   },
+  "sprite": "https://raw.githubusercontent.com/typebrook/mapstew/master/resources/rudymap",
   "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=Fa4snxgI75zdM0yN8lLz",
   "layers": [
     {
@@ -89,7 +90,6 @@
     {
       "id": "landcover_wood",
       "type": "fill",
-      "metadata": {},
       "source": "openmaptiles",
       "source-layer": "landcover",
       "minzoom": 9,
@@ -102,13 +102,8 @@
           "wood"
         ]
       ],
-      "layout": {
-        "visibility": "visible"
-      },
       "paint": {
-        "fill-antialias": false,
-        "fill-color": "rgba(203, 236, 168, 1)",
-        "fill-opacity": 1
+        "fill-pattern": "p_wood-mixed"
       }
     },
     {
@@ -683,11 +678,11 @@
           "stops": [
             [
               13,
-              0.8
+              1
             ],
             [
-              20,
-              12
+              15,
+              4.2
             ]
           ]
         }
@@ -2114,19 +2109,19 @@
       "paint": {
         "line-color": "rgba(215, 6, 0, 1)",
         "line-dasharray": [
-          2,
+          3,
           1.5
         ],
         "line-width": {
           "base": 1.2,
           "stops": [
             [
-              14,
-              3
+              13,
+              1.5
             ],
             [
-              20,
-              5
+              15,
+              2.4
             ]
           ]
         }
@@ -4594,32 +4589,21 @@
         "text-font": [
           "Noto Sans Italic"
         ],
-        "text-line-height": 1.3,
-        "text-max-width": {
-          "stops": [
-            [
-              6,
-              8
-            ],
-            [
-              10,
-              8
-            ]
-          ]
-        },
         "text-offset": [
           0,
           -0.75
         ],
         "text-size": 12,
-        "visibility": "visible"
+        "visibility": "visible",
+        "text-max-width": 8,
+        "text-line-height": 1.3
       },
       "paint": {
         "icon-color": "rgba(0, 0, 0, 1)",
-        "text-color": "rgba(50, 77, 18, 1)",
-        "text-halo-blur": 1,
+        "text-color": "rgba(0, 0, 0, 1)",
         "text-halo-color": "rgba(255,255,255,1)",
-        "text-halo-width": 1
+        "text-halo-width": 1.5,
+        "text-halo-blur": 1
       }
     },
     {
