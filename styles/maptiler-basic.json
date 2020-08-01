@@ -15,7 +15,7 @@
       "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=KDhMfHvorAFkFe64wlZb"
     }
   },
-  "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=KDhMfHvorAFkFe64wlZb",
+  "glyphs": "https://typebrook.github.io/mapstew/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

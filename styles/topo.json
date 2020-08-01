@@ -24,7 +24,7 @@
     }
   },
   "sprite": "https://cloud.maptiler.com/api/sprites/621233eb-0a5e-4819-a9d5-5189587fbeff",
-  "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=KDhMfHvorAFkFe64wlZb",
+  "glyphs": "https://typebrook.github.io/mapstew/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

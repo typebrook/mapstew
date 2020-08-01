@@ -33,7 +33,7 @@
     }
   },
   "sprite": "https://raw.githubusercontent.com/typebrook/mapstew/master/resources/rudymap",
-  "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=Fa4snxgI75zdM0yN8lLz",
+  "glyphs": "https://typebrook.github.io/mapstew/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
