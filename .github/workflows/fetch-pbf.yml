@@ -18,9 +18,13 @@ jobs:
       tag: daily-taiwan-pbf
 
     steps:
-      - name: Download latest osm.pbf from geofabrik
-        run: curl -O http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
-      - run: mv taiwan-latest.osm.pbf $DAILY_PBF
+      #- name: Download latest osm.pbf from geofabrik
+      #  run: curl -o $DAILY_PBF http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
+      - name: Download latest osm.pbf from Protomaps
+        run: python scripts/protomaps_extracts.py
+        env:
+          PROTOMAPS_TOKEN: ${{ secrets.PROTOMAPS_TOKEN }}
+          OUTPUT: ${{ env.DAILY_PBF }}
       - name: Upload PBF file to Release Asset
         uses: typebrook/github-release@v5
         env:
