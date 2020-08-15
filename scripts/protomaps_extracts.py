@@ -17,4 +17,4 @@ def create(token,region_type,region_data,output_file):
             break
         time.sleep(5)
 
-create(os.getenv('PROTOMAPS_TOKEN'), 'bbox', [24.926,121.346,25.209,121.676], os.getenv('OUTPUT'))
+create(os.getenv('PROTOMAPS_TOKEN'), 'bbox', [20.72799,118.1036,26.60305,122.9312], os.getenv('OUTPUT'))
