@@ -20,11 +20,14 @@ jobs:
     steps:
       #- name: Download latest osm.pbf from geofabrik
       #  run: curl -o $DAILY_PBF http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
+      - name: Checkout master branch
+        uses: actions/checkout@v2
       - name: Download latest osm.pbf from Protomaps
-        run: python scripts/protomaps_extracts.py
+        run: python3 scripts/protomaps_extracts.py
         env:
           PROTOMAPS_TOKEN: ${{ secrets.PROTOMAPS_TOKEN }}
           OUTPUT: ${{ env.DAILY_PBF }}
+
       - name: Upload PBF file to Release Asset
         uses: typebrook/github-release@v5
         env:
