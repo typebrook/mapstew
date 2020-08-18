@@ -21,26 +21,28 @@
 <div id='map1'></div>
 <div id='map2'></div>
 <div id="menu">
+    <input id="rudymap" type="radio" name="rtoggle" value="light" checked="checked"/>
+    <label for="rudymap">rudymap</label>
+    <input id="topographique" type="radio" name="rtoggle" value="dark"/>
     <label for="topographique">topographique</label>
-    <input id="topographique" type="radio" name="rtoggle" value="light" checked="checked"/>
-    <label for="topo">topo</label>
     <input id="topo" type="radio" name="rtoggle" value="dark"/>
-    <label for="osm-liberty">osm-liberty</label>
+    <label for="topo">topo</label>
     <input id="osm-liberty" type="radio" name="rtoggle" value="dark"/>
-    <label for="basic">basic</label>
+    <label for="osm-liberty">osm-liberty</label>
     <input id="basic" type="radio" name="rtoggle" value="dark"/>
+    <label for="basic">basic</label>
 </div>
 <script>
     var map1 = new mapboxgl.Map({
         container: 'map1',
-        style: './styles/topographique.json',
+        style: './styles/rudymap.json',
         center: [121.54648,25.0457],
         zoom: 12,
         hash: true
     });
     var map2 = new mapboxgl.Map({
         container: 'map2',
-        style: './styles/maptiler-topographique.json',
+        style: './styles/topographique.json',
         center: [121.54648,25.0457],
         zoom: 12,
         hash: true
@@ -57,8 +59,13 @@
      
     function switchLayer(layer) {
         var layerId = layer.target.id;
-        map1.setStyle('./styles/' + layerId + '.json');
-        map2.setStyle('./styles/maptiler-' + layerId + '.json');
+        if (layerId == "rudymap") {
+            map1.setStyle('./styles/' + layerId + '.json');
+            map2.setStyle('./styles/topographique.json');
+        } else {
+            map1.setStyle('./styles/' + layerId + '.json');
+            map2.setStyle('./styles/maptiler-' + layerId + '.json');
+        }
     }
      
     for (var i = 0; i < inputs.length; i++) {
