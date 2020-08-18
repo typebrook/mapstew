@@ -1,0 +1,39 @@
+{
+  "version": 8,
+  "name": "taiwan-topo",
+  "metadata": {
+    "mapbox:type": "template",
+    "openmaptiles:version": "3.x",
+    "maputnik:renderer": "mbgljs"
+  },
+  "center": [
+    121.58567496192381,
+    25.0231672869744
+  ],
+  "zoom": 15.039966962671752,
+  "bearing": 0,
+  "pitch": 0,
+  "sources": {
+    "basecamp": {
+      "type": "raster",
+      "tiles": [ "http://rudy.tile.basecamp.tw/{z}/{x}/{y}.png" ]
+    }
+  },
+  "layers": [
+    {
+      "id": "rudymap",
+      "type": "raster",
+      "source": "basecamp",
+      "minzoom": 6,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "raster-contrast": 0,
+        "raster-fade-duration": 300,
+        "raster-opacity": 0.2
+      }
+    }
+  ],
+  "id": "6fd5310b-fba8-49d4-840f-f45035d2734d"
+}
