@@ -25,7 +25,7 @@
     },
     "contours": {
       "type": "vector",
-      "url": "https://api.maptiler.com/tiles/contours/tiles.json?key=Fa4snxgI75zdM0yN8lLz"
+      "url": "https://typebrook.github.io/contours/tiles.json"
     },
     "maptiler_attribution": {
       "type": "vector",
