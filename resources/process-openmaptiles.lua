@@ -3,41 +3,6 @@
 -- Copyright (c) 2016, KlokanTech.com & OpenMapTiles contributors.
 -- Used under CC-BY 4.0
 
---[[
-
-	Specific issues:
-	- boundary layer is not supported
-	- render_min_height and render_height in buildings layer are not supported
-
-	To investigate:
-	- waterway names
-	- parking, bicycle_parking
-	- stations
-	- not all POIs showing (e.g. West Oxford Community Primary School in Osney - vt2geojson shows it's in tile 14/8133/5130)
-	- low zoom levels
-	- anything in man_made?
-	- sea stuff to do
-
-	Possible fields for POIs:
-    - name: funicular
-    - name: geometry
-    - name: indoor
-    - name: information
-    - name: layer
-    - name: level
-    - name: mapping_key
-    - name: name
-    - name: name_de
-    - name: name_en
-    - name: osm_id
-    - name: religion
-    - name: sport
-    - name: station
-    - name: subclass
-    - name: tags
-    - name: uic_ref
---]]
-
 -- Enter/exit Tilemaker
 function init_function()
 end
@@ -97,17 +62,20 @@ function node_function(node)
 	if place ~= "" then
 		local rank = nil
 		local mz = 13
+		local pop = tonumber(node:Find("population")) or 0
 
 		if     place == "continent"     then mz=2
 		elseif place == "country"       then mz=3; rank=1
 		elseif place == "state"         then mz=4; rank=2
 		elseif place == "city"          then mz=5; rank=3
-		elseif place == "town"          then mz=7
-		elseif place == "village"       then mz=9
+		elseif place == "town" and pop>8000 then mz=7
+		elseif place == "town"          then mz=8
+		elseif place == "village" and pop>2000 then mz=9
+		elseif place == "village"       then mz=10
 		elseif place == "suburb"        then mz=11
-		elseif place == "hamlet"        then mz=11
-		elseif place == "neighbourhood" then mz=12
-		elseif place == "locality"      then mz=12
+		elseif place == "hamlet"        then mz=12
+		elseif place == "neighbourhood" then mz=13
+		elseif place == "locality"      then mz=13
 		end
 
 		node:Layer("place", false)
@@ -120,16 +88,7 @@ function node_function(node)
 
 	-- Write 'poi'
 	local rank, class, subclass = GetPOIRank(node)
-	if rank then
-		if rank <= 4 then node:Layer("poi", false)
-		             else node:Layer("poi_detail", false) end
- 		node:Attribute("class", class)
- 		node:Attribute("subclass", subclass)
- 		node:AttributeNumeric("rank", rank)
-		poi = true
-		SetNameAttributes(node)
-		return
-	end
+	if rank then WritePOI(node,class,subclass,rank) end
 
 	-- Write 'mountain_peak' and 'water_name'
 	local natural = node:Find("natural")
@@ -169,6 +128,8 @@ landcoverKeys   = { wood="wood", forest="wood",
                     farmland="farmland", farm="farmland", orchard="farmland", vineyard="farmland", plant_nursery="farmland",
                     glacier="ice", ice_shelf="ice",
                     grassland="grass", grass="grass", meadow="grass", allotments="grass", park="grass", village_green="grass", recreation_ground="grass", garden="grass", golf_course="grass" }
+
+-- POI key/value pairs: based on https://github.com/openmaptiles/openmaptiles/blob/master/layers/poi/mapping.yaml
 poiTags         = { aerialway = Set { "station" },
 					amenity = Set { "arts_centre", "bank", "bar", "bbq", "bicycle_parking", "bicycle_rental", "biergarten", "bus_station", "cafe", "cinema", "clinic", "college", "community_centre", "courthouse", "dentist", "doctors", "embassy", "fast_food", "ferry_terminal", "fire_station", "food_court", "fuel", "grave_yard", "hospital", "ice_cream", "kindergarten", "library", "marketplace", "motorcycle_parking", "nightclub", "nursing_home", "parking", "pharmacy", "place_of_worship", "police", "post_box", "post_office", "prison", "pub", "public_building", "recycling", "restaurant", "school", "shelter", "swimming_pool", "taxi", "telephone", "theatre", "toilets", "townhall", "university", "veterinary", "waste_basket" },
 					barrier = Set { "bollard", "border_control", "cycle_barrier", "gate", "lift_gate", "sally_port", "stile", "toll_booth" },
@@ -182,6 +143,8 @@ poiTags         = { aerialway = Set { "station" },
 					sport = Set { "american_football", "archery", "athletics", "australian_football", "badminton", "baseball", "basketball", "beachvolleyball", "billiards", "bmx", "boules", "bowls", "boxing", "canadian_football", "canoe", "chess", "climbing", "climbing_adventure", "cricket", "cricket_nets", "croquet", "curling", "cycling", "disc_golf", "diving", "dog_racing", "equestrian", "fatsal", "field_hockey", "free_flying", "gaelic_games", "golf", "gymnastics", "handball", "hockey", "horse_racing", "horseshoes", "ice_hockey", "ice_stock", "judo", "karting", "korfball", "long_jump", "model_aerodrome", "motocross", "motor", "multi", "netball", "orienteering", "paddle_tennis", "paintball", "paragliding", "pelota", "racquet", "rc_car", "rowing", "rugby", "rugby_league", "rugby_union", "running", "sailing", "scuba_diving", "shooting", "shooting_range", "skateboard", "skating", "skiing", "soccer", "surfing", "swimming", "table_soccer", "table_tennis", "team_handball", "tennis", "toboggan", "volleyball", "water_ski", "yoga" },
 					tourism = Set { "alpine_hut", "aquarium", "artwork", "attraction", "bed_and_breakfast", "camp_site", "caravan_site", "chalet", "gallery", "guest_house", "hostel", "hotel", "information", "motel", "museum", "picnic_site", "theme_park", "viewpoint", "zoo" },
 					waterway = Set { "dock" } }
+
+-- POI "class" values: based on https://github.com/openmaptiles/openmaptiles/blob/master/layers/poi/poi.yaml
 poiClasses      = { townhall="town_hall", public_building="town_hall", courthouse="town_hall", community_centre="town_hall",
 					golf="golf", golf_course="golf", miniature_golf="golf",
 					fast_food="fast_food", food_court="fast_food",
@@ -224,6 +187,7 @@ waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 function way_function(way)
 	local highway  = way:Find("highway")
 	local waterway = way:Find("waterway")
+	local water    = way:Find("water")
 	local building = way:Find("building")
 	local natural  = way:Find("natural")
 	local historic = way:Find("historic")
@@ -331,6 +295,7 @@ function way_function(way)
 
 		way:Layer("transportation_name", false)
 		SetNameAttributes(way)
+		way:MinZoom(14)
 		way:Attribute("class", "rail")
 	end
 
@@ -359,9 +324,9 @@ function way_function(way)
 	-- Set 'waterway' and associated
 	if waterwayClasses[waterway] and not isClosed then
 		if waterway == "river" and way:Holds("name") then
-		    way:Layer("waterway",false)
+			way:Layer("waterway", false)
 		else
-		    way:Layer("waterway_detail",false)
+			way:Layer("waterway_detail", false)
 		end
 		if way:Find("intermittent")=="yes" then way:AttributeNumeric("intermittent", 1) else way:AttributeNumeric("intermittent", 0) end
 		way:Attribute("class", waterway)
@@ -371,10 +336,21 @@ function way_function(way)
 	elseif waterway == "dam"       then way:Layer("building",isClosed)
 	elseif waterway == "fuel"      then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
 	end
+	-- Set names on rivers
+	if waterwayClasses[waterway] and not isClosed then
+		if waterway == "river" and way:Holds("name") then
+			way:Layer("water_name", false)
+		else
+			way:Layer("water_name_detail", false)
+			way:MinZoom(14)
+		end
+		way:Attribute("class", waterway)
+		SetNameAttributes(way)
+	end
 
 	-- Set 'building' and associated
-	if building~="" then 
-		way:Layer("building", true) 
+	if building~="" then
+		way:Layer("building", true)
 		SetMinZoomByArea(way)
 	end
 
@@ -391,12 +367,21 @@ function way_function(way)
 		way:Layer("water",true)
 		SetMinZoomByArea(way)
 		way:Attribute("class",class)
+
 		if way:Find("intermittent")=="yes" then way:Attribute("intermittent",1) end
-		if way:Holds("name") then
+		-- we only want to show the names of actual lakes not every man-made basin that probably doesn't even have a name other than "basin"
+		-- examples for which we don't want to show a name:
+		--  https://www.openstreetmap.org/way/25958687
+		--  https://www.openstreetmap.org/way/27201902
+		--  https://www.openstreetmap.org/way/25309134
+		--  https://www.openstreetmap.org/way/24579306
+		if way:Holds("name") and natural=="water" and water ~= "basin" and water ~= "wastewater" then
 			way:LayerAsCentroid("water_name_detail")
 			SetNameAttributes(way)
+			SetMinZoomByArea(way)
 			way:Attribute("class", class)
 		end
+
 		return -- in case we get any landuse processing
 	end
 
@@ -410,7 +395,6 @@ function way_function(way)
 		way:Attribute("class", landcoverKeys[l])
 		if l=="wetland" then way:Attribute("subclass", way:Find("wetland"))
 		else way:Attribute("subclass", l) end
-		SetNameAttributes(way)
 		write_name = true
 
 	-- Set 'landuse'
@@ -420,7 +404,6 @@ function way_function(way)
 		if landuseKeys[l] then
 			way:Layer("landuse", true)
 			way:Attribute("class", l)
-			SetNameAttributes(way)
 			write_name = true
 		end
 	end
@@ -432,7 +415,7 @@ function way_function(way)
 
 	-- POIs ('poi' and 'poi_detail')
 	local rank, class, subclass = GetPOIRank(way)
-	if rank and WriteNamedPOI(way,class,subclass,rank) then write_name=false end
+	if rank then WritePOI(way,class,subclass,rank); return end
 
 	-- Catch-all
 	if (building~="" or write_name) and way:Holds("name") then
@@ -451,19 +434,15 @@ end
 -- ==========================================================
 -- Common functions
 
--- Write a way centroid with name to POI layer
-function WriteNamedPOI(obj,class,subclass,rank)
-	if obj:Holds("name") then
-		local layer = "poi"
-		if rank>4 then layer="poi_detail" end
-		obj:LayerAsCentroid(layer)
-		SetNameAttributes(obj)
-		obj:AttributeNumeric("rank", rank)
-		obj:Attribute("class", class)
-		obj:Attribute("subclass", subclass)
-		return true
-	end
-	return false
+-- Write a way centroid to POI layer
+function WritePOI(obj,class,subclass,rank)
+	local layer = "poi"
+	if rank>4 then layer="poi_detail" end
+	obj:LayerAsCentroid(layer)
+	SetNameAttributes(obj)
+	obj:AttributeNumeric("rank", rank)
+	obj:Attribute("class", class)
+	obj:Attribute("subclass", subclass)
 end
 
 -- Set name, name_en, and name_de on any object
@@ -521,7 +500,7 @@ function GetPOIRank(obj)
 
 	-- Catch-all for shops
 	local shop = obj:Find("shop")
-	if shop~="" then return poiClassRanks['shop'], shop, shop end
+	if shop~="" then return poiClassRanks['shop'], "shop", shop end
 
 	-- Nothing found
 	return nil,nil,nil
