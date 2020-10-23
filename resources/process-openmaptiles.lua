@@ -38,6 +38,7 @@ function node_function(node)
 	local aeroway = node:Find("aeroway")
 	if aeroway == "aerodrome" then
 		node:Layer("aerodrome_label", false)
+		SetId(node)
 		SetNameAttributes(node)
 		node:Attribute("iata", node:Find("iata"))
 		SetEleAttributes(node)
@@ -52,6 +53,7 @@ function node_function(node)
 	local housenumber = node:Find("addr:housenumber")
 	if housenumber~="" then
 		node:Layer("housenumber", false)
+		SetId(node)
 		node:Attribute("housenumber", housenumber)
 	end
 
@@ -79,6 +81,7 @@ function node_function(node)
 		end
 
 		node:Layer("place", false)
+		SetId(node)
 		node:Attribute("class", place)
 		node:MinZoom(mz)
 		if rank then node:AttributeNumeric("rank", rank) end
@@ -94,6 +97,7 @@ function node_function(node)
 	local natural = node:Find("natural")
 	if natural == "peak" or natural == "volcano" then
 		node:Layer("mountain_peak", false)
+		SetId(node)
 		SetEleAttributes(node)
 		node:AttributeNumeric("rank", 1)
 		node:Attribute("class", natural)
@@ -102,6 +106,7 @@ function node_function(node)
 	end
 	if natural == "bay" then
 		node:Layer("water_name", false)
+		SetId(node)
 		SetNameAttributes(node)
 		return
 	end
@@ -224,6 +229,7 @@ function way_function(way)
 		if pathValues[highway]      then h = "path" ; layer="transportation_detail" end
 		if h=="service"             then              layer="transportation_detail" end
 		way:Layer(layer, false)
+		SetId(way)
 		way:Attribute("class", h)
 		SetBrunnelAttributes(way)
 
@@ -277,6 +283,7 @@ function way_function(way)
 		else
 			way:Layer("transportation_name_mid", false)
 		end
+		SetId(way)
 		SetNameAttributes(way)
 		way:Attribute("class",h)
 		way:Attribute("network","road") -- **** needs fixing
@@ -291,9 +298,11 @@ function way_function(way)
 	-- Railways ('transportation' and 'transportation_name', plus 'transportation_name_detail')
 	if railway~="" then
 		way:Layer("transportation", false)
+		SetId(way)
 		way:Attribute("class", railway)
 
 		way:Layer("transportation_name", false)
+		SetId(way)
 		SetNameAttributes(way)
 		way:MinZoom(14)
 		way:Attribute("class", "rail")
@@ -302,6 +311,7 @@ function way_function(way)
 	-- 'Aeroway'
 	if aeroway~="" then
 		way:Layer("aeroway", isClosed)
+		SetId(way)
 		way:Attribute("class",aeroway)
 		way:Attribute("ref",way:Find("ref"))
 		write_name = true
@@ -310,6 +320,7 @@ function way_function(way)
 	-- 'aerodrome_label'
 	if aeroway=="aerodrome" then
 	 	way:LayerAsCentroid("aerodrome_label")
+		SetId(way)
 	 	SetNameAttributes(way)
 	 	way:Attribute("iata", way:Find("iata"))
   		SetEleAttributes(way)
@@ -328,13 +339,14 @@ function way_function(way)
 		else
 			way:Layer("waterway_detail", false)
 		end
+		SetId(way)
 		if way:Find("intermittent")=="yes" then way:AttributeNumeric("intermittent", 1) else way:AttributeNumeric("intermittent", 0) end
 		way:Attribute("class", waterway)
 		SetNameAttributes(way)
 		SetBrunnelAttributes(way)
-	elseif waterway == "boatyard"  then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
-	elseif waterway == "dam"       then way:Layer("building",isClosed)
-	elseif waterway == "fuel"      then way:Layer("landuse", isClosed); way:Attribute("class", "industrial")
+	elseif waterway == "boatyard"  then way:Layer("landuse", isClosed); SetId(way); way:Attribute("class", "industrial")
+	elseif waterway == "dam"       then way:Layer("building",isClosed); SetId(way)
+	elseif waterway == "fuel"      then way:Layer("landuse", isClosed); SetId(way); way:Attribute("class", "industrial")
 	end
 	-- Set names on rivers
 	if waterwayClasses[waterway] and not isClosed then
@@ -344,6 +356,7 @@ function way_function(way)
 			way:Layer("water_name_detail", false)
 			way:MinZoom(14)
 		end
+		SetId(way)
 		way:Attribute("class", waterway)
 		SetNameAttributes(way)
 	end
@@ -351,12 +364,14 @@ function way_function(way)
 	-- Set 'building' and associated
 	if building~="" then
 		way:Layer("building", true)
+		SetId(way)
 		SetMinZoomByArea(way)
 	end
 
 	-- Set 'housenumber'
 	if housenumber~="" then
 		way:LayerAsCentroid("housenumber", false)
+		SetId(way)
 		way:Attribute("housenumber", housenumber)
 	end
 
@@ -365,6 +380,7 @@ function way_function(way)
 		if way:Find("covered")=="yes" or not isClosed then return end
 		local class="lake"; if natural=="bay" then class="ocean" elseif waterway~="" then class="river" end
 		way:Layer("water",true)
+		SetId(way)
 		SetMinZoomByArea(way)
 		way:Attribute("class",class)
 
@@ -377,6 +393,7 @@ function way_function(way)
 		--  https://www.openstreetmap.org/way/24579306
 		if way:Holds("name") and natural=="water" and water ~= "basin" and water ~= "wastewater" then
 			way:LayerAsCentroid("water_name_detail")
+			SetId(way)
 			SetNameAttributes(way)
 			SetMinZoomByArea(way)
 			way:Attribute("class", class)
@@ -391,6 +408,7 @@ function way_function(way)
 	if l=="" then l=leisure end
 	if landcoverKeys[l] then
 		way:Layer("landcover", true)
+		SetId(way)
 		SetMinZoomByArea(way)
 		way:Attribute("class", landcoverKeys[l])
 		if l=="wetland" then way:Attribute("subclass", way:Find("wetland"))
@@ -403,6 +421,7 @@ function way_function(way)
 		if l=="" then l=tourism end
 		if landuseKeys[l] then
 			way:Layer("landuse", true)
+			SetId(way)
 			way:Attribute("class", l)
 			write_name = true
 		end
@@ -410,8 +429,8 @@ function way_function(way)
 
 	-- Parks
 	-- **** name?
-	if     boundary=="national_park" then way:Layer("park",true); way:Attribute("class",boundary); SetNameAttributes(way)
-	elseif leisure=="nature_reserve" then way:Layer("park",true); way:Attribute("class",leisure ); SetNameAttributes(way) end
+	if     boundary=="national_park" then way:Layer("park",true); SetId(way); way:Attribute("class",boundary); SetNameAttributes(way)
+	elseif leisure=="nature_reserve" then way:Layer("park",true); SetId(way); way:Attribute("class",leisure ); SetNameAttributes(way) end
 
 	-- POIs ('poi' and 'poi_detail')
 	local rank, class, subclass = GetPOIRank(way)
@@ -420,6 +439,7 @@ function way_function(way)
 	-- Catch-all
 	if (building~="" or write_name) and way:Holds("name") then
 		way:LayerAsCentroid("poi_detail")
+		SetId(way)
 		SetNameAttributes(way)
 		if write_name then rank=6 else rank=25 end
 		way:AttributeNumeric("rank", rank)
@@ -433,6 +453,11 @@ end
 
 -- ==========================================================
 -- Common functions
+
+-- rudymap, Set ID on any object
+function SetId(obj)
+	obj:Attribute("id", obj:Id())
+end
 
 -- Write a way centroid to POI layer
 function WritePOI(obj,class,subclass,rank)
