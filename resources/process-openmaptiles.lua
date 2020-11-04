@@ -477,7 +477,7 @@ end
 
 -- Set name, name_en, and name_de on any object
 function SetNameAttributes(obj)
-	obj:Attribute("name:latin", obj:Find("name"))
+	obj:Attribute("name", obj:Find("name"))
 	-- **** do transliteration
 end
 

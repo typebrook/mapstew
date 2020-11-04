@@ -3993,7 +3993,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Italic"
         ],
@@ -4028,7 +4028,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Italic"
         ],
@@ -4064,7 +4064,7 @@
       "layout": {
         "symbol-placement": "line",
         "symbol-spacing": 350,
-        "text-field": "{name:latin} {name:nonlatin}",
+        "text-field": "{name} {name:nonlatin}",
         "text-font": [
           "Noto Sans Italic"
         ],
@@ -4101,7 +4101,7 @@
       ],
       "layout": {
         "symbol-placement": "line",
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Regular"
         ],
@@ -4132,7 +4132,7 @@
       "layout": {
         "symbol-placement": "line",
         "text-anchor": "center",
-        "text-field": "{name:latin} {name:nonlatin}",
+        "text-field": "{name} {name:nonlatin}",
         "text-font": [
           "Noto Sans Regular"
         ],
@@ -4179,7 +4179,7 @@
       "layout": {
         "symbol-placement": "line",
         "text-anchor": "center",
-        "text-field": "{name:latin} {name:nonlatin}",
+        "text-field": "{name} {name:nonlatin}",
         "text-font": [
           "Noto Sans Regular"
         ],
@@ -4401,7 +4401,7 @@
       ],
       "layout": {
         "text-allow-overlap": false,
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Italic"
         ],
@@ -4540,7 +4540,7 @@
         ],
         "icon-size": 1,
         "text-anchor": "bottom",
-        "text-field": "{name:latin} {name:nonlatin}{ele} m",
+        "text-field": "{name} {name:nonlatin}{ele} m",
         "text-font": [
           "Noto Sans Italic"
         ],
@@ -4690,7 +4690,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -4735,7 +4735,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -4791,7 +4791,7 @@
             ]
           ]
         },
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -4876,7 +4876,7 @@
             ]
           ]
         },
-        "text-field": "{name:latin}",
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -4951,7 +4951,7 @@
             ]
           ]
         },
-        "text-field": "{name:latin}",
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -4998,7 +4998,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Regular"
         ],
@@ -5042,7 +5042,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}",
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Regular"
         ],
@@ -5094,7 +5094,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
+        "text-field": "{name}\n{name:nonlatin}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -5146,7 +5146,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}",
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -5199,7 +5199,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}",
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Bold"
         ],
@@ -5242,7 +5242,7 @@
         ]
       ],
       "layout": {
-        "text-field": "{name:latin}",
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Bold"
         ],
