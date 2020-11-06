@@ -197,6 +197,7 @@ function way_function(way)
 	local natural  = way:Find("natural")
 	local historic = way:Find("historic")
 	local landuse  = way:Find("landuse")
+	local boundary  = way:Find("admin_level")
 	local leisure  = way:Find("leisure")
 	local amenity  = way:Find("amenity")
 	local aeroway  = way:Find("aeroway")
@@ -425,6 +426,22 @@ function way_function(way)
 			way:Attribute("class", l)
 			write_name = true
 		end
+	end
+
+    -- Set 'boundary'
+    -- rudymap
+	if (boundary ~="") then
+		local admin_level = tonumber(boundary)
+		way:Layer("boundary")
+		SetWayId(way)
+		SetNameAttributes(way)
+		way:AttributeNumeric("admin_level", admin_level)
+		if admin_level<=4  then way:MinZoom(7)
+		elseif admin_level==6  then way:MinZoom(9)
+		elseif admin_level==5 or admin_level==7  then way:MinZoom(10)
+		elseif admin_level==8  then way:MinZoom(11)
+		elseif admin_level==9  then way:MinZoom(13)
+		else                        way:MinZoom(14) end
 	end
 
 	-- Parks

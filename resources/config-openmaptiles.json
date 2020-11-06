@@ -21,7 +21,6 @@
 		"building":          { "minzoom": 13, "maxzoom": 14 },
 
 		"water":             { "minzoom": 6,  "maxzoom": 14, "simplify_below": 12, "simplify_length": 1, "simplify_ratio": 2},
-		"ocean":             { "minzoom": 4,  "maxzoom": 14, "source": "coastline/water_polygons.shp", "simplify_below": 13, "simplify_level": 0.0005, "write_to": "water" },
 		"water_name":        { "minzoom": 14, "maxzoom": 14 },
 		"water_name_detail": { "minzoom": 14, "maxzoom": 14, "write_to": "water_name" },
 
@@ -30,7 +29,9 @@
 		"park":              { "minzoom": 11, "maxzoom": 14 },
 		"landuse":           { "minzoom": 11, "maxzoom": 14 },
 		"landcover":         { "minzoom": 6, "maxzoom": 14, "simplify_below": 13, "simplify_level": 0.0003, "simplify_ratio": 2 },
-		"mountain_peak":     { "minzoom": 11, "maxzoom": 14 }
+		"mountain_peak":     { "minzoom": 11, "maxzoom": 14 },
+
+		"boundary":          { "minzoom": 6, "maxzoom": 14 }
 	},
 	"settings": {
 		"minzoom": 4,
