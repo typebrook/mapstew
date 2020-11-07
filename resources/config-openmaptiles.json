@@ -31,7 +31,14 @@
 		"landcover":         { "minzoom": 6, "maxzoom": 14, "simplify_below": 13, "simplify_level": 0.0003, "simplify_ratio": 2 },
 		"mountain_peak":     { "minzoom": 11, "maxzoom": 14 },
 
-		"boundary":          { "minzoom": 6, "maxzoom": 14 }
+		"boundary":          { "minzoom": 2, "maxzoom": 14 },
+		"boundary_outline":  { 
+			"minzoom": 2, "maxzoom":  6, 
+			"source": "resources/boundary_taiwan/boundary.shp", 
+			"source_columns": ["admin", "name"],
+			"simplify_below": 5, 
+			"write_to": "boundary" 
+		}
 	},
 	"settings": {
 		"minzoom": 4,

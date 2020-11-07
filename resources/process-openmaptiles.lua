@@ -463,7 +463,10 @@ end
 
 -- Remap coastlines
 function attribute_function(attr)
-	return { class="ocean" }
+	return { 
+        admin_level=attr.admin,
+        name=attr.name
+    }
 end
 
 -- ==========================================================

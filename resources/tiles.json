@@ -14,7 +14,7 @@
     7
   ],
   "maxzoom": 14,
-  "minzoom": 6,
+  "minzoom": 2,
   "version": "0.1",
   "generator": "MapTiler Data",
   "description": "A tileset showcasing all layers in OpenMapTiles. https://openmaptiles.org",
@@ -100,7 +100,7 @@
         "disputed_name": "String"
       },
       "maxzoom": 14,
-      "minzoom": 0,
+      "minzoom": 2,
       "description": ""
     },
     {
