@@ -436,10 +436,8 @@ function way_function(way)
 		SetWayId(way)
 		SetNameAttributes(way)
 		way:AttributeNumeric("admin_level", admin_level)
-		if admin_level<=4  then way:MinZoom(7)
-		elseif admin_level==6  then way:MinZoom(9)
-		elseif admin_level==5 or admin_level==7  then way:MinZoom(10)
-		elseif admin_level==8  then way:MinZoom(11)
+		if admin_level==4 or admin_level==6 then way:MinZoom(7)
+		elseif admin_level==5 or admin_level==7 or admin_level==8 then way:MinZoom(10)
 		elseif admin_level==9  then way:MinZoom(13)
 		else                        way:MinZoom(14) end
 	end
