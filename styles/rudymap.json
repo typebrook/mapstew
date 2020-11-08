@@ -3726,7 +3726,7 @@
       }
     },
     {
-      "id": "cablecar-dash",
+      "id": "cablecar_dash",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
