@@ -191,6 +191,7 @@ waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 function way_function(way)
 	local highway  = way:Find("highway")
+	local aerialway = way:Find("aerialway")
 	local waterway = way:Find("waterway")
 	local water    = way:Find("water")
 	local building = way:Find("building")
@@ -294,6 +295,14 @@ function way_function(way)
 			way:Attribute("ref",ref)
 			way:AttributeNumeric("ref_length",ref:len())
 		end
+	end
+
+    -- Aerialways (cable_car, gondola, platter)
+	if aerialway~="" then
+		way:Layer("transportation_detail", false)
+		SetWayId(way)
+		SetNameAttributes(way)
+		way:Attribute("class", aerialway)
 	end
 
 	-- Railways ('transportation' and 'transportation_name', plus 'transportation_name_detail')
