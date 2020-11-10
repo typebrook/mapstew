@@ -5,5 +5,12 @@
     "width": 128,
     "x": 0,
     "y": 0
+  },
+  "s_camp_site": {
+    "height": 128,
+    "pixelRatio": 1,
+    "width": 128,
+    "x": 128,
+    "y": 0
   }
 }
