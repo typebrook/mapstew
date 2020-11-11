@@ -29,7 +29,7 @@ jobs:
       - name: Set target PBF file
         run: |
           grep -E '^ *"body"' release | grep "## $LATEST_PBF" && TARGET_PBF=$LATEST_PBF || TARGET_PBF=$DAILY_PBF
-          echo "::set-env name=TARGET_PBF::$TARGET_PBF"
+          echo "TARGET_PBF=$TARGET_PBF" >>$GITHUB_ENV
 
       - name: Download osm.pbf from release
         uses: wei/curl@v1
