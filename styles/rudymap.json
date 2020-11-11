@@ -4416,7 +4416,8 @@
         ]
       ],
       "layout": {
-        "icon-image": "s_camp_site"
+        "icon-image": "s_camp_site",
+        "icon-size": 0.3
       },
       "paint": {}
     },
