@@ -424,25 +424,6 @@
       }
     },
     {
-      "id": "glaciers",
-      "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "landcover",
-      "filter": [
-        "all",
-        [
-          "==",
-          "class",
-          "ice"
-        ]
-      ],
-      "paint": {
-        "fill-color": "rgba(217, 249, 249, 1)",
-        "fill-opacity": 0.6,
-        "fill-outline-color": "rgba(113, 177, 216, 1)"
-      }
-    },
-    {
       "id": "contour_index",
       "type": "line",
       "source": "contours",
