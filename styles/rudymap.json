@@ -4854,8 +4854,9 @@
       }
     },
     {
-      "id": "country_other",
+      "id": "country",
       "type": "symbol",
+      "maxzoom": 8,
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "place",
@@ -4865,10 +4866,6 @@
           "==",
           "class",
           "country"
-        ],
-        [
-          "!has",
-          "iso_a2"
         ]
       ],
       "layout": {
@@ -4876,7 +4873,7 @@
         "text-font": [
           "Noto Sans Regular"
         ],
-        "text-max-width": 6.25,
+        "text-max-width": 8,
         "text-size": {
           "stops": [
             [
@@ -4885,7 +4882,7 @@
             ],
             [
               7,
-              15
+              20
             ]
           ]
         },
@@ -4894,163 +4891,6 @@
       },
       "paint": {
         "text-color": "rgba(47, 49, 60, 1)",
-        "text-halo-blur": 1,
-        "text-halo-color": "rgba(255,255,255,0.8)",
-        "text-halo-width": 0.7
-      }
-    },
-    {
-      "id": "country_3",
-      "type": "symbol",
-      "metadata": {},
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "maxzoom": 5,
-      "filter": [
-        "all",
-        [
-          ">=",
-          "rank",
-          3
-        ],
-        [
-          "==",
-          "class",
-          "country"
-        ],
-        [
-          "has",
-          "iso_a2"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}\n{name:nonlatin}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
-        "text-max-width": 6.25,
-        "text-size": {
-          "stops": [
-            [
-              3,
-              9
-            ],
-            [
-              7,
-              16
-            ]
-          ]
-        },
-        "text-transform": "uppercase",
-        "visibility": "visible"
-      },
-      "paint": {
-        "text-color": "rgba(90, 90, 90, 1)",
-        "text-halo-blur": 1,
-        "text-halo-color": "rgba(255,255,255,0.8)",
-        "text-halo-width": 0.7
-      }
-    },
-    {
-      "id": "country_2",
-      "type": "symbol",
-      "metadata": {},
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "maxzoom": 5,
-      "filter": [
-        "all",
-        [
-          "==",
-          "rank",
-          2
-        ],
-        [
-          "==",
-          "class",
-          "country"
-        ],
-        [
-          "has",
-          "iso_a2"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
-        "text-max-width": 6.25,
-        "text-size": {
-          "stops": [
-            [
-              2,
-              9
-            ],
-            [
-              5,
-              16
-            ]
-          ]
-        },
-        "text-transform": "uppercase",
-        "visibility": "visible"
-      },
-      "paint": {
-        "text-color": "rgba(90, 90, 90, 1)",
-        "text-halo-blur": 1,
-        "text-halo-color": "rgba(255,255,255,0.8)",
-        "text-halo-width": 0.7
-      }
-    },
-    {
-      "id": "country_1",
-      "type": "symbol",
-      "metadata": {},
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 1,
-      "maxzoom": 5,
-      "filter": [
-        "all",
-        [
-          "==",
-          "rank",
-          1
-        ],
-        [
-          "==",
-          "class",
-          "country"
-        ],
-        [
-          "has",
-          "iso_a2"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
-        "text-max-width": 6.25,
-        "text-size": {
-          "stops": [
-            [
-              1,
-              9
-            ],
-            [
-              6,
-              16
-            ]
-          ]
-        },
-        "text-transform": "uppercase",
-        "visibility": "visible"
-      },
-      "paint": {
-        "text-color": "rgba(81, 80, 80, 1)",
         "text-halo-blur": 1,
         "text-halo-color": "rgba(255,255,255,0.8)",
         "text-halo-width": 0.7
