@@ -4303,34 +4303,6 @@
       }
     },
     {
-      "id": "golf",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "poi",
-      "minzoom": 9,
-      "filter": [
-        "all",
-        [
-          "==",
-          "subclass",
-          "golf_course"
-        ]
-      ],
-      "layout": {
-        "icon-image": "golf_11",
-        "text-field": "",
-        "text-font": [
-          "Noto Sans Italic"
-        ],
-        "text-size": 16
-      },
-      "paint": {
-        "text-color": "rgba(236, 14, 14, 1)",
-        "text-halo-color": "rgba(240, 237, 237, 1)",
-        "text-halo-width": 4
-      }
-    },
-    {
       "id": "place_other",
       "type": "symbol",
       "metadata": {},
