@@ -14,7 +14,7 @@
   "bearing": 0,
   "pitch": 0,
   "sources": {
-    "openmaptiles": {
+    "mapstew": {
       "type": "vector",
       "url": "https://typebrook.github.io/mapstew/resources/tiles.json"
     },
@@ -50,7 +50,7 @@
       "id": "landcover_grass",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landcover",
       "minzoom": 9,
       "maxzoom": 22,
@@ -90,7 +90,7 @@
     {
       "id": "landcover_wood",
       "type": "fill",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landcover",
       "minzoom": 9,
       "maxzoom": 22,
@@ -110,7 +110,7 @@
       "id": "landcover_ice",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landcover",
       "minzoom": 9,
       "maxzoom": 22,
@@ -135,7 +135,7 @@
       "id": "landcover_sand",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landcover",
       "filter": [
         "all",
@@ -154,7 +154,7 @@
     {
       "id": "landcover_wetland",
       "type": "fill",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landcover",
       "filter": [
         "all",
@@ -173,7 +173,7 @@
     {
       "id": "landuse-residential",
       "type": "fill",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landuse",
       "maxzoom": 16,
       "filter": [
@@ -212,7 +212,7 @@
       "id": "landuse_industrial_school",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landuse",
       "minzoom": 10,
       "maxzoom": 22,
@@ -238,7 +238,7 @@
       "id": "landuse_cemetery",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landuse",
       "minzoom": 10,
       "maxzoom": 22,
@@ -259,7 +259,7 @@
       "id": "landuse_green",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "landuse",
       "minzoom": 10,
       "maxzoom": 22,
@@ -426,7 +426,7 @@
     {
       "id": "waterway_tunnel",
       "type": "line",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "waterway",
       "minzoom": 14,
       "filter": [
@@ -465,7 +465,7 @@
       "id": "waterway_river",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "waterway",
       "minzoom": 3,
       "maxzoom": 24,
@@ -507,7 +507,7 @@
       "id": "waterway_other",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "waterway",
       "filter": [
         "all",
@@ -547,7 +547,7 @@
       "id": "water",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "water",
       "maxzoom": 24,
       "filter": [
@@ -569,7 +569,7 @@
       "id": "aeroway_fill",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "aeroway",
       "minzoom": 11,
       "filter": [
@@ -586,7 +586,7 @@
       "id": "aeroway_runway",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "aeroway",
       "minzoom": 11,
       "filter": [
@@ -623,7 +623,7 @@
       "id": "aeroway_taxiway",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "aeroway",
       "minzoom": 11,
       "filter": [
@@ -660,7 +660,7 @@
       "id": "tunnel_motorway_link_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -718,7 +718,7 @@
       "id": "tunnel_service_track_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -766,7 +766,7 @@
       "id": "tunnel_link_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -814,7 +814,7 @@
       "id": "tunnel_street_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -874,7 +874,7 @@
       "id": "tunnel_secondary_tertiary_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -915,7 +915,7 @@
       "id": "tunnel_trunk_primary_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -963,7 +963,7 @@
       "id": "tunnel_motorway_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1015,7 +1015,7 @@
       "id": "tunnel_path_pedestrian",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1061,7 +1061,7 @@
       "id": "tunnel_motorway_link",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1114,7 +1114,7 @@
       "id": "tunnel_service_track",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1158,7 +1158,7 @@
       "id": "tunnel_link",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1205,7 +1205,7 @@
       "id": "tunnel_minor",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1249,7 +1249,7 @@
       "id": "tunnel_secondary_tertiary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1293,7 +1293,7 @@
       "id": "tunnel_trunk_primary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1338,7 +1338,7 @@
       "id": "tunnel_motorway",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1382,7 +1382,7 @@
       "id": "tunnel_major_rail",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1419,7 +1419,7 @@
       "id": "tunnel_major_rail_hatching",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1460,7 +1460,7 @@
       "id": "road_area_bridge",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1487,7 +1487,7 @@
       "id": "road_area_pier",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1514,7 +1514,7 @@
       "id": "road_pier",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1554,7 +1554,7 @@
       "id": "road_area_pattern",
       "type": "fill",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1586,7 +1586,7 @@
       "id": "road_motorway_link_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 14,
       "filter": [
@@ -1635,7 +1635,7 @@
       "id": "road_service_track_casing-1",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "filter": [
@@ -1682,7 +1682,7 @@
       "id": "road_service_track_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1728,7 +1728,7 @@
       "id": "road_link_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "filter": [
@@ -1788,7 +1788,7 @@
       "id": "road_minor_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1860,7 +1860,7 @@
       "id": "road_secondary_tertiary_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -1909,7 +1909,7 @@
       "id": "rudymap-hike",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "filter": [
@@ -1960,7 +1960,7 @@
       "id": "road_path_pedestrian",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "filter": [
@@ -2022,7 +2022,7 @@
       "id": "road_trunk_primary_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2074,7 +2074,7 @@
       "id": "road_motorway_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 5,
       "filter": [
@@ -2141,7 +2141,7 @@
       "id": "road_minor",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2196,7 +2196,7 @@
       "id": "road_service_track",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2243,7 +2243,7 @@
       "id": "road_link",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "filter": [
@@ -2302,7 +2302,7 @@
       "id": "road_motorway_link",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 12,
       "filter": [
@@ -2369,7 +2369,7 @@
       "id": "road_secondary_tertiary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2416,7 +2416,7 @@
       "id": "road_trunk_primary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2463,7 +2463,7 @@
       "id": "road_motorway",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 4,
       "filter": [
@@ -2531,7 +2531,7 @@
       "id": "road_major_rail",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2572,7 +2572,7 @@
       "id": "road_major_rail_hatching",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2617,7 +2617,7 @@
     {
       "id": "building",
       "type": "fill",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "building",
       "minzoom": 12,
       "maxzoom": 24,
@@ -2649,7 +2649,7 @@
       "id": "bridge_motorway_link_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2702,7 +2702,7 @@
       "id": "bridge_service_track_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2746,7 +2746,7 @@
       "id": "bridge_link_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2794,7 +2794,7 @@
       "id": "bridge_street_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2854,7 +2854,7 @@
       "id": "bridge_path_pedestrian_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2904,7 +2904,7 @@
       "id": "bridge_secondary_tertiary_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2945,7 +2945,7 @@
       "id": "bridge_trunk_primary_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -2993,7 +2993,7 @@
       "id": "bridge_motorway_casing",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3040,7 +3040,7 @@
       "id": "bridge_path_pedestrian",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3097,7 +3097,7 @@
       "id": "bridge_motorway_link",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3149,7 +3149,7 @@
       "id": "bridge_service_track",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3193,7 +3193,7 @@
       "id": "bridge_link",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3240,7 +3240,7 @@
       "id": "bridge_street",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3284,7 +3284,7 @@
       "id": "bridge_secondary_tertiary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3328,7 +3328,7 @@
       "id": "bridge_trunk_primary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3372,7 +3372,7 @@
       "id": "bridge_motorway",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3426,7 +3426,7 @@
       "id": "bridge_major_rail",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3466,7 +3466,7 @@
       "id": "bridge_major_rail_hatching",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "filter": [
         "all",
@@ -3509,7 +3509,7 @@
     {
       "id": "cablecar",
       "type": "line",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "maxzoom": 24,
@@ -3542,7 +3542,7 @@
     {
       "id": "cablecar_dash",
       "type": "line",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation",
       "minzoom": 13,
       "maxzoom": 24,
@@ -3579,7 +3579,7 @@
     {
       "id": "landuse_park",
       "type": "line",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "park",
       "minzoom": 8,
       "maxzoom": 24,
@@ -3610,7 +3610,7 @@
       "id": "boundary",
       "type": "line",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "boundary",
       "layout": {
         "line-join": "round",
@@ -3645,7 +3645,7 @@
       "id": "water_name_point",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "water_name",
       "minzoom": 0,
       "filter": [
@@ -3680,7 +3680,7 @@
       "id": "water_name_point-lake",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "water_name",
       "minzoom": 0,
       "filter": [
@@ -3714,7 +3714,7 @@
     {
       "id": "waterway-name",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "waterway",
       "minzoom": 11,
       "maxzoom": 19,
@@ -3757,7 +3757,7 @@
       "id": "water_name_line",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "water_name",
       "minzoom": 0,
       "filter": [
@@ -3788,7 +3788,7 @@
       "id": "road_label_track",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation_name",
       "filter": [
         "all",
@@ -3835,7 +3835,7 @@
       "id": "road_label",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation_name",
       "filter": [
         "all",
@@ -3881,7 +3881,7 @@
     {
       "id": "highway-shield",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation_name",
       "minzoom": 8,
       "filter": [
@@ -3935,7 +3935,7 @@
     {
       "id": "highway-shield-us-interstate",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation_name",
       "minzoom": 7,
       "filter": [
@@ -3993,7 +3993,7 @@
     {
       "id": "highway-shield-us-other",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "transportation_name",
       "minzoom": 9,
       "filter": [
@@ -4051,7 +4051,7 @@
       "metadata": {
         "mapbox:group": "1444849242106.713"
       },
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "park",
       "minzoom": 0,
       "maxzoom": 15,
@@ -4113,7 +4113,7 @@
     {
       "id": "hospital",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "poi",
       "filter": [
         "all",
@@ -4154,7 +4154,7 @@
     {
       "id": "airport-label",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "aerodrome_label",
       "minzoom": 11,
       "maxzoom": 24,
@@ -4184,7 +4184,7 @@
     {
       "id": "mountain_peak",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "mountain_peak",
       "minzoom": 9,
       "maxzoom": 24,
@@ -4233,7 +4233,7 @@
     {
       "id": "camp_site",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "poi",
       "minzoom": 11,
       "filter": [
@@ -4253,7 +4253,7 @@
     {
       "id": "information",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "poi",
       "filter": [
         "all",
@@ -4270,7 +4270,7 @@
     {
       "id": "hut",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "poi",
       "filter": [
         "any",
@@ -4306,7 +4306,7 @@
       "id": "place_other",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "filter": [
         "all",
@@ -4353,7 +4353,7 @@
       "id": "place_village",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "minzoom": 10,
       "maxzoom": 14,
@@ -4396,7 +4396,7 @@
       "id": "place_town",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "minzoom": 6,
       "maxzoom": 16,
@@ -4457,7 +4457,7 @@
       "id": "place_city",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "minzoom": 4,
       "maxzoom": 12,
@@ -4542,7 +4542,7 @@
       "id": "place_city_capital",
       "type": "symbol",
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "minzoom": 5,
       "maxzoom": 12,
@@ -4616,7 +4616,7 @@
     {
       "id": "state",
       "type": "symbol",
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "minzoom": 3,
       "maxzoom": 8,
@@ -4659,7 +4659,7 @@
       "type": "symbol",
       "maxzoom": 8,
       "metadata": {},
-      "source": "openmaptiles",
+      "source": "mapstew",
       "source-layer": "place",
       "filter": [
         "all",
