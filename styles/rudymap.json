@@ -18,18 +18,9 @@
       "type": "vector",
       "url": "https://typebrook.github.io/mapstew/resources/tiles.json"
     },
-    "hillshading": {
-      "type": "raster",
-      "url": "https://api.maptiler.com/tiles/hillshades/tiles.json?key=Fa4snxgI75zdM0yN8lLz",
-      "tileSize": 256
-    },
     "contours": {
       "type": "vector",
       "url": "https://typebrook.github.io/contours/tiles.json"
-    },
-    "maptiler_attribution": {
-      "type": "vector",
-      "attribution": "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>"
     }
   },
   "sprite": "https://raw.githubusercontent.com/typebrook/mapstew/master/resources/rudymap",
@@ -281,20 +272,6 @@
         "fill-color": "rgba(216, 253, 197, 1)",
         "fill-opacity": 1,
         "fill-outline-color": "rgba(161, 237, 94, 1)"
-      }
-    },
-    {
-      "id": "hillshading",
-      "type": "raster",
-      "source": "hillshading",
-      "minzoom": 3,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "raster-contrast": 0,
-        "raster-fade-duration": 300,
-        "raster-opacity": 0.2
       }
     },
     {
