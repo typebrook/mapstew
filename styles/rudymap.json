@@ -21,6 +21,10 @@
     "contours": {
       "type": "vector",
       "url": "https://typebrook.github.io/contours/tiles.json"
+    },
+    "terrain-rgb": {
+      "type": "raster-dem",
+      "url": "https://osmhacktw.github.io/terrain-rgb/tiles.json"
     }
   },
   "sprite": "https://raw.githubusercontent.com/typebrook/mapstew/master/resources/rudymap",
@@ -36,6 +40,11 @@
       "paint": {
         "background-color": "#FFFFFF"
       }
+    },
+    {
+      "id": "hillshading",
+      "type": "hillshade",
+      "source": "terrain-rgb"
     },
     {
       "id": "landcover_grass",
