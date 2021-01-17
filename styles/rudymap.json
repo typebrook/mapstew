@@ -3818,6 +3818,71 @@
       }
     },
     {
+      "id": "highway-shield",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "transportation_name",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "<=",
+          "ref_length",
+          2
+        ],
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "!in",
+          "network",
+          "us-interstate",
+          "us-highway",
+          "us-state"
+        ]
+      ],
+      "layout": {
+        "icon-image": "road_{ref_length}",
+        "icon-rotation-alignment": "viewport",
+        "icon-size": 1,
+        "symbol-placement": {
+          "base": 1,
+          "stops": [
+            [
+              10,
+              "point"
+            ],
+            [
+              11,
+              "line"
+            ]
+          ]
+        },
+        "symbol-spacing": 200,
+        "text-field": "{ref}",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-rotation-alignment": "viewport",
+        "text-size": 12,
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": [
+          "match",
+          [
+            "get",
+            "ref_length"
+          ],
+          2,
+          "#FFFFFF",
+          "#000000"
+        ]
+      }
+    },
+    {
       "id": "road_label",
       "type": "symbol",
       "metadata": {},
@@ -3863,60 +3928,6 @@
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 2
       }
-    },
-    {
-      "id": "highway-shield",
-      "type": "symbol",
-      "source": "mapstew",
-      "source-layer": "transportation_name",
-      "minzoom": 8,
-      "filter": [
-        "all",
-        [
-          "<=",
-          "ref_length",
-          6
-        ],
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "!in",
-          "network",
-          "us-interstate",
-          "us-highway",
-          "us-state"
-        ]
-      ],
-      "layout": {
-        "icon-image": "road_{ref_length}",
-        "icon-rotation-alignment": "viewport",
-        "icon-size": 1,
-        "symbol-placement": {
-          "base": 1,
-          "stops": [
-            [
-              10,
-              "point"
-            ],
-            [
-              11,
-              "line"
-            ]
-          ]
-        },
-        "symbol-spacing": 200,
-        "text-field": "{ref}",
-        "text-font": [
-          "Noto Sans Regular"
-        ],
-        "text-rotation-alignment": "viewport",
-        "text-size": 10,
-        "visibility": "none"
-      },
-      "paint": {}
     },
     {
       "id": "highway-shield-us-interstate",
