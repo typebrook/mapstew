@@ -1,11 +1,4 @@
 {
-  "TWHW": {
-    "height": 32,
-    "pixelRatio": 1,
-    "width": 32,
-    "x": 128,
-    "y": 0
-  },
   "p_wood-mixed": {
     "height": 128,
     "pixelRatio": 1,
@@ -13,11 +6,25 @@
     "x": 0,
     "y": 0
   },
+  "road_1": {
+    "height": 32,
+    "pixelRatio": 1,
+    "width": 32,
+    "x": 128,
+    "y": 0
+  },
+  "road_2": {
+    "height": 32,
+    "pixelRatio": 1,
+    "width": 32,
+    "x": 160,
+    "y": 0
+  },
   "s_camp_site": {
     "height": 16,
     "pixelRatio": 1,
     "width": 16,
-    "x": 160,
+    "x": 192,
     "y": 0
   }
 }
