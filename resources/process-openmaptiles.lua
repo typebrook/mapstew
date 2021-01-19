@@ -277,19 +277,8 @@ function way_function(way)
 			end
 		end
 
-		-- Write names
-		if layer == "motorway" or layer == "trunk" then
-			way:Layer("transportation_name", false)
-		elseif h == "minor" or h == "track" or h == "path" or h == "service" then
-			way:Layer("transportation_name_detail", false)
-		else
-			way:Layer("transportation_name_mid", false)
-		end
-		SetWayId(way)
+        -- rudymap block of original transportation_name
 		SetNameAttributes(way)
-		way:Attribute("class",h)
-		way:Attribute("network","road") -- **** needs fixing
-		if h~=highway then way:Attribute("subclass",highway) end
 		local ref = way:Find("ref")
 		if ref~="" then
 			way:Attribute("ref",ref)
@@ -311,8 +300,6 @@ function way_function(way)
 		SetWayId(way)
 		way:Attribute("class", railway)
 
-		way:Layer("transportation_name", false)
-		SetWayId(way)
 		SetNameAttributes(way)
 		way:MinZoom(14)
 		way:Attribute("class", "rail")

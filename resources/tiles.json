@@ -116,6 +116,9 @@
     {
       "id": "transportation",
       "fields": {
+        "name": "String",
+        "ref": "String",
+        "ref_length": "String",
         "foot": "String",
         "ramp": "Number",
         "class": "String",
@@ -152,22 +155,6 @@
       "fields": {
         "name": "String",
         "class": "String",
-        "name:en": "String",
-        "name:zh": "String"
-      },
-      "maxzoom": 14,
-      "minzoom": 0,
-      "description": ""
-    },
-    {
-      "id": "transportation_name",
-      "fields": {
-        "ref": "String",
-        "name": "String",
-        "class": "String",
-        "layer": "Number",
-        "level": "Number",
-        "indoor": "Number",
         "name:en": "String",
         "name:zh": "String"
       },
