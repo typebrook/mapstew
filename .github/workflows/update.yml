@@ -95,4 +95,4 @@ jobs:
         run: |
           git config --local user.email "typebrook@gmail.com"
           git config --local user.name "typebrook"
-          [ -n "$(git status --short)" ] && scripts/update-tile-list.sh && git add tiles/* && git commit -m 'update' && git push || true
+          [ -n "$(git status --short)" ] && scripts/update-tile-list.sh && git add tiles/* tiles.list && git commit -m 'update' && git push || true
