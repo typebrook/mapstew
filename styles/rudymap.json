@@ -1922,7 +1922,13 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(215, 6, 0, 1)",
+        "line-color": [
+          "match",
+          ["get", "difficulty"],
+          "hard",
+          "rgba(0, 0, 0, 0.4)",
+          "rgba(215, 6, 0, 1)"
+        ],
         "line-dasharray": [
           3,
           1.5
@@ -3862,6 +3868,20 @@
         "text-halo-blur": 0.5,
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 2
+      }
+    },
+    {
+      "id": "diffcult-label",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "transportation",
+      "filter": 
+        ["==", "difficulty", "hard"],
+      "layout": {
+        "symbol-placement": "line",
+        "icon-rotation-alignment": "viewport",
+        "icon-image": "skull",
+        "icon-size": 0.8
       }
     },
     {
