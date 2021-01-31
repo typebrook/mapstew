@@ -3867,6 +3867,7 @@
         ],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
+        "text-padding": 20,
         "visibility": "visible"
       },
       "paint": {
@@ -3874,9 +3875,9 @@
           "match",
           [
             "get",
-            "ref_length"
+            "class"
           ],
-          2,
+          "primary",
           "#FFFFFF",
           "#000000"
         ]
