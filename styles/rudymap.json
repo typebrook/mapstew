@@ -3844,7 +3844,7 @@
         ]
       ],
       "layout": {
-        "icon-image": "road_{ref_length}",
+        "icon-image": "shield_{class}",
         "icon-rotation-alignment": "viewport",
         "icon-size": 0.65,
         "symbol-placement": {

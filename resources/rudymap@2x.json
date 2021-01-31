@@ -6,14 +6,14 @@
     "x": 0,
     "y": 0
   },
-  "road_1": {
+  "shield_motorway": {
     "height": 32,
     "pixelRatio": 1,
     "width": 32,
     "x": 128,
     "y": 0
   },
-  "road_2": {
+  "shield_primary": {
     "height": 32,
     "pixelRatio": 1,
     "width": 32,
