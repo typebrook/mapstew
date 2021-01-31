@@ -3818,52 +3818,6 @@
       }
     },
     {
-      "id": "highway-shield",
-      "type": "symbol",
-      "source": "mapstew",
-      "source-layer": "transportation",
-      "minzoom": 8,
-      "filter": [
-        "all",
-        ["<=", "ref_length", 2],
-        ["==", "$type", "LineString"],
-        [
-          "in",
-          "class",
-          "motorway",
-          "primary",
-          "tertiary"
-        ]
-      ],
-      "layout": {
-        "icon-image": "shield_{class}",
-        "icon-rotation-alignment": "viewport",
-        "icon-size": 0.65,
-        "symbol-placement": {
-          "base": 1,
-          "stops": [
-            [10, "point"],
-            [11, "line"]
-          ]
-        },
-        "text-field": "{ref}",
-        "text-font": ["Noto Sans Regular"],
-        "text-rotation-alignment": "viewport",
-        "text-size": 10,
-        "text-padding": 100,
-        "text-allow-overlap": true
-      },
-      "paint": {
-        "text-color": [
-          "match",
-          ["get", "class"],
-          "primary",
-          "#FFFFFF",
-          "#000000"
-        ]
-      }
-    },
-    {
       "id": "road_label",
       "type": "symbol",
       "metadata": {},
@@ -3911,61 +3865,49 @@
       }
     },
     {
-      "id": "highway-shield-us-interstate",
+      "id": "highway-shield",
       "type": "symbol",
       "source": "mapstew",
       "source-layer": "transportation",
-      "minzoom": 7,
+      "minzoom": 8,
       "filter": [
         "all",
-        [
-          "<=",
-          "ref_length",
-          6
-        ],
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
+        ["<=", "ref_length", 2],
+        ["==", "$type", "LineString"],
         [
           "in",
-          "network",
-          "us-interstate"
+          "class",
+          "motorway",
+          "primary",
+          "tertiary"
         ]
       ],
       "layout": {
-        "icon-image": "{network}_{ref_length}",
+        "icon-image": "shield_{class}",
         "icon-rotation-alignment": "viewport",
-        "icon-size": 1,
+        "icon-size": 0.65,
         "symbol-placement": {
           "base": 1,
           "stops": [
-            [
-              7,
-              "point"
-            ],
-            [
-              7,
-              "line"
-            ],
-            [
-              8,
-              "line"
-            ]
+            [10, "point"],
+            [11, "line"]
           ]
         },
-        "symbol-spacing": 200,
         "text-field": "{ref}",
-        "text-font": [
-          "Noto Sans Regular"
-        ],
+        "text-font": ["Noto Sans Regular"],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
-        "visibility": "none"
+        "icon-padding": 100,
+        "icon-allow-overlap": true
       },
       "paint": {
-        "text-color": "rgba(0, 0, 0, 1)"
+        "text-color": [
+          "match",
+          ["get", "class"],
+          "primary",
+          "#FFFFFF",
+          "#000000"
+        ]
       }
     },
     {
