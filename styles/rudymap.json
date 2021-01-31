@@ -3825,22 +3825,14 @@
       "minzoom": 8,
       "filter": [
         "all",
+        ["<=", "ref_length", 2],
+        ["==", "$type", "LineString"],
         [
-          "<=",
-          "ref_length",
-          2
-        ],
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "!in",
-          "network",
-          "us-interstate",
-          "us-highway",
-          "us-state"
+          "in",
+          "class",
+          "motorway",
+          "primary",
+          "tertiary"
         ]
       ],
       "layout": {
@@ -3850,33 +3842,21 @@
         "symbol-placement": {
           "base": 1,
           "stops": [
-            [
-              10,
-              "point"
-            ],
-            [
-              11,
-              "line"
-            ]
+            [10, "point"],
+            [11, "line"]
           ]
         },
-        "symbol-spacing": 200,
         "text-field": "{ref}",
-        "text-font": [
-          "Noto Sans Regular"
-        ],
+        "text-font": ["Noto Sans Regular"],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
-        "text-padding": 20,
-        "visibility": "visible"
+        "text-padding": 100,
+        "text-allow-overlap": true
       },
       "paint": {
         "text-color": [
           "match",
-          [
-            "get",
-            "class"
-          ],
+          ["get", "class"],
           "primary",
           "#FFFFFF",
           "#000000"
