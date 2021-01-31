@@ -92,7 +92,12 @@ jobs:
           process: resources/process-openmaptiles.lua
 
       - name: Commit newly-generated tiles
-        run: |
-          git config --local user.email "typebrook@gmail.com"
-          git config --local user.name "typebrook"
-          [ -n "$(git status --short)" ] && scripts/update-tile-list.sh && git add tiles/* tiles.list && git commit -m 'update' && git push || true
+        run: >- 
+          git config --local user.email "typebrook@gmail.com";
+          git config --local user.name "typebrook";
+          [ -n "$(git status tiles/ --short)" ]
+          && scripts/update-tile-list.sh
+          && git add tiles/* tiles.list
+          && git commit -m 'update'
+          && git push
+          || true
