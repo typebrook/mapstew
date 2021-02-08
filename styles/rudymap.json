@@ -319,7 +319,7 @@
             ]
           ]
         },
-        "line-width": 2.0
+        "line-width": 2
       }
     },
     {
@@ -1644,21 +1644,17 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(165, 165, 165, 1)",
+        "line-color": "rgba(50, 38, 38, 1)",
         "line-width": {
-          "base": 1.2,
+          "base": 2,
           "stops": [
             [
-              15,
-              1.3
-            ],
-            [
-              16,
+              13,
               4
             ],
             [
-              20,
-              11
+              18,
+              20
             ]
           ]
         }
@@ -1924,7 +1920,10 @@
       "paint": {
         "line-color": [
           "match",
-          ["get", "difficulty"],
+          [
+            "get",
+            "difficulty"
+          ],
           "hard",
           "rgba(0, 0, 0, 0.4)",
           "rgba(215, 6, 0, 1)"
@@ -2213,19 +2212,15 @@
       "paint": {
         "line-color": "rgba(234, 234, 234, 1)",
         "line-width": {
-          "base": 1.2,
+          "base": 2,
           "stops": [
             [
-              15.5,
-              0
-            ],
-            [
-              16,
+              13,
               2
             ],
             [
-              20,
-              7.5
+              18,
+              12
             ]
           ]
         }
@@ -3875,8 +3870,11 @@
       "type": "symbol",
       "source": "mapstew",
       "source-layer": "transportation",
-      "filter": 
-        ["==", "difficulty", "hard"],
+      "filter": [
+        "==",
+        "difficulty",
+        "hard"
+      ],
       "layout": {
         "symbol-placement": "line",
         "icon-rotation-alignment": "viewport",
@@ -3892,8 +3890,16 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["<=", "ref_length", 2],
-        ["==", "$type", "LineString"],
+        [
+          "<=",
+          "ref_length",
+          2
+        ],
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
         [
           "in",
           "class",
@@ -3909,12 +3915,20 @@
         "symbol-placement": {
           "base": 1,
           "stops": [
-            [10, "point"],
-            [11, "line"]
+            [
+              10,
+              "point"
+            ],
+            [
+              11,
+              "line"
+            ]
           ]
         },
         "text-field": "{ref}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": [
+          "Noto Sans Regular"
+        ],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
         "icon-padding": 100,
@@ -3923,7 +3937,10 @@
       "paint": {
         "text-color": [
           "match",
-          ["get", "class"],
+          [
+            "get",
+            "class"
+          ],
           "primary",
           "#FFFFFF",
           "#000000"
@@ -4542,10 +4559,10 @@
     {
       "id": "country",
       "type": "symbol",
-      "maxzoom": 8,
       "metadata": {},
       "source": "mapstew",
       "source-layer": "place",
+      "maxzoom": 8,
       "filter": [
         "all",
         [
