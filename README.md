@@ -25,12 +25,9 @@ See the rendered tiles on https://typebrook.github.io/mapstew, tile schema is ba
 With steps above, the static tile resource `http://typebrook.github.io/mapstew/tiles/{z}/{x}/{y}.pbf` are always updated with OSM with minimal delay.
 
 ## Stacks
-- [**GOEFABRIK**](http://download.geofabrik.de/asia/taiwan.html) and [**Protomaps**](https://protomaps.com/) 
-  Get daily osm.pbf.
-- [**osmctools**](https://github.com/ramunasd/osmctools) 
-  Update osm.pbf hourly. Here I use [custom docker image](https://hub.docker.com/r/osmtw/osmctools) (smaller size with `debian:stable-slim` to boost Github workflow) 
-- [**tilemaker**](https://github.com/systemed/tilemaker) 
-  Generate MVT directly from `osm.pbf` file.
+- [`GOEFABRIK`](http://download.geofabrik.de/asia/taiwan.html) and [`Protomaps`](https://protomaps.com/) - Get daily osm.pbf.
+- [`osmctools`](https://github.com/ramunasd/osmctools) - Update osm.pbf hourly. Here I use [custom docker image](https://hub.docker.com/r/osmtw/osmctools) (smaller size with `debian:stable-slim` to boost Github workflow) 
+- [`tilemaker`](https://github.com/systemed/tilemaker) - Generate MVT directly from `osm.pbf` file.
 
 ## Limitation
-1. The runner of Github workflow has limited computing power, so generate tiles worldwide houly is impossible. But for Taiwan area, it could be done in 10 minutes.
+1. The runner of Github workflow has limited computing power, so generate tiles worldwide houly is impossible. But for area of Taiwan, it could be done in 10 minutes.
