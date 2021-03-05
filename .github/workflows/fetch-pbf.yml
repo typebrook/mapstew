@@ -23,7 +23,7 @@ jobs:
       - name: Checkout master branch
         uses: actions/checkout@v2
       - name: Download latest osm.pbf from Protomaps
-        run: python3 scripts/protomaps_extracts.py
+        run: scripts/protomaps_extracts.sh
         env:
           PROTOMAPS_TOKEN: ${{ secrets.PROTOMAPS_TOKEN }}
           OUTPUT: ${{ env.DAILY_PBF }}
