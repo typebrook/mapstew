@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 url=$({
 curl https://protomaps.com/api/v1/extracts --data @- <<EOF
