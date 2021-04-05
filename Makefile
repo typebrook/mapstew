@@ -2,8 +2,8 @@
 
 all: tiles localhost
 
-tiles: data/taipei-latest.osm.pbf 
-	tilemaker $< --output=tiles/ --config resources/config-openmaptiles.json --process resources/process-openmaptiles.lua
+tiles: data/taiwan-latest.osm.pbf 
+	tilemaker $< --output=tiles/ --config resources/config-mapstew.json --process resources/process-mapstew.lua
 
 clean:
 	rm -rf tiles/ data/ && git reset --hard

@@ -1,0 +1,27 @@
+{
+  "layers": {
+    "place":            { "minzoom":  0, "maxzoom": 14 },
+    "boundary":         { "minzoom":  0, "maxzoom": 14, "simplify_below": 12, "simplify_length": 20, "simplify_ratio": 2 },
+    "boundary_outline": {
+      "minzoom": 2,
+      "maxzoom": 6,
+      "source": "resources/boundary_taiwan/boundary.shp",
+      "source_columns": [
+        "admin",
+        "name"
+      ],
+      "simplify_below": 5,
+      "write_to": "boundary"
+    }
+  },
+  "settings": {
+    "minzoom": 2,
+    "maxzoom": 14,
+    "basezoom": 14,
+    "include_ids": true,
+    "name": "mapstew",
+    "version": "0.1",
+    "description": "Tile schema for hiking",
+    "compress": "none"
+  }
+}
