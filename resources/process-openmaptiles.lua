@@ -1,4 +1,3 @@
--- Data processing based on openmaptiles.org schema
 -- https://openmaptiles.org/schema/
 -- Copyright (c) 2016, KlokanTech.com & OpenMapTiles contributors.
 -- Used under CC-BY 4.0
@@ -38,7 +37,6 @@ function node_function(node)
 	local aeroway = node:Find("aeroway")
 	if aeroway == "aerodrome" then
 		node:Layer("aerodrome_label", false)
-		SetNodeId(node)
 		SetNameAttributes(node)
 		node:Attribute("iata", node:Find("iata"))
 		SetEleAttributes(node)
@@ -53,7 +51,6 @@ function node_function(node)
 	local housenumber = node:Find("addr:housenumber")
 	if housenumber~="" then
 		node:Layer("housenumber", false)
-		SetNodeId(node)
 		node:Attribute("housenumber", housenumber)
 	end
 
@@ -66,10 +63,13 @@ function node_function(node)
 		local mz = 13
 		local pop = tonumber(node:Find("population")) or 0
 
-		if     place == "continent"     then mz=2
-		elseif place == "country"       then mz=3; rank=1
-		elseif place == "state"         then mz=4; rank=2
-		elseif place == "city"          then mz=5; rank=3
+		if     place == "continent"     then mz=0
+		elseif place == "country"       then
+			if     pop>50000000 then rank=1; mz=1
+			elseif pop>20000000 then rank=2; mz=2
+			else                     rank=3; mz=3 end
+		elseif place == "state"         then mz=4
+		elseif place == "city"          then mz=5
 		elseif place == "town" and pop>8000 then mz=7
 		elseif place == "town"          then mz=8
 		elseif place == "village" and pop>2000 then mz=9
@@ -81,10 +81,10 @@ function node_function(node)
 		end
 
 		node:Layer("place", false)
-		SetNodeId(node)
 		node:Attribute("class", place)
 		node:MinZoom(mz)
 		if rank then node:AttributeNumeric("rank", rank) end
+		if place=="country" then node:Attribute("iso_a2", node:Find("ISO3166-1:alpha2")) end
 		SetNameAttributes(node)
 		return
 	end
@@ -97,7 +97,6 @@ function node_function(node)
 	local natural = node:Find("natural")
 	if natural == "peak" or natural == "volcano" then
 		node:Layer("mountain_peak", false)
-		SetNodeId(node)
 		SetEleAttributes(node)
 		node:AttributeNumeric("rank", 1)
 		node:Attribute("class", natural)
@@ -106,7 +105,6 @@ function node_function(node)
 	end
 	if natural == "bay" then
 		node:Layer("water_name", false)
-		SetNodeId(node)
 		SetNameAttributes(node)
 		return
 	end
@@ -191,22 +189,22 @@ waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 function way_function(way)
 	local highway  = way:Find("highway")
-	local aerialway = way:Find("aerialway")
 	local waterway = way:Find("waterway")
 	local water    = way:Find("water")
 	local building = way:Find("building")
 	local natural  = way:Find("natural")
 	local historic = way:Find("historic")
 	local landuse  = way:Find("landuse")
-	local boundary  = way:Find("admin_level")
 	local leisure  = way:Find("leisure")
 	local amenity  = way:Find("amenity")
 	local aeroway  = way:Find("aeroway")
 	local railway  = way:Find("railway")
+	local service  = way:Find("service")
 	local sport    = way:Find("sport")
 	local shop     = way:Find("shop")
 	local tourism  = way:Find("tourism")
 	local man_made = way:Find("man_made")
+	local boundary = way:Find("boundary")
 	local isClosed = way:IsClosed()
 	local housenumber = way:Find("addr:housenumber")
 	local write_name = false
@@ -214,10 +212,32 @@ function way_function(way)
 
 	-- Miscellaneous preprocessing
 	if way:Find("disused") == "yes" then return end
+	if boundary~="" and way:Find("protection_title")=="National Forest" and way:Find("operator")=="United States Forest Service" then return end
 	if highway == "proposed" then return end
 	if aerowayBuildings[aeroway] then building="yes"; aeroway="" end
 	if landuse == "field" then landuse = "farmland" end
 	if landuse == "meadow" and way:Find("meadow")=="agricultural" then landuse="farmland" end
+
+	-- Boundaries
+	if boundary~="" then
+		local admin_level = tonumber(way:Find("admin_level")) or 11
+		local mz = 0
+		if     admin_level>=3 and admin_level<5 then mz=4
+		elseif admin_level>=5 and admin_level<7 then mz=8
+		elseif admin_level==7 then mz=10
+		elseif admin_level>=8 then mz=12
+		end
+		if boundary~="" and way:Find("disputed")=="yes" then
+			-- disputed boundaries
+			way:Layer("boundary",false)
+			way:AttributeNumeric("disputed", 1)
+		elseif boundary=="administrative" and not (way:Find("maritime")=="yes") then
+			-- administrative boundaries
+			way:Layer("boundary",false)
+			way:AttributeNumeric("admin_level", admin_level)
+			way:MinZoom(mz)
+		end
+	end
 
 	-- Roads ('transportation' and 'transportation_name', plus 'transportation_name_detail')
 	if highway~="" then
@@ -230,10 +250,24 @@ function way_function(way)
 		if trackValues[highway]     then h = "track"; layer="transportation_detail" end
 		if pathValues[highway]      then h = "path" ; layer="transportation_detail" end
 		if h=="service"             then              layer="transportation_detail" end
+
+		-- Links (ramp)
+		local ramp=false
+		if linkValues[highway] then
+			splitHighway = split(highway, "_")
+			highway = splitHighway[1]; h = highway
+			ramp = true
+		end
+
+		-- Write to layer
 		way:Layer(layer, false)
-		SetWayId(way)
 		way:Attribute("class", h)
 		SetBrunnelAttributes(way)
+		if ramp then way:AttributeNumeric("ramp",1) end
+		if layer=="transportation" then
+			if highway=="motorway" then way:MinZoom(4)
+			else way:MinZoom(7) end
+		end
 
 		-- Construction
 		if highway == "construction" then
@@ -245,15 +279,7 @@ function way_function(way)
 		end
 
 		-- Service
-		local service = way:Find("service")
 		if highway == "service" and service ~="" then way:Attribute("service", service) end
-
-		-- Links (ramp)
-		if linkValues[highway] then
-			splitHighway = split(highway, "_")
-			highway = splitHighway[1]
-			way:AttributeNumeric("ramp",1)
-		end
 
 		local oneway = way:Find("oneway")
 		if oneway == "yes" or oneway == "1" then
@@ -263,22 +289,18 @@ function way_function(way)
 			-- **** TODO
 		end
 
-		-- rudymap
-		if pathValues[highway] then
-			local bad_visibility = Set { "bad", "horrible", "no" }
-			local challenging_path = Set { "demanding_alpine_hiking", "difficult_alpine_hiking" }
-			if bad_visibility[way:Find("trail_visibility")] or challenging_path[way:Find("sac_scale")] then
-				way:Attribute("difficulty", "hard")
-			end
-	
-			local forbidden = Set { "no", "private", "destination" }
-			if forbidden[way:Find("access")] then
-				way:Attribute("access", "no") 
-			end
+		-- Write names
+		if layer == "motorway" or layer == "trunk" then
+			way:Layer("transportation_name", false)
+		elseif h == "minor" or h == "track" or h == "path" or h == "service" then
+			way:Layer("transportation_name_detail", false)
+		else
+			way:Layer("transportation_name_mid", false)
 		end
-
-        -- rudymap block of original transportation_name
 		SetNameAttributes(way)
+		way:Attribute("class",h)
+		way:Attribute("network","road") -- **** could also be us-interstate, us-highway, us-state
+		if h~=highway then way:Attribute("subclass",highway) end
 		local ref = way:Find("ref")
 		if ref~="" then
 			way:Attribute("ref",ref)
@@ -286,20 +308,19 @@ function way_function(way)
 		end
 	end
 
-    -- Aerialways (cable_car, gondola, platter)
-	if aerialway~="" then
-		way:Layer("transportation_detail", false)
-		SetWayId(way)
-		SetNameAttributes(way)
-		way:Attribute("class", aerialway)
-	end
-
 	-- Railways ('transportation' and 'transportation_name', plus 'transportation_name_detail')
 	if railway~="" then
 		way:Layer("transportation", false)
-		SetWayId(way)
 		way:Attribute("class", railway)
+		SetBrunnelAttributes(way)
+		if service~="" then
+			way:Attribute("service", service)
+			way:MinZoom(12)
+		else
+			way:MinZoom(9)
+		end
 
+		way:Layer("transportation_name", false)
 		SetNameAttributes(way)
 		way:MinZoom(14)
 		way:Attribute("class", "rail")
@@ -308,7 +329,6 @@ function way_function(way)
 	-- 'Aeroway'
 	if aeroway~="" then
 		way:Layer("aeroway", isClosed)
-		SetWayId(way)
 		way:Attribute("class",aeroway)
 		way:Attribute("ref",way:Find("ref"))
 		write_name = true
@@ -317,7 +337,6 @@ function way_function(way)
 	-- 'aerodrome_label'
 	if aeroway=="aerodrome" then
 	 	way:LayerAsCentroid("aerodrome_label")
-		SetWayId(way)
 	 	SetNameAttributes(way)
 	 	way:Attribute("iata", way:Find("iata"))
   		SetEleAttributes(way)
@@ -336,14 +355,13 @@ function way_function(way)
 		else
 			way:Layer("waterway_detail", false)
 		end
-		SetWayId(way)
 		if way:Find("intermittent")=="yes" then way:AttributeNumeric("intermittent", 1) else way:AttributeNumeric("intermittent", 0) end
 		way:Attribute("class", waterway)
 		SetNameAttributes(way)
 		SetBrunnelAttributes(way)
-	elseif waterway == "boatyard"  then way:Layer("landuse", isClosed); SetWayId(way); way:Attribute("class", "industrial")
-	elseif waterway == "dam"       then way:Layer("building",isClosed); SetWayId(way)
-	elseif waterway == "fuel"      then way:Layer("landuse", isClosed); SetWayId(way); way:Attribute("class", "industrial")
+	elseif waterway == "boatyard"  then way:Layer("landuse", isClosed); way:Attribute("class", "industrial"); way:MinZoom(12)
+	elseif waterway == "dam"       then way:Layer("building",isClosed)
+	elseif waterway == "fuel"      then way:Layer("landuse", isClosed); way:Attribute("class", "industrial"); way:MinZoom(14)
 	end
 	-- Set names on rivers
 	if waterwayClasses[waterway] and not isClosed then
@@ -353,7 +371,6 @@ function way_function(way)
 			way:Layer("water_name_detail", false)
 			way:MinZoom(14)
 		end
-		SetWayId(way)
 		way:Attribute("class", waterway)
 		SetNameAttributes(way)
 	end
@@ -361,14 +378,12 @@ function way_function(way)
 	-- Set 'building' and associated
 	if building~="" then
 		way:Layer("building", true)
-		SetWayId(way)
 		SetMinZoomByArea(way)
 	end
 
 	-- Set 'housenumber'
 	if housenumber~="" then
 		way:LayerAsCentroid("housenumber", false)
-		SetWayId(way)
 		way:Attribute("housenumber", housenumber)
 	end
 
@@ -376,8 +391,8 @@ function way_function(way)
 	if natural=="water" or natural=="bay" or leisure=="swimming_pool" or landuse=="reservoir" or landuse=="basin" or waterClasses[waterway] then
 		if way:Find("covered")=="yes" or not isClosed then return end
 		local class="lake"; if natural=="bay" then class="ocean" elseif waterway~="" then class="river" end
+		if class=="lake" and way:Find("wikidata")=="Q192770" then return end
 		way:Layer("water",true)
-		SetWayId(way)
 		SetMinZoomByArea(way)
 		way:Attribute("class",class)
 
@@ -390,7 +405,6 @@ function way_function(way)
 		--  https://www.openstreetmap.org/way/24579306
 		if way:Holds("name") and natural=="water" and water ~= "basin" and water ~= "wastewater" then
 			way:LayerAsCentroid("water_name_detail")
-			SetWayId(way)
 			SetNameAttributes(way)
 			SetMinZoomByArea(way)
 			way:Attribute("class", class)
@@ -405,7 +419,6 @@ function way_function(way)
 	if l=="" then l=leisure end
 	if landcoverKeys[l] then
 		way:Layer("landcover", true)
-		SetWayId(way)
 		SetMinZoomByArea(way)
 		way:Attribute("class", landcoverKeys[l])
 		if l=="wetland" then way:Attribute("subclass", way:Find("wetland"))
@@ -418,30 +431,19 @@ function way_function(way)
 		if l=="" then l=tourism end
 		if landuseKeys[l] then
 			way:Layer("landuse", true)
-			SetWayId(way)
 			way:Attribute("class", l)
+			if l=="residential" then
+				if way:Area()<ZRES8^2 then way:MinZoom(8)
+				else SetMinZoomByArea(way) end
+			else way:MinZoom(11) end
 			write_name = true
 		end
 	end
 
-    -- Set 'boundary'
-    -- rudymap
-	if (boundary ~="") then
-		local admin_level = tonumber(boundary)
-		way:Layer("boundary")
-		SetWayId(way)
-		SetNameAttributes(way)
-		way:AttributeNumeric("admin_level", admin_level)
-		if admin_level==4 or admin_level==6 then way:MinZoom(7)
-		elseif admin_level==5 or admin_level==7 or admin_level==8 then way:MinZoom(10)
-		elseif admin_level==9  then way:MinZoom(13)
-		else                        way:MinZoom(14) end
-	end
-
 	-- Parks
 	-- **** name?
-	if     boundary=="national_park" then way:Layer("park",true); SetWayId(way); way:Attribute("class",boundary); SetNameAttributes(way)
-	elseif leisure=="nature_reserve" then way:Layer("park",true); SetWayId(way); way:Attribute("class",leisure ); SetNameAttributes(way) end
+	if     boundary=="national_park" then way:Layer("park",true); way:Attribute("class",boundary); SetNameAttributes(way)
+	elseif leisure=="nature_reserve" then way:Layer("park",true); way:Attribute("class",leisure ); SetNameAttributes(way) end
 
 	-- POIs ('poi' and 'poi_detail')
 	local rank, class, subclass = GetPOIRank(way)
@@ -450,7 +452,6 @@ function way_function(way)
 	-- Catch-all
 	if (building~="" or write_name) and way:Holds("name") then
 		way:LayerAsCentroid("poi_detail")
-		SetWayId(way)
 		SetNameAttributes(way)
 		if write_name then rank=6 else rank=25 end
 		way:AttributeNumeric("rank", rank)
@@ -459,24 +460,20 @@ end
 
 -- Remap coastlines
 function attribute_function(attr)
-	return { 
-        admin_level=attr.admin,
-        name=attr.name
-    }
+	if attr["featurecla"]=="Glaciated areas" then
+		return
+{ subclass="glacier" }
+	elseif attr["featurecla"]=="Antarctic Ice Shelf" then
+		return { subclass="ice_shelf" }
+	elseif attr["featurecla"]=="Urban area" then
+		return { class="residential" }
+	else
+		return { class="ocean" }
+	end
 end
 
 -- ==========================================================
 -- Common functions
-
--- rudymap, Set ID on node object
-function SetNodeId(obj)
-	obj:Attribute("id", "node/" .. obj:Id())
-end
-
--- rudymap, Set ID on way object
-function SetWayId(obj)
-	obj:Attribute("id", "way/" .. obj:Id())
-end
 
 -- Write a way centroid to POI layer
 function WritePOI(obj,class,subclass,rank)
@@ -491,7 +488,7 @@ end
 
 -- Set name, name_en, and name_de on any object
 function SetNameAttributes(obj)
-	obj:Attribute("name", obj:Find("name"))
+	obj:Attribute("name:latin", obj:Find("name"))
 	-- **** do transliteration
 end
 
