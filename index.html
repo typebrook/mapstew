@@ -35,7 +35,7 @@
 <script>
     var map1 = new mapboxgl.Map({
         container: 'map1',
-        style: './styles/rudymap.json',
+        style: './styles/simple.json',
         center: [121.54648,25.0457],
         zoom: 12,
         hash: true
@@ -60,7 +60,7 @@
     function switchLayer(layer) {
         var layerId = layer.target.id;
         if (layerId == "rudymap") {
-            map1.setStyle('./styles/' + layerId + '.json');
+            map1.setStyle('./styles/simple.json');
             map2.setStyle('./styles/maptiler-topographique.json');
         } else {
             map1.setStyle('./styles/' + layerId + '.json');
