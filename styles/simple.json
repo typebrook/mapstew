@@ -11,7 +11,7 @@
   "sources": {
     "mapstew": {
       "type": "vector",
-      "url": "https://typebrook.github.io/mapstew/resources/tiles.json"
+      "url": "https://typebrook.github.io/mapstew/tiles/metadata.json"
     },
     "terrain-rgb": {
       "type": "raster-dem",
