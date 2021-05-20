@@ -6,13 +6,15 @@
       "minzoom": 2,
       "maxzoom": 6,
       "source": "resources/boundary_taiwan/boundary.shp",
-      "source_columns": [
-        "admin",
-        "name"
-      ],
+      "source_columns": [ "admin", "name" ],
       "simplify_below": 5,
       "write_to": "boundary"
-    }
+    },
+
+    "poi":              { "minzoom": 12, "maxzoom": 14 },
+    "poi_detail":       { "minzoom": 14, "maxzoom": 14, "write_to": "poi" },
+
+    "building":         { "minzoom": 13, "maxzoom": 14 }
   },
   "settings": {
     "minzoom": 2,
