@@ -67,6 +67,17 @@ function node_function(node)
 	-- Write 'poi'
 	local rank, class, subclass = GetPOIRank(node)
 	if rank then WritePOI(node,class,subclass,rank) end
+
+	-- Write 'mountain_peak' and 'water_name'
+	local natural = node:Find("natural")
+	if natural == "peak" or natural == "volcano" then
+		node:Layer("mountain_peak", false)
+		SetEleAttributes(node)
+        SetNodeId(node)
+		node:Attribute("natural", natural)
+		SetNameAttributes(node)
+		return
+	end
 end
 
 -- POI key/value pairs: based on https://github.com/openmaptiles/openmaptiles/blob/master/layers/poi/mapping.yaml
@@ -185,9 +196,7 @@ function SetEleAttributes(obj)
     local ele = obj:Find("ele")
     if ele ~= "" then
         local meter = math.floor(tonumber(ele) or 0)
-        local feet = math.floor(meter * 3.2808399)
         obj:AttributeNumeric("ele", meter)
-        obj:AttributeNumeric("ele_ft", feet)
     end
 end
 
