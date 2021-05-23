@@ -164,10 +164,10 @@ function way_function(way)
             SetNameAttributes(way)
         end
 	end
-
-	-- POIs ('poi' and 'poi_detail')
-	local rank, class, subclass = GetPOIRank(way)
-	if rank then WritePOI(way,class,subclass,rank); return end
+    
+    -- Write POI related fields
+    local rank, class, subclass = GetPOIRank(way)
+    if rank then WritePOI2Way(way,class,subclass,rank) end
 end
 
 -- Remap coastlines
@@ -227,6 +227,13 @@ function WritePOI(obj,class,subclass,rank)
 	obj:LayerAsCentroid(layer)
 	SetNameAttributes(obj)
     SetNodeId(obj)
+	obj:AttributeNumeric("_rank", rank)
+	obj:Attribute("_class", class)
+	obj:Attribute("_subclass", subclass)
+end
+
+-- Write _rank, _class and _subclass to a way
+function WritePOI2Way(obj,class,subclass,rank)
 	obj:AttributeNumeric("_rank", rank)
 	obj:Attribute("_class", class)
 	obj:Attribute("_subclass", subclass)

@@ -68,6 +68,61 @@
       }
     },
     {
+      "id": "building",
+      "type": "fill",
+      "source": "mapstew",
+      "source-layer": "building",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-antialias": true,
+        "fill-color": {
+          "stops": [
+            [
+              12,
+              "rgba(226, 226, 226, 1)"
+            ],
+            [
+              16,
+              "rgba(160, 160, 160, 1)"
+            ],
+            [
+              19,
+              "rgba(123, 123, 123, 1)"
+            ]
+          ]
+        },
+        "fill-outline-color": "rgba(236, 236, 236, 1)"
+      }
+    },
+    {
+      "id": "building-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "building",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12,
+        "text-padding": 50,
+        "symbol-sort-key": [
+          "to-number",
+          [
+            "case",
+            ["has", "_rank"],
+            ["to-number", ["get", "_rank"]],
+            100
+          ]
+        ],
+        "icon-padding": 50
+      }
+    },
+    {
       "id": "place_other",
       "type": "symbol",
       "metadata": {},
