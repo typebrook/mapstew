@@ -191,7 +191,7 @@ function SetWayId(obj)
     obj:Attribute("id", "way/" .. obj:Id())
 end
 
--- Set ele and ele_ft on any object
+-- Set ele on any object
 function SetEleAttributes(obj)
     local ele = obj:Find("ele")
     if ele ~= "" then
