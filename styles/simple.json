@@ -38,33 +38,11 @@
       "metadata": {},
       "source": "mapstew",
       "source-layer": "boundary",
-      "layout": {
-        "line-join": "round",
-        "visibility": "visible"
-      },
+      "layout": {"line-join": "round", "visibility": "visible"},
       "paint": {
         "line-color": "rgba(151, 151, 151, 1)",
-        "line-dasharray": [
-          5,
-          1
-        ],
-        "line-width": {
-          "base": 1,
-          "stops": [
-            [
-              4,
-              0.4
-            ],
-            [
-              5,
-              1
-            ],
-            [
-              12,
-              1.8
-            ]
-          ]
-        }
+        "line-dasharray": [5, 1],
+        "line-width": {"base": 1, "stops": [[4, 0.4], [5, 1], [12, 1.8]]}
       }
     },
     {
@@ -74,25 +52,14 @@
       "source-layer": "building",
       "minzoom": 12,
       "maxzoom": 24,
-      "layout": {
-        "visibility": "visible"
-      },
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-antialias": true,
         "fill-color": {
           "stops": [
-            [
-              12,
-              "rgba(226, 226, 226, 1)"
-            ],
-            [
-              16,
-              "rgba(160, 160, 160, 1)"
-            ],
-            [
-              19,
-              "rgba(123, 123, 123, 1)"
-            ]
+            [12, "rgba(226, 226, 226, 1)"],
+            [16, "rgba(160, 160, 160, 1)"],
+            [19, "rgba(123, 123, 123, 1)"]
           ]
         },
         "fill-outline-color": "rgba(236, 236, 236, 1)"
@@ -112,14 +79,58 @@
         "text-padding": 50,
         "symbol-sort-key": [
           "to-number",
-          [
-            "case",
-            ["has", "_rank"],
-            ["to-number", ["get", "_rank"]],
-            100
-          ]
+          ["case", ["has", "_rank"], ["to-number", ["get", "_rank"]], 100]
         ],
         "icon-padding": 50
+      }
+    },
+    {
+      "id": "peak_survey_point",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "mountain_peak",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "filter": ["in", "survey_point", "trig_2nd", "forest_trig_aero"],
+      "layout": {
+        "icon-image": "mountain",
+        "icon-size": 0.6,
+        "icon-padding": 30,
+        "icon-allow-overlap": true,
+        "symbol-sort-key": 20
+      }
+    },
+    {
+      "id": "peak_mountain",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "mountain_peak",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "layout": {
+        "icon-offset": [0, 0],
+        "text-anchor": "bottom",
+        "text-field": [
+          "case",
+          ["has", "ele"],
+          ["concat", ["get", "name"], "\n", ["get", "ele"], "m"],
+          ["get", "name"]
+        ],
+        "text-font": ["Noto Sans Italic"],
+        "text-offset": [0, -0.75],
+        "text-size": 12,
+        "visibility": "visible",
+        "text-max-width": 8,
+        "text-line-height": 1.3,
+        "symbol-sort-key": ["to-number", ["-", 10000, ["get", "ele"]]],
+        "text-padding": 50
+      },
+      "paint": {
+        "icon-color": "rgba(0, 0, 0, 1)",
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 1
       }
     },
     {
@@ -143,26 +154,13 @@
       ],
       "layout": {
         "text-field": "{name}\n{name:nonlatin}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
+        "text-font": ["Noto Sans Bold"],
         "text-letter-spacing": 0.1,
         "text-max-width": 9,
-        "text-size": {
-          "base": 1.2,
-          "stops": [
-            [
-              12,
-              10
-            ],
-            [
-              15,
-              13
-            ]
-          ]
-        },
+        "text-size": {"base": 1.2, "stops": [[12, 10], [15, 13]]},
         "text-transform": "none",
-        "visibility": "visible"
+        "visibility": "visible",
+        "symbol-sort-key": 10
       },
       "paint": {
         "text-color": "rgba(71, 71, 71, 1)",
@@ -178,33 +176,12 @@
       "source-layer": "place",
       "minzoom": 10,
       "maxzoom": 14,
-      "filter": [
-        "all",
-        [
-          "==",
-          "place",
-          "village"
-        ]
-      ],
+      "filter": ["all", ["==", "place", "village"]],
       "layout": {
         "text-field": "{name}\n{name:nonlatin}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
+        "text-font": ["Noto Sans Bold"],
         "text-max-width": 8,
-        "text-size": {
-          "base": 1.2,
-          "stops": [
-            [
-              10,
-              12
-            ],
-            [
-              15,
-              22
-            ]
-          ]
-        },
+        "text-size": {"base": 1.2, "stops": [[10, 12], [15, 22]]},
         "visibility": "visible"
       },
       "paint": {
@@ -221,50 +198,15 @@
       "source-layer": "place",
       "minzoom": 6,
       "maxzoom": 16,
-      "filter": [
-        "all",
-        [
-          "==",
-          "place",
-          "town"
-        ]
-      ],
+      "filter": ["all", ["==", "place", "town"]],
       "layout": {
         "icon-image": "",
-        "text-anchor": {
-          "stops": [
-            [
-              6,
-              "bottom"
-            ],
-            [
-              10,
-              "center"
-            ]
-          ]
-        },
+        "text-anchor": {"stops": [[6, "bottom"], [10, "center"]]},
         "text-field": "{name}\n{name:nonlatin}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
+        "text-font": ["Noto Sans Bold"],
         "text-max-width": 8,
-        "text-offset": [
-          0,
-          0
-        ],
-        "text-size": {
-          "base": 1.2,
-          "stops": [
-            [
-              5,
-              11
-            ],
-            [
-              11,
-              14
-            ]
-          ]
-        },
+        "text-offset": [0, 0],
+        "text-size": {"base": 1.2, "stops": [[5, 11], [11, 14]]},
         "text-transform": "uppercase",
         "visibility": "visible"
       },
@@ -282,61 +224,17 @@
       "source-layer": "place",
       "minzoom": 4,
       "maxzoom": 12,
-      "filter": [
-        "==",
-        "place",
-        "city"
-      ],
+      "filter": ["==", "place", "city"],
       "layout": {
         "icon-allow-overlap": false,
-        "icon-image": {
-          "base": 1,
-          "stops": [
-            [
-              0,
-              "dot_9"
-            ],
-            [
-              10,
-              ""
-            ]
-          ]
-        },
+        "icon-image": {"base": 1, "stops": [[0, "dot_9"], [10, ""]]},
         "icon-optional": false,
-        "text-anchor": {
-          "stops": [
-            [
-              6,
-              "bottom"
-            ],
-            [
-              10,
-              "center"
-            ]
-          ]
-        },
+        "text-anchor": {"stops": [[6, "bottom"], [10, "center"]]},
         "text-field": "{name}",
-        "text-font": [
-          "Noto Sans Bold"
-        ],
+        "text-font": ["Noto Sans Bold"],
         "text-max-width": 8,
-        "text-offset": [
-          0,
-          0
-        ],
-        "text-size": {
-          "base": 1.2,
-          "stops": [
-            [
-              3,
-              11
-            ],
-            [
-              11,
-              18
-            ]
-          ]
-        },
+        "text-offset": [0, 0],
+        "text-size": {"base": 1.2, "stops": [[3, 11], [11, 18]]},
         "text-transform": "uppercase",
         "visibility": "visible"
       },
@@ -353,31 +251,11 @@
       "source-layer": "place",
       "minzoom": 3,
       "maxzoom": 8,
-      "filter": [
-        "all",
-        [
-          "==",
-          "place",
-          "state"
-        ]
-      ],
+      "filter": ["all", ["==", "place", "state"]],
       "layout": {
         "text-field": "{name}\n{name:nonlatin}",
-        "text-font": [
-          "Noto Sans Regular"
-        ],
-        "text-size": {
-          "stops": [
-            [
-              4,
-              11
-            ],
-            [
-              6,
-              15
-            ]
-          ]
-        },
+        "text-font": ["Noto Sans Regular"],
+        "text-size": {"stops": [[4, 11], [6, 15]]},
         "text-transform": "uppercase",
         "visibility": "visible"
       },
@@ -394,32 +272,12 @@
       "source": "mapstew",
       "source-layer": "place",
       "maxzoom": 8,
-      "filter": [
-        "all",
-        [
-          "==",
-          "class",
-          "country"
-        ]
-      ],
+      "filter": ["all", ["==", "class", "country"]],
       "layout": {
         "text-field": "{name}",
-        "text-font": [
-          "Noto Sans Regular"
-        ],
+        "text-font": ["Noto Sans Regular"],
         "text-max-width": 8,
-        "text-size": {
-          "stops": [
-            [
-              3,
-              9
-            ],
-            [
-              7,
-              20
-            ]
-          ]
-        },
+        "text-size": {"stops": [[3, 9], [7, 20]]},
         "text-transform": "none",
         "visibility": "visible"
       },
@@ -428,47 +286,6 @@
         "text-halo-blur": 1,
         "text-halo-color": "rgba(255,255,255,0.8)",
         "text-halo-width": 0.7
-      }
-    },
-    {
-      "id": "mountain_peak",
-      "type": "symbol",
-      "source": "mapstew",
-      "source-layer": "mountain_peak",
-      "minzoom": 9,
-      "maxzoom": 24,
-      "layout": {
-        "icon-image": "mountain",
-        "icon-offset": [0, 0],
-        "text-anchor": "bottom",
-        "text-field": [
-          "case",
-          ["has", "ele"],
-          [
-            "concat",
-            ["get", "name"],
-            "\n",
-            ["get", "ele"],
-            "m"
-          ],
-          ["get", "name"]
-        ],
-        "text-font": ["Noto Sans Italic"],
-        "text-offset": [0, -0.75],
-        "text-size": 12,
-        "visibility": "visible",
-        "text-max-width": 8,
-        "text-line-height": 1.3,
-        "symbol-sort-key": ["to-number", ["-", 10000, ["get", "ele"]]],
-        "icon-padding": 50,
-        "icon-size": 0.6
-      },
-      "paint": {
-        "icon-color": "rgba(0, 0, 0, 1)",
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255,255,255,1)",
-        "text-halo-width": 1.5,
-        "text-halo-blur": 1
       }
     }
   ]
