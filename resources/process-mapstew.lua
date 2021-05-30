@@ -29,7 +29,7 @@ aerodromeValues = Set { "international", "public", "regional", "military", "priv
 
 -- Process node tags
 
-node_keys = { "amenity", "shop", "sport", "tourism", "place", "office", "natural", "aeroway" }
+node_keys = { "amenity", "shop", "sport", "tourism", "place", "office", "natural", "aeroway", "survey_point" }
 function node_function(node)
     -- Write 'place'
     local place = node:Find("place")
@@ -70,12 +70,14 @@ function node_function(node)
 
 	-- Write 'mountain_peak' and 'water_name'
 	local natural = node:Find("natural")
-	if natural == "peak" or natural == "volcano" then
+	local survey_point = node:Find("survey_point")
+	if natural == "peak" or natural == "volcano" or survey_point ~= "" then
 		node:Layer("mountain_peak", false)
 		SetEleAttributes(node)
-        SetNodeId(node)
-		node:Attribute("natural", natural)
+		SetNodeId(node)
 		SetNameAttributes(node)
+		if node:Holds("natural") then node:Attribute("natural", natural) end
+		if survey_piont ~= "" then node:Attribute("survey_point", survey_point) end
 		return
 	end
 end
