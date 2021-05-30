@@ -85,19 +85,51 @@
       }
     },
     {
+      "id": "peak_survey_point_other",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "mountain_peak",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "in",
+        "survey_point",
+        "forest_trig",
+        "trig_1st_IC",
+        "trig_2nd_IC",
+        "trig_3rd_IC",
+        "trig_3rd_MC",
+        "trig_2nd_CS",
+        "trig_3rd_CS",
+        "trig_2nd_RE",
+        "trig_3rd_RE"
+      ],
+      "layout": {
+        "icon-size": 0.8,
+        "symbol-sort-key": 20,
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "survey_point"],
+          "forest_trig",
+          "trig_forest",
+          "trig_c"
+        ]
+      }
+    },
+    {
       "id": "peak_survey_point",
       "type": "symbol",
       "source": "mapstew",
       "source-layer": "mountain_peak",
-      "minzoom": 9,
+      "minzoom": 11,
       "maxzoom": 24,
-      "filter": ["in", "survey_point", "trig_2nd", "forest_trig_aero"],
+      "filter": ["in", "survey_point", "trig_1st", "trig_2nd", "trig_3rd"],
       "layout": {
-        "icon-image": "mountain",
-        "icon-size": 0.6,
-        "icon-padding": 30,
+        "icon-size": 0.8,
+        "symbol-sort-key": 20,
         "icon-allow-overlap": true,
-        "symbol-sort-key": 20
+        "icon-image": "trig"
       }
     },
     {
@@ -108,7 +140,6 @@
       "minzoom": 9,
       "maxzoom": 24,
       "layout": {
-        "icon-offset": [0, 0],
         "text-anchor": "bottom",
         "text-field": [
           "case",
@@ -179,7 +210,7 @@
       "filter": ["all", ["==", "place", "village"]],
       "layout": {
         "text-field": "{name}\n{name:nonlatin}",
-        "text-font": ["Noto Sans Bold"],
+        "text-font": ["Noto Sans Regular"],
         "text-max-width": 8,
         "text-size": {"base": 1.2, "stops": [[10, 12], [15, 22]]},
         "visibility": "visible"

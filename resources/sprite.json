@@ -17,7 +17,7 @@
     "height": 16,
     "pixelRatio": 1,
     "width": 16,
-    "x": 0,
+    "x": 96,
     "y": 128
   },
   "shield_motorway": {
@@ -40,5 +40,26 @@
     "width": 32,
     "x": 224,
     "y": 0
+  },
+  "trig": {
+    "height": 32,
+    "pixelRatio": 1,
+    "width": 32,
+    "x": 0,
+    "y": 128
+  },
+  "trig_c": {
+    "height": 32,
+    "pixelRatio": 1,
+    "width": 32,
+    "x": 32,
+    "y": 128
+  },
+  "trig_forest": {
+    "height": 32,
+    "pixelRatio": 1,
+    "width": 32,
+    "x": 64,
+    "y": 128
   }
 }
