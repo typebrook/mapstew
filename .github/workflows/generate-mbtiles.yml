@@ -1,0 +1,40 @@
+name: Update PBF file and tiles
+
+on:
+  push:
+    tags: 
+      - mbtiles.*
+
+jobs:
+  generate-tiles:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/tokenless-tiles/template:1.0.2
+      credentials:
+        username: typebrook
+        password: ${{ secrets.DOCKER_CONTAINER_REGISTRY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Load environment variables
+        run: cat .env >>$GITHUB_ENV && ls -alh
+
+      - name: Get target PBF file
+        env:
+          REPO: ${{ github.repository }}
+          TOKEN_DOWNLOAD_ARTIFACT: ${{ secrets.TOKEN_DOWNLOAD_ARTIFACT }}
+        run: scripts/get-pbf-file.sh
+      
+      - name: Generate Tiles
+        run: >
+          tilemaker --input ${{ env.TARGET }} --output rudymap.mbtiles
+          --config  ${{ env.TILEMAKER_CONFIG }}
+          --process ${{ env.TILEMAKER_PROCESS }}
+      
+      - name: Upload updated PBF file as artifact for next workflow run
+        uses: actions/upload-artifact@v2
+        with:
+          name: rudymap.mbtile
+          path: ${{ github.workspace }}/${{ env.TARGET }}
