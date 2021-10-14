@@ -11,7 +11,7 @@ jobs:
   generate-tiles:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/tokenless-tiles/template:1.0.2
+      image: ghcr.io/tokenless-tiles/template:1.1.0
       credentials:
         username: typebrook
         password: ${{ secrets.DOCKER_CONTAINER_REGISTRY_TOKEN }}
