@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@1.15.0/dist/maplibre-gl.css" crossorigin="anonymous">
     <script src="https://unpkg.com/maplibre-gl@1.15.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-sync-move@0.3.0/index.min.js"></script>
+    <script src="https://unpkg.com/long@4.0.0/dist/long.js"></script>
     <style>
         body { margin:0; padding:0; }
         #map1 { position:absolute; top:0; left: 0; width:50%; height: 100% }
@@ -46,9 +47,43 @@
         center: center,
         zoom: zoom
     });
+
     syncMaps(map1, map2)
     map1.showTileBoundaries=true;
     map2.showTileBoundaries=true;
+
+    var popup = new maplibregl.Popup({ closeOnClick: false })
+    map1.on('mousedown', e => {
+        var features = map1.queryRenderedFeatures(e.point)
+        if (features.length > 0) {
+            popup.remove()
+            popup.addTo(map1)
+            popup.setHTML(getFeatureHTML(features[0]))
+            popup.setLngLat(e.lngLat)
+        }
+    })
+
+    function getFeatureHTML (feature) {
+        const l = new Long.fromNumber(feature.id)
+        const layer = l.shru(46).toInt()
+        const mask = Long.MAX_UNSIGNED_VALUE.shru(64-44)
+        const source_id = l.and(mask).toString()
+        var props = ['name']
+        Object.keys(feature.properties)
+            .sort()
+            .forEach(function(p) {
+                if (props.indexOf(p) === -1) props.push(p)
+            })
+        var info = '<div class="featureTable"><b>' + feature.layer.id + '</b>'
+        props.forEach(function(p) {
+            if (feature.properties[p]) {
+                info += '<div class="featureRow"><div class="featureCell"><b>' + p + '</b></div>' +
+                    '<div class="featureCell">' + feature.properties[p] + '</div></div>'
+            }
+        })
+        info += '</div>'
+        return info
+    }
 </script>
 
 </body>
