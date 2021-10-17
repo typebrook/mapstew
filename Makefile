@@ -1,4 +1,5 @@
 .PHONY: tiles
+.ONESHELL:
 
 all: tiles localhost
 
@@ -12,14 +13,15 @@ clean:
 
 data/taiwan-latest.osm.pbf:
 	mkdir -p data/
-	cd data/ && \
-	curl -LO https://github.com/typebrook/mapstew/releases/download/daily-taiwan-pbf/$(notdir $@)
+	curl -Lo $@ http://download.geofabrik.de/asia/taiwan-latest.osm.pbf
 
 data/taipei-latest.osm.pbf: data/taiwan-latest.osm.pbf
 	osmconvert $< -b=121.346,24.926,121.676,25.209 --drop-broken-refs -o=$@
 
 localhost:
 	ls styles/* tiles/metadata.json | xargs sed -i 's#https://typebrook.github.io/mapstew/#http://localhost:8000/#'
-	xdg-open http://localhost:8000
 	# This script launch a simple server which enables CORS, so can co-works with Maputnik to tune styles
-	scripts/simple_cors_server.py
+	scripts/simple_cors_server.py &
+	pid=$$!
+	xdg-open http://localhost:8000
+	kill -9 $$pid
