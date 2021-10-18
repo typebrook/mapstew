@@ -66,102 +66,105 @@
       }
     },
     {
-      "id": "building-name",
-      "type": "symbol",
+      "id": "waterway_river",
+      "type": "line",
       "source": "mapstew",
-      "source-layer": "building",
-      "minzoom": 12,
-      "maxzoom": 24,
-      "layout": {
-        "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
-        "text-size": 12,
-        "text-padding": 50,
-        "symbol-sort-key": [
-          "to-number",
-          ["case", ["has", "_rank"], ["to-number", ["get", "_rank"]], 100]
-        ],
-        "icon-padding": 50
-      }
-    },
-    {
-      "id": "peak_survey_point_other",
-      "type": "symbol",
-      "source": "mapstew",
-      "source-layer": "mountain_peak",
-      "minzoom": 12,
-      "maxzoom": 24,
+      "source-layer": "waterway",
+      "minzoom": 8,
       "filter": [
-        "in",
-        "survey_point",
-        "forest_trig",
-        "trig_1st_IC",
-        "trig_2nd_IC",
-        "trig_3rd_IC",
-        "trig_3rd_MC",
-        "trig_2nd_CS",
-        "trig_3rd_CS",
-        "trig_2nd_RE",
-        "trig_3rd_RE"
+        "!=",
+        "brunnel",
+        "tunnel"
       ],
       "layout": {
-        "icon-size": 0.8,
-        "symbol-sort-key": 20,
-        "icon-allow-overlap": true,
-        "icon-image": [
-          "match",
-          ["get", "survey_point"],
-          "forest_trig",
-          "trig_forest",
-          "trig_c"
-        ]
-      }
-    },
-    {
-      "id": "peak_survey_point",
-      "type": "symbol",
-      "source": "mapstew",
-      "source-layer": "mountain_peak",
-      "minzoom": 11,
-      "maxzoom": 24,
-      "filter": ["in", "survey_point", "trig_1st", "trig_2nd", "trig_3rd"],
-      "layout": {
-        "icon-size": 0.8,
-        "symbol-sort-key": 20,
-        "icon-allow-overlap": true,
-        "icon-image": "trig"
-      }
-    },
-    {
-      "id": "peak_mountain",
-      "type": "symbol",
-      "source": "mapstew",
-      "source-layer": "mountain_peak",
-      "minzoom": 9,
-      "maxzoom": 24,
-      "layout": {
-        "text-anchor": "bottom",
-        "text-field": [
-          "case",
-          ["has", "ele"],
-          ["concat", ["get", "name"], "\n", ["get", "ele"], "m"],
-          ["get", "name"]
-        ],
-        "text-font": ["Noto Sans Italic"],
-        "text-offset": [0, -0.75],
-        "text-size": 12,
-        "visibility": "visible",
-        "text-max-width": 8,
-        "text-line-height": 1.3,
-        "symbol-sort-key": ["to-number", ["-", 10000, ["get", "ele"]]],
-        "text-padding": 50
+        "line-cap": "round",
+        "visibility": "visible"
       },
       "paint": {
-        "icon-color": "rgba(0, 0, 0, 1)",
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255,255,255,1)",
-        "text-halo-width": 1.5,
-        "text-halo-blur": 1
+        "line-color": "rgba(178, 212, 250, 1)",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "mapstew",
+      "source-layer": "water",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "!=",
+          "brunnel",
+          "tunnel"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "#BAD5FB"
+      }
+    },
+    {
+      "id": "waterway-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "waterway",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "has",
+          "name"
+        ]
+      ],
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 350,
+        "text-field": "{name}",
+        "text-font": [
+          "Noto Sans Italic"
+        ],
+        "text-letter-spacing": 0,
+        "text-max-width": 5,
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "rgba(37, 136, 182, 1)",
+        "text-halo-color": "white",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "water-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "water",
+      "minzoom": 8,
+      "filter": [
+        "has",
+        "name"
+      ],
+      "layout": {
+        "symbol-placement": "point",
+        "symbol-sort-key": ["-", ["get", "_area"]],
+        "text-padding": 50,
+        "text-field": "{name}",
+        "text-font": [
+          "Noto Sans Italic"
+        ],
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "rgba(37, 136, 182, 1)",
+        "text-halo-color": "white",
+        "text-halo-width": 1
       }
     },
     {
@@ -317,6 +320,105 @@
         "text-halo-blur": 1,
         "text-halo-color": "rgba(255,255,255,0.8)",
         "text-halo-width": 0.7
+      }
+    },
+    {
+      "id": "building-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "building",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12,
+        "text-padding": 50,
+        "symbol-sort-key": [
+          "to-number",
+          ["case", ["has", "_rank"], ["to-number", ["get", "_rank"]], 100]
+        ],
+        "icon-padding": 50
+      }
+    },
+    {
+      "id": "peak_survey_point_other",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "mountain_peak",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "in",
+        "survey_point",
+        "forest_trig",
+        "trig_1st_IC",
+        "trig_2nd_IC",
+        "trig_3rd_IC",
+        "trig_3rd_MC",
+        "trig_2nd_CS",
+        "trig_3rd_CS",
+        "trig_2nd_RE",
+        "trig_3rd_RE"
+      ],
+      "layout": {
+        "icon-size": 0.8,
+        "symbol-sort-key": 20,
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "survey_point"],
+          "forest_trig",
+          "trig_forest",
+          "trig_c"
+        ]
+      }
+    },
+    {
+      "id": "peak_survey_point",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "mountain_peak",
+      "minzoom": 11,
+      "maxzoom": 24,
+      "filter": ["in", "survey_point", "trig_1st", "trig_2nd", "trig_3rd"],
+      "layout": {
+        "icon-size": 0.8,
+        "symbol-sort-key": 20,
+        "icon-allow-overlap": true,
+        "icon-image": "trig"
+      }
+    },
+    {
+      "id": "peak_mountain",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "mountain_peak",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "layout": {
+        "text-anchor": "bottom",
+        "text-field": [
+          "case",
+          ["has", "ele"],
+          ["concat", ["get", "name"], "\n", ["get", "ele"], "m"],
+          ["get", "name"]
+        ],
+        "text-font": ["Noto Sans Italic"],
+        "text-offset": [0, -0.75],
+        "text-size": 12,
+        "visibility": "visible",
+        "text-max-width": 8,
+        "text-line-height": 1.3,
+        "symbol-sort-key": ["to-number", ["-", 10000, ["get", "ele"]]],
+        "text-padding": 50
+      },
+      "paint": {
+        "icon-color": "rgba(0, 0, 0, 1)",
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 1
       }
     }
   ]

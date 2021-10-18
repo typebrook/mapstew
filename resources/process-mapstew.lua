@@ -133,12 +133,19 @@ poiClassRanks   = { hospital=1, railway=2, bus=3, attraction=4, harbor=5, colleg
 					park=13, library=14, police=15, post=16, golf=17, shop=18, grocery=19,
 					fast_food=20, clothing_store=21, bar=22 }
 poiKeys         = Set { "amenity", "sport", "tourism", "office", "historic", "leisure", "landuse", "information" }
+waterClasses    = Set { "river", "riverbank", "stream", "canal", "drain", "ditch", "dock" }
+waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 -- Process way tags
 
 function way_function(way)
     local boundary  = way:Find("boundary")
 	local building = way:Find("building")
+	local waterway = way:Find("waterway")
+	local water    = way:Find("water")
+	local landuse  = way:Find("landuse")
+	local natural  = way:Find("natural")
+	local isClosed = way:IsClosed()
 
     -- administrative boundaries
     if boundary=="administrative" and not (way:Find("maritime")=="yes") then
@@ -170,6 +177,39 @@ function way_function(way)
     -- Write POI related fields
     local rank, class, subclass = GetPOIRank(way)
     if rank then WritePOI2Way(way,class,subclass,rank) end
+
+	-- Set 'waterway' and associated
+	if waterwayClasses[waterway] and not isClosed then
+		if waterway == "river" and way:Holds("name") then
+			way:Layer("waterway", false)
+		else
+			way:Layer("waterway_detail", false)
+		end
+        SetWayId(way)
+		if way:Find("intermittent")=="yes" then way:AttributeNumeric("intermittent", 1) else way:AttributeNumeric("intermittent", 0) end
+		way:Attribute("waterway", waterway)
+		SetNameAttributes(way)
+		SetBrunnelAttributes(way)
+	elseif waterway == "dam" then way:Layer("building",isClosed)
+	end
+
+	-- Set 'water'
+	if natural=="water" or water ~= "" or landuse=="reservoir" or landuse=="basin" or waterClasses[waterway] then
+		if way:Find("covered")=="yes" or not isClosed then return end
+
+		way:Layer("water",true)
+        SetWayId(way)
+		SetMinZoomByArea(way)
+		if natural ~= ""  then way:Attribute("natural", natural) end
+		if landuse ~= ""  then way:Attribute("landuse", landuse) end
+		if water ~= ""    then way:Attribute("water", water)     end
+		if waterway ~= "" then way:Attribute("waterway", waterway) end
+		if way:Find("intermittent")=="yes" then way:Attribute("intermittent",1) end
+		if way:Holds("name") then SetNameAttributes(way) end
+        way:AttributeNumeric("_area", math.floor(way:Area()))
+
+		return
+	end
 end
 
 -- Remap coastlines
@@ -206,6 +246,13 @@ end
 function SetNameAttributes(obj)
     obj:Attribute("name", obj:Find("name"))
     -- **** do transliteration
+end
+
+function SetBrunnelAttributes(obj)
+	if     obj:Find("bridge") == "yes" then obj:Attribute("brunnel", "bridge")
+	elseif obj:Find("tunnel") == "yes" then obj:Attribute("brunnel", "tunnel")
+	elseif obj:Find("ford")   == "yes" then obj:Attribute("brunnel", "ford")
+	end
 end
 
 -- Set minimum zoom level by area
