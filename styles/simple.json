@@ -363,7 +363,6 @@
       ],
       "layout": {
         "icon-size": 0.8,
-        "symbol-sort-key": 20,
         "icon-allow-overlap": true,
         "icon-image": [
           "match",
@@ -384,7 +383,6 @@
       "filter": ["in", "survey_point", "trig_1st", "trig_2nd", "trig_3rd"],
       "layout": {
         "icon-size": 0.8,
-        "symbol-sort-key": 20,
         "icon-allow-overlap": true,
         "icon-image": "trig"
       }
@@ -410,7 +408,7 @@
         "visibility": "visible",
         "text-max-width": 8,
         "text-line-height": 1.3,
-        "symbol-sort-key": ["to-number", ["-", 10000, ["get", "ele"]]],
+        "symbol-sort-key": ["-", ["-", ["get", "ele"]], ["match", ["get", "natural"], "peak", 10000, 0]],
         "text-padding": 50
       },
       "paint": {
