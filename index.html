@@ -52,16 +52,38 @@
     map1.showTileBoundaries=true;
     map2.showTileBoundaries=true;
 
-    var popup = new maplibregl.Popup({ closeOnClick: false })
-    map1.on('mousedown', e => {
-        var features = map1.queryRenderedFeatures(e.point)
-        if (features.length > 0) {
-            popup.remove()
+    var popup = new maplibregl.Popup({ closeOnMove: true, closeButton: false})
+    var features
+    map1.on('contextmenu', e => {
+        var p = e.point
+        features = map1.queryRenderedFeatures([[p.x-10, p.y-10], [p.x+10, p.y+10]])
+        popup.remove()
+        if (features.length == 1) {
             popup.addTo(map1)
             popup.setHTML(getFeatureHTML(features[0]))
             popup.setLngLat(e.lngLat)
+        } else if (features.length > 0) {
+            popup.addTo(map1)
+            popup.setHTML(getSelectionHTML(features))
+            popup.setLngLat(e.lngLat)
         }
     })
+
+    function getSelectionHTML (features) {
+        var info = `<select id="selection" multiple size=${features.length} onchange="selectFeature(this.selectedIndex);">`
+        features.forEach(function(f) {
+            info += `<option>${f.properties["name"] ? f.properties["name"] : f.layer.id}</option>`
+        })
+        info += '</select>'
+        return info
+    }
+
+    function selectFeature (index) {
+        popup.remove()
+        popup.addTo(map1)
+        popup.setHTML(getFeatureHTML(features[index]))
+        popup.setLngLat(e.lngLat)
+    }
 
     function getFeatureHTML (feature) {
         const l = new Long.fromNumber(feature.id)
