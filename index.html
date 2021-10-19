@@ -13,6 +13,7 @@
         #map1 { position:absolute; top:0; left: 0; width:50%; height: 100% }
         #map2 { position:absolute; top:0; right: 0; width:50%; height: 100% }
         #menu { position: absolute; background: #fff; padding: 10px; font-family: 'Open Sans', sans-serif; }
+        .bigger { font-size: 16px; color: gray }
     </style>
 </head>
 <body>
@@ -96,11 +97,17 @@
             .forEach(function(p) {
                 if (props.indexOf(p) === -1) props.push(p)
             })
-        var info = '<div class="featureTable"><b>' + feature.layer.id + '</b>'
+            var info = `<div class="featureTable"><b class="bigger">${feature.layer.id}</b>`
         props.forEach(function(p) {
             if (feature.properties[p]) {
-                info += '<div class="featureRow"><div class="featureCell"><b>' + p + '</b></div>' +
-                    '<div class="featureCell">' + feature.properties[p] + '</div></div>'
+                var value = feature.properties[p]
+                if (p == 'id') {
+                    value = `<a href="https://openstreetmap.org/${value}" target="_blank">${value}</a>`
+                }
+                info += `
+                   <div class="featureRow"><div class="featureCell"><b>${p}</b></div>
+                   <div class="featureCell">${value}</div></div>
+                `
             }
         })
         info += '</div>'
