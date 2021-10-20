@@ -35,14 +35,13 @@
     {
       "id": "boundary",
       "type": "line",
-      "metadata": {},
       "source": "mapstew",
       "source-layer": "boundary",
       "layout": {"line-join": "round", "visibility": "visible"},
       "paint": {
-        "line-color": "rgba(151, 151, 151, 1)",
-        "line-dasharray": [5, 1],
-        "line-width": {"base": 1, "stops": [[4, 0.4], [5, 1], [12, 1.8]]}
+        "line-color": "#C0AFC7",
+        "line-opacity": 0.5,
+        "line-width": {"base": 1, "stops": [[4, 1], [5, 2], [12, 3]]}
       }
     },
     {
@@ -342,7 +341,7 @@
       }
     },
     {
-      "id": "peak_survey_point_other",
+      "id": "peak_icon_survey_point_other",
       "type": "symbol",
       "source": "mapstew",
       "source-layer": "mountain_peak",
@@ -374,7 +373,7 @@
       }
     },
     {
-      "id": "peak_survey_point",
+      "id": "peak_icon_survey_point",
       "type": "symbol",
       "source": "mapstew",
       "source-layer": "mountain_peak",
@@ -388,7 +387,7 @@
       }
     },
     {
-      "id": "peak_mountain",
+      "id": "peak_name",
       "type": "symbol",
       "source": "mapstew",
       "source-layer": "mountain_peak",
