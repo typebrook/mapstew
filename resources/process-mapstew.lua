@@ -68,11 +68,11 @@ function node_function(node)
 	local rank, class, subclass = GetPOIRank(node)
 	if rank then WritePOI(node,class,subclass,rank) end
 
-	-- Write 'mountain_peak' and 'water_name'
+	-- Write 'peak' and 'water_name'
 	local natural = node:Find("natural")
 	local survey_point = node:Find("survey_point")
 	if natural == "peak" or natural == "volcano" or survey_point ~= "" then
-		node:Layer("mountain_peak", false)
+		node:Layer("peak", false)
 		SetEleAttributes(node)
 		SetNodeId(node)
 		SetNameAttributes(node)

@@ -16,7 +16,7 @@
 
     "building":         { "minzoom": 13, "maxzoom": 14 },
 
-    "mountain_peak":     { "minzoom": 11, "maxzoom": 14 },
+    "peak":    { "minzoom": 11, "maxzoom": 14 },
 
     "water":             { "minzoom": 6,  "maxzoom": 14, "simplify_below": 12, "simplify_level": 0.0003, "simplify_ratio": 2},
     "waterway":         { "minzoom":  8,  "maxzoom": 14, "simplify_below": 12, "simplify_level": 0.0003, "simplify_ratio": 2 },

@@ -344,7 +344,7 @@
       "id": "peak_icon_survey_point_other",
       "type": "symbol",
       "source": "mapstew",
-      "source-layer": "mountain_peak",
+      "source-layer": "peak",
       "minzoom": 12,
       "maxzoom": 24,
       "filter": [
@@ -376,7 +376,7 @@
       "id": "peak_icon_survey_point",
       "type": "symbol",
       "source": "mapstew",
-      "source-layer": "mountain_peak",
+      "source-layer": "peak",
       "minzoom": 11,
       "maxzoom": 24,
       "filter": ["in", "survey_point", "trig_1st", "trig_2nd", "trig_3rd"],
@@ -390,7 +390,7 @@
       "id": "peak_name",
       "type": "symbol",
       "source": "mapstew",
-      "source-layer": "mountain_peak",
+      "source-layer": "peak",
       "minzoom": 9,
       "maxzoom": 24,
       "layout": {
