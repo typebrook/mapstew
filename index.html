@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Mapbox GL Inspect</title>
+    <title>地圖回報器</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@1.15.0/dist/maplibre-gl.css" crossorigin="anonymous">
     <script src="https://unpkg.com/maplibre-gl@1.15.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
@@ -58,6 +58,7 @@
     map1.on('contextmenu', e => {
         var p = e.point
         features = map1.queryRenderedFeatures([[p.x-10, p.y-10], [p.x+10, p.y+10]])
+            .filter(f => !f.layer.id.endsWith("-outline"))
         popup.remove()
         if (features.length == 1) {
             popup.addTo(map1)
@@ -93,7 +94,6 @@
         const source_id = l.and(mask).toString()
         var props = ['name']
         Object.keys(feature.properties)
-            .sort()
             .forEach(function(p) {
                 if (props.indexOf(p) === -1) props.push(p)
             })

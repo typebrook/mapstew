@@ -106,6 +106,119 @@
       }
     },
     {
+      "id": "highway-unclassified-outline",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 12,
+      "filter": [
+        "in",
+        "highway",
+        "unclassified",
+        "residential", 
+        "road", 
+        "living_street"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "black",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              2.5
+            ],
+            [
+              15,
+              5
+            ]
+          ]
+        }    
+      }
+    },
+    {
+      "id": "highway-unclassified",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 12,
+      "filter": [
+        "in",
+        "highway",
+        "unclassified",
+        "residential", 
+        "road", 
+        "living_street"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#E0E0E0",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              1
+            ],
+            [
+              15,
+              3
+            ]
+          ]
+        }    
+      }
+    },
+    {
+      "id": "rudymap-hike",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 13,
+      "filter": [
+        "in",
+        "highway",
+        "path"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "match",
+          [
+            "get",
+            "difficulty"
+          ],
+          "hard",
+          "rgba(0, 0, 0, 0.4)",
+          "rgba(215, 6, 0, 1)"
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ],
+        "line-width": {
+          "base": 1.2,
+          "stops": [
+            [
+              13,
+              1.5
+            ],
+            [
+              15,
+              2.4
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "waterway-name",
       "type": "symbol",
       "source": "mapstew",
@@ -413,9 +526,8 @@
       "paint": {
         "icon-color": "rgba(0, 0, 0, 1)",
         "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255,255,255,1)",
-        "text-halo-width": 1.5,
-        "text-halo-blur": 1
+        "text-halo-color": "white",
+        "text-halo-width": 1.5
       }
     }
   ]

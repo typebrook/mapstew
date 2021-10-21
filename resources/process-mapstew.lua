@@ -138,6 +138,14 @@ waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 -- Process way tags
 
+majorRoadValues = Set { "motorway", "trunk", "primary" }
+mainRoadValues  = Set { "secondary", "motorway_link", "trunk_link", "primary_link", "secondary_link" }
+midRoadValues   = Set { "tertiary", "tertiary_link" }
+minorRoadValues = Set { "unclassified", "residential", "road", "living_street" }
+trackValues     = Set { "cycleway", "byway", "bridleway", "track" }
+pathValues      = Set { "footway", "path", "steps" }
+linkValues      = Set { "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link" }
+
 function way_function(way)
     local boundary  = way:Find("boundary")
 	local building = way:Find("building")
@@ -145,16 +153,21 @@ function way_function(way)
 	local water    = way:Find("water")
 	local landuse  = way:Find("landuse")
 	local natural  = way:Find("natural")
+	local highway  = way:Find("highway")
+	local service  = way:Find("service")
 	local isClosed = way:IsClosed()
+
+    if highway == "proposed" or highway == "construction" then return end
 
     -- administrative boundaries
     if boundary=="administrative" and not (way:Find("maritime")=="yes") then
         local admin_level = tonumber(way:Find("admin_level")) or 11
         local mz = 7
-        if admin_level>=5 and admin_level<7 then mz=8
+        if admin_level <5 then mz=7
+        elseif admin_level>=5 and admin_level<7 then mz=8
         elseif admin_level==7 then mz=10
         elseif admin_level==8 then mz=11
-        elseif admin_level>=8 then mz=12
+        else return
         end
 
         way:Layer("boundary",false)
@@ -209,6 +222,45 @@ function way_function(way)
         way:AttributeNumeric("_area", math.floor(way:Area()))
 
 		return
+	end
+
+
+	-- Set 'road'
+	if highway~="" then
+		local minzoom = 99
+		if majorRoadValues[highway] then              minzoom = 4 end
+		if highway == "trunk"       then              minzoom = 5
+		elseif highway == "primary" then              minzoom = 7 end
+		if mainRoadValues[highway]  then              minzoom = 9 end
+		if midRoadValues[highway]   then              minzoom = 11 end
+		if linkValues[highway]      then              minzoom = 11 end
+		if minorRoadValues[highway] then              minzoom = 12 end
+		if highway=="service"       then              minzoom = 12 end
+		if pathValues[highway]      then              minzoom = 13 end
+		if trackValues[highway]     then              minzoom = 14 end
+
+		-- Write to layer
+		if minzoom <= 14 then
+			way:Layer("road", false)
+            SetWayId(way)
+			way:MinZoom(minzoom)
+			way:Attribute("highway", highway)
+			SetNameAttributes(way)
+			-- SetBrunnelAttributes(way)
+
+			-- service
+			if highway == "service" and service ~="" then way:Attribute("service", service) end
+
+            -- access
+            local access = way:Find("access")
+            if access ~= "service" then way:Attribute("access", access) end
+
+            -- oneway
+			local oneway = way:Find("oneway")
+			if oneway == "yes" then
+				way:Attribute("oneway", oneway)
+			end
+		end
 	end
 end
 
