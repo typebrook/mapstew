@@ -248,6 +248,10 @@ function way_function(way)
 			SetNameAttributes(way)
 			-- SetBrunnelAttributes(way)
 
+			-- for hike
+			if way:Holds("trail_visibility") then way:Attribute("trail_visibility", way:Find("trail_visibility")) end
+			if way:Holds("sac_scale")        then way:Attribute("sac_scale",        way:Find("sac_scale")) end
+
 			-- service
 			if highway == "service" and service ~="" then way:Attribute("service", service) end
 
