@@ -110,7 +110,7 @@
       "type": "line",
       "source": "mapstew",
       "source-layer": "road",
-      "minzoom": 12,
+      "minzoom": 13,
       "filter": [
         "in",
         "highway",
