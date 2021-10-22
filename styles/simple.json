@@ -1,0 +1,560 @@
+{
+  "version": 8,
+  "name": "taiwan-topo",
+  "center": [
+    121.58567496192381,
+    25.0231672869744
+  ],
+  "zoom": 15.039966962671752,
+  "bearing": 0,
+  "pitch": 0,
+  "sources": {
+    "mapstew": {
+      "type": "vector",
+      "url": "https://typebrook.github.io/mapstew/tiles/metadata.json"
+    },
+    "terrain-rgb": {
+      "type": "raster-dem",
+      "url": "https://osmhacktw.github.io/terrain-rgb/tiles.json"
+    }
+  },
+  "sprite": "https://typebrook.github.io/mapstew/resources/sprite",
+  "glyphs": "https://typebrook.github.io/mapstew/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "minzoom": 0,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "background-color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "boundary",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "boundary",
+      "layout": {"line-join": "round", "visibility": "visible"},
+      "paint": {
+        "line-color": "#C0AFC7",
+        "line-opacity": 0.5,
+        "line-width": {"base": 1, "stops": [[4, 1], [5, 2], [12, 3]]}
+      }
+    },
+    {
+      "id": "building",
+      "type": "fill",
+      "source": "mapstew",
+      "source-layer": "building",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-antialias": true,
+        "fill-color": {
+          "stops": [
+            [12, "rgba(226, 226, 226, 1)"],
+            [16, "rgba(160, 160, 160, 1)"],
+            [19, "rgba(123, 123, 123, 1)"]
+          ]
+        },
+        "fill-outline-color": "rgba(236, 236, 236, 1)"
+      }
+    },
+    {
+      "id": "waterway_river",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "waterway",
+      "minzoom": 8,
+      "filter": [
+        "!=",
+        "brunnel",
+        "tunnel"
+      ],
+      "layout": {
+        "line-cap": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(178, 212, 250, 1)",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "mapstew",
+      "source-layer": "water",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "!=",
+          "brunnel",
+          "tunnel"
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "#BAD5FB"
+      }
+    },
+    {
+      "id": "highway-unclassified-outline",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 12,
+      "filter": [
+        "in",
+        "highway",
+        "unclassified",
+        "residential", 
+        "road", 
+        "living_street"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "black",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              2.5
+            ],
+            [
+              15,
+              5
+            ]
+          ]
+        }    
+      }
+    },
+    {
+      "id": "highway-unclassified",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 13,
+      "filter": [
+        "in",
+        "highway",
+        "unclassified",
+        "residential", 
+        "road", 
+        "living_street"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#E0E0E0",
+        "line-width": {
+          "stops": [
+            [
+              12,
+              1
+            ],
+            [
+              15,
+              3
+            ]
+          ]
+        }    
+      }
+    },
+    {
+      "id": "rudymap-hike",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 13,
+      "filter": [
+        "in",
+        "highway",
+        "path"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "case",
+          ["in", ["get", "trail_visibility"], ["literal", ["bad", "no", "horrible"]]],
+          "rgba(0, 0, 0, 0.4)",
+          ["in", ["get", "sac_scale"], ["literal", ["demanding_alpine_hiking", "difficult_alpine_hiking"]]],
+          "rgba(0, 0, 0, 0.4)",
+          "rgba(215, 6, 0, 1)"
+        ],
+        "line-dasharray": [
+          3,
+          1.5
+        ],
+        "line-width": {
+          "base": 1.2,
+          "stops": [
+            [
+              13,
+              1.5
+            ],
+            [
+              15,
+              2.4
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "diffcult-label",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "road",
+      "filter": [
+        "any",
+        [
+          "in",
+          "trail_visibility",
+          "bad",
+          "horrible",
+          "no"
+        ],
+        [
+          "in",
+          "sac_scale",
+          "demanding_alpine_hiking", 
+          "difficult_alpine_hiking"
+        ]
+      ],
+      "layout": {
+        "symbol-placement": "line",
+        "icon-rotation-alignment": "viewport",
+        "icon-image": "skull",
+        "icon-size": 0.8
+      }
+    },
+    {
+      "id": "waterway-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "waterway",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "has",
+          "name"
+        ]
+      ],
+      "layout": {
+        "symbol-placement": "line",
+        "symbol-spacing": 350,
+        "text-field": "{name}",
+        "text-font": [
+          "Noto Sans Italic"
+        ],
+        "text-letter-spacing": 0,
+        "text-max-width": 5,
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "rgba(37, 136, 182, 1)",
+        "text-halo-color": "white",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "water-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "water",
+      "minzoom": 8,
+      "filter": [
+        "has",
+        "name"
+      ],
+      "layout": {
+        "symbol-placement": "point",
+        "symbol-sort-key": ["-", ["get", "_area"]],
+        "text-padding": 50,
+        "text-field": "{name}",
+        "text-font": [
+          "Noto Sans Italic"
+        ],
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "rgba(37, 136, 182, 1)",
+        "text-halo-color": "white",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "place_other",
+      "type": "symbol",
+      "metadata": {},
+      "source": "mapstew",
+      "source-layer": "place",
+      "filter": [
+        "all",
+        [
+          "in",
+          "place",
+          "hamlet",
+          "island",
+          "islet",
+          "neighbourhood",
+          "suburb",
+          "locality"
+        ]
+      ],
+      "layout": {
+        "text-field": "{name}\n{name:nonlatin}",
+        "text-font": ["Noto Sans Bold"],
+        "text-letter-spacing": 0.1,
+        "text-max-width": 9,
+        "text-size": {"base": 1.2, "stops": [[12, 10], [15, 13]]},
+        "text-transform": "none",
+        "visibility": "visible",
+        "symbol-sort-key": 10
+      },
+      "paint": {
+        "text-color": "rgba(71, 71, 71, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1.2
+      }
+    },
+    {
+      "id": "place_village",
+      "type": "symbol",
+      "metadata": {},
+      "source": "mapstew",
+      "source-layer": "place",
+      "minzoom": 10,
+      "maxzoom": 14,
+      "filter": ["all", ["==", "place", "village"]],
+      "layout": {
+        "text-field": "{name}\n{name:nonlatin}",
+        "text-font": ["Noto Sans Regular"],
+        "text-max-width": 8,
+        "text-size": {"base": 1.2, "stops": [[10, 12], [15, 22]]},
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#333",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1.2
+      }
+    },
+    {
+      "id": "place_town",
+      "type": "symbol",
+      "metadata": {},
+      "source": "mapstew",
+      "source-layer": "place",
+      "minzoom": 6,
+      "maxzoom": 16,
+      "filter": ["all", ["==", "place", "town"]],
+      "layout": {
+        "icon-image": "",
+        "text-anchor": {"stops": [[6, "bottom"], [10, "center"]]},
+        "text-field": "{name}\n{name:nonlatin}",
+        "text-font": ["Noto Sans Bold"],
+        "text-max-width": 8,
+        "text-offset": [0, 0],
+        "text-size": {"base": 1.2, "stops": [[5, 11], [11, 14]]},
+        "text-transform": "uppercase",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1.2
+      }
+    },
+    {
+      "id": "place_city",
+      "type": "symbol",
+      "metadata": {},
+      "source": "mapstew",
+      "source-layer": "place",
+      "minzoom": 4,
+      "maxzoom": 12,
+      "filter": ["==", "place", "city"],
+      "layout": {
+        "icon-allow-overlap": false,
+        "icon-image": {"base": 1, "stops": [[0, "dot_9"], [10, ""]]},
+        "icon-optional": false,
+        "text-anchor": {"stops": [[6, "bottom"], [10, "center"]]},
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Bold"],
+        "text-max-width": 8,
+        "text-offset": [0, 0],
+        "text-size": {"base": 1.2, "stops": [[3, 11], [11, 18]]},
+        "text-transform": "uppercase",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-halo-width": 1.2
+      }
+    },
+    {
+      "id": "state",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "place",
+      "minzoom": 3,
+      "maxzoom": 8,
+      "filter": ["all", ["==", "place", "state"]],
+      "layout": {
+        "text-field": "{name}\n{name:nonlatin}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": {"stops": [[4, 11], [6, 15]]},
+        "text-transform": "uppercase",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "rgba(94, 95, 101, 1)",
+        "text-halo-color": "rgba(255,255,255,0.7)",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "country",
+      "type": "symbol",
+      "metadata": {},
+      "source": "mapstew",
+      "source-layer": "place",
+      "maxzoom": 8,
+      "filter": ["all", ["==", "class", "country"]],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Regular"],
+        "text-max-width": 8,
+        "text-size": {"stops": [[3, 9], [7, 20]]},
+        "text-transform": "none",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "rgba(47, 49, 60, 1)",
+        "text-halo-blur": 1,
+        "text-halo-color": "rgba(255,255,255,0.8)",
+        "text-halo-width": 0.7
+      }
+    },
+    {
+      "id": "building-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "building",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12,
+        "text-padding": 50,
+        "symbol-sort-key": [
+          "to-number",
+          ["case", ["has", "_rank"], ["to-number", ["get", "_rank"]], 100]
+        ],
+        "icon-padding": 50
+      }
+    },
+    {
+      "id": "peak_icon_survey_point_other",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "peak",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "filter": [
+        "in",
+        "survey_point",
+        "forest_trig",
+        "trig_1st_IC",
+        "trig_2nd_IC",
+        "trig_3rd_IC",
+        "trig_3rd_MC",
+        "trig_2nd_CS",
+        "trig_3rd_CS",
+        "trig_2nd_RE",
+        "trig_3rd_RE"
+      ],
+      "layout": {
+        "icon-size": 0.8,
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "survey_point"],
+          "forest_trig",
+          "trig_forest",
+          "trig_c"
+        ]
+      }
+    },
+    {
+      "id": "peak_icon_survey_point",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "peak",
+      "minzoom": 11,
+      "maxzoom": 24,
+      "filter": ["in", "survey_point", "trig_1st", "trig_2nd", "trig_3rd"],
+      "layout": {
+        "icon-size": 0.8,
+        "icon-allow-overlap": true,
+        "icon-image": "trig"
+      }
+    },
+    {
+      "id": "peak_name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "peak",
+      "minzoom": 9,
+      "maxzoom": 24,
+      "layout": {
+        "text-anchor": "bottom",
+        "text-field": [
+          "case",
+          ["has", "ele"],
+          ["concat", ["get", "name"], "\n", ["get", "ele"], "m"],
+          ["get", "name"]
+        ],
+        "text-font": ["Noto Sans Italic"],
+        "text-offset": [0, -0.75],
+        "text-size": 12,
+        "visibility": "visible",
+        "text-max-width": 8,
+        "text-line-height": 1.3,
+        "symbol-sort-key": ["-", ["-", ["get", "ele"]], ["match", ["get", "natural"], "peak", 10000, 0]],
+        "text-padding": 50
+      },
+      "paint": {
+        "icon-color": "rgba(0, 0, 0, 1)",
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "white",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}
