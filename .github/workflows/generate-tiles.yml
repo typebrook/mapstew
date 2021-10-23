@@ -34,6 +34,13 @@ jobs:
           tilemaker --input ${{ env.TARGET }} --output tiles/
           --config  ${{ env.TILEMAKER_CONFIG }}
           --process ${{ env.TILEMAKER_PROCESS }}
+      
+      - name: Apply config about deployment
+        run: > 
+          jq '.tiles = ["<URL_PREFIX>/tiles/{z}/{x}/{y}.pbf"]' tiles/metadata.json >tiles/metadata.json.bak
+          && mv tiles/metadata.json.bak tiles/metadata.json;
+          ls *.html tiles/metadata.json styles/* | xargs sed -i "s#<URL_PREFIX>#${{ env.URL_PREFIX }}#g"
+          && git diff HEAD
 
       - name: Commit newly-generated tiles
         run: > 
@@ -42,10 +49,9 @@ jobs:
           [ -n "$(git status tiles/ --short)" ]
           && git branch gh-pages
           && git checkout gh-pages
-          && git add tiles/* >/dev/null
-          && git commit -m 'update'
+          && git add --all >/dev/null
+          && git commit -m 'update' >/dev/null
           && git push --force --set-upstream origin gh-pages
-          || true
       
       - name: Upload updated PBF file as artifact for next workflow run
         uses: actions/upload-artifact@v2
