@@ -40,10 +40,10 @@ update_pbf_file() {
   [[ ! -e $TARGET ]] && return 1
 
   local ARGUMENT_POLY_FILE=
-  [[ -n $POLY_FILE ]] && ARGUMENT_POLY_FILE="-B=$POLYFILE"
+  [[ -n $POLY_FILE ]] && ARGUMENT_POLY_FILE="-B=$POLY_FILE"
 
   echo Updating OSM PBF file with osmctools...
-  osmupdate --verbose $TARGET updated.osm.pbf --hour ARGUMENT_POLY_FILE || {
+  osmupdate --verbose $TARGET updated.osm.pbf --hour $ARGUMENT_POLY_FILE || {
     echo Fail to update $TARGET with osmupdate
     mv $TARGET updated.osm.pbf
   }
