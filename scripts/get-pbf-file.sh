@@ -6,6 +6,13 @@ echo GEOFABRIK_DOWNLOAD_URL $GEOFABRIK_DOWNLOAD_URL
 echo TARGET $TARGET
 echo
 
+if [[ $TARGET =~ '/' ]]; then
+  DIR=${TARGET%/*}
+  mkdir $DIR
+else
+  DIR=.
+fi
+
 [[ -n $GEOFABRIK_DOWNLOAD_URL && -n $TARGET ]] || exit 1
 
 # Check if iOSM PBF file is valid on latest action
@@ -16,7 +23,7 @@ artifact_url() {
   fi
 
   curl --silent https://api.github.com/repos/$REPO/actions/artifacts\?per_page\=1 \
-  | jq -r "select(has(\"artifacts\")).artifacts[] | select(.name=\"$TARGET\") | .archive_download_url" \
+  | jq -r "select(has(\"artifacts\")).artifacts[] | select(.name=\"$(basename $TARGET)\") | .archive_download_url" \
   | head -1
 }
 
@@ -32,7 +39,7 @@ get_pbf_file_from_artifact() {
   fi
 
   curl --silent -L -H "Authorization: token $TOKEN_DOWNLOAD_ARTIFACT" $artifact_url -o $TARGET.zip || return 1
-  ls -alh $TARGET.zip && unzip $TARGET.zip
+  ls -alh $TARGET.zip && unzip $TARGET.zip -d $DIR/
 }
 
 # Update OSM PBF file with osmctools
@@ -43,11 +50,11 @@ update_pbf_file() {
   [[ -n $POLY_FILE ]] && ARGUMENT_POLY_FILE="-B=$POLY_FILE"
 
   echo Updating OSM PBF file with osmctools...
-  osmupdate --verbose $TARGET updated.osm.pbf --hour $ARGUMENT_POLY_FILE || {
+  osmupdate --verbose $TARGET $DIR/updated.osm.pbf --hour $ARGUMENT_POLY_FILE || {
     echo Fail to update $TARGET with osmupdate
-    mv $TARGET updated.osm.pbf
+    mv $TARGET $DIR/updated.osm.pbf
   }
-  osmconvert --verbose updated.osm.pbf -o=$TARGET -B=$POLY_FILE --drop-broken-refs
+  osmconvert --verbose $DIR/updated.osm.pbf -o=$TARGET -B=$POLY_FILE --drop-broken-refs
 }
 
 echo Checking latest artifacts...
