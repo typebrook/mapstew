@@ -49,7 +49,7 @@ jobs:
           [ -n "$(git status tiles/ --short)" ]
           && git branch gh-pages
           && git checkout gh-pages
-          && git add . >/dev/null
+          && git add . --verbose | grep -v tiles/
           && git commit -m 'update' >/dev/null
           && git push --force --set-upstream origin gh-pages
       
