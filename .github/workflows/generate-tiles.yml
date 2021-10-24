@@ -56,7 +56,6 @@ jobs:
       - name: Upload updated PBF file as artifact for next workflow run
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET }}
           path: ${{ github.workspace }}/${{ env.TARGET }}
 
       #- run: find tiles/ -name '*.pbf' >tiles.list
