@@ -286,7 +286,11 @@ end
 
 --  Set ID on way object
 function SetWayId(obj)
-    obj:Attribute("id", "way/" .. obj:Id())
+    if obj:IsRelation() then
+        obj:Attribute("id", "relation/" .. obj:Id())
+    else
+        obj:Attribute("id", "way/" .. obj:Id())
+    end
 end
 
 -- Set ele on any object
