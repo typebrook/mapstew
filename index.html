@@ -22,6 +22,7 @@
 <div id='map2'></div>
 <script>
     let keysWithUniqueTag = [ "ele", "name" ]
+
     let center = [121.54648,25.0457]
     let zoom = 12
     var map1 = new maplibregl.Map({
@@ -58,8 +59,10 @@
     var features
     map1.on('contextmenu', e => {
         var p = e.point
-        features = map1.queryRenderedFeatures([[p.x-10, p.y-10], [p.x+10, p.y+10]])
-            .filter(f => !f.layer.id.endsWith("-outline"))
+        var buffer = 10
+        features = map1.queryRenderedFeatures(
+            [[p.x-buffer, p.y-buffer], [p.x+buffer, p.y+buffer]]
+        ).filter(f => !f.layer.id.endsWith("-outline"))
         popup.remove()
         if (features.length == 1) {
             popup.addTo(map1)
