@@ -21,6 +21,7 @@
 <div id='map1'></div>
 <div id='map2'></div>
 <script>
+    let keysWithUniqueTag = [ "ele", "name" ]
     let center = [121.54648,25.0457]
     let zoom = 12
     var map1 = new maplibregl.Map({
@@ -97,20 +98,27 @@
             .forEach(function(p) {
                 if (props.indexOf(p) === -1) props.push(p)
             })
-            var info = `<div class="featureTable"><b class="bigger">${feature.layer.id}</b>`
+            var info = `<div class="featureTable"><b class="bigger">${feature.layer.id}</b> <table border=1px solid #eee> `
         props.forEach(function(p) {
             if (feature.properties[p]) {
+                var tag = p
                 var value = feature.properties[p]
                 if (p == 'id') {
                     value = `<a href="https://openstreetmap.org/${value}" target="_blank">${value}</a>`
+                } else if (!p.startsWith('_')) {
+                    tag = `<a href="https://wiki.openstreetmap.org/wiki/Key:${p}" target="_blank">${p}</a>`
+                    if (!keysWithUniqueTag.includes(p))
+                        value = `<a href="https://openstreetmap.org/wiki/Tag:${p}%3d${value}" target="_blank">${value}</a>`
                 }
                 info += `
-                   <div class="featureRow"><div class="featureCell"><b>${p}</b></div>
-                   <div class="featureCell">${value}</div></div>
+                   <tr>
+                     <td><b>${tag}</b></td>
+                     <td>${value}</td>
+                   </tr>
                 `
             }
         })
-        info += '</div>'
+        info += '</table></div>'
         return info
     }
 </script>
