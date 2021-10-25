@@ -27,7 +27,7 @@
     "minzoom": 2,
     "maxzoom": 14,
     "basezoom": 14,
-    "include_ids": true,
+    "include_ids": false,
     "name": "mapstew",
     "version": "0.1",
     "description": "Tile schema for hiking",
