@@ -55,8 +55,11 @@
     map1.showTileBoundaries=true;
     map2.showTileBoundaries=true;
 
-    var popup = new maplibregl.Popup({ closeOnMove: true, closeButton: false})
-    var features
+    var popup = new maplibregl.Popup({ closeOnMove: true, closeButton: false, anchor: 'left', offset: 10 })
+    popup.on('close', () => {
+        clearHighlighted()
+    })
+    var features = []
     map1.on('contextmenu', e => {
         var p = e.point
         var buffer = 10
@@ -65,8 +68,7 @@
         ).filter(f => !f.layer.id.endsWith("-outline"))
         popup.remove()
         if (features.length == 1) {
-            popup.addTo(map1)
-            popup.setHTML(getFeatureHTML(features[0]))
+            selectFeature(0)
             popup.setLngLat(e.lngLat)
         } else if (features.length > 0) {
             popup.addTo(map1)
@@ -88,6 +90,7 @@
         popup.remove()
         popup.addTo(map1)
         popup.setHTML(getFeatureHTML(features[index]))
+        highlightFeature (features[index])
     }
 
     function getFeatureHTML (feature) {
@@ -123,6 +126,17 @@
         })
         info += '</table></div>'
         return info
+    }
+
+    function highlightFeature (feature) {
+        map1.getSource('selected-feature').setData(feature)
+    }
+
+    function clearHighlighted (feature) {
+        map1.getSource('selected-feature').setData({
+            "type": "FeatureCollection",
+            "features": []
+        })
     }
 </script>
 

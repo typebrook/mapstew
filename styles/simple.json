@@ -16,6 +16,10 @@
     "terrain-rgb": {
       "type": "raster-dem",
       "url": "https://osmhacktw.github.io/terrain-rgb/tiles.json"
+    },
+    "selected-feature": {
+      "type": "geojson",
+      "data": {"type":"FeatureCollection", "features": []}
     }
   },
   "sprite": "<URL_PREFIX>/resources/sprite",
@@ -623,6 +627,53 @@
         "text-color": "rgba(0, 0, 0, 1)",
         "text-halo-color": "white",
         "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "highlight-point-outline",
+      "type": "circle",
+      "source": "selected-feature",
+      "filter": [ "==", "$type", "Point"],
+      "paint": {
+        "circle-color": "yellow",
+        "circle-radius": 8
+      }
+    },
+    {
+      "id": "highlight-point",
+      "type": "circle",
+      "source": "selected-feature",
+      "filter": [ "==", "$type", "Point"],
+      "paint": {
+        "circle-color": "red"
+      }
+    },
+    {
+      "id": "highlight-outline",
+      "type": "line",
+      "source": "selected-feature",
+      "filter": [ "in", "$type", "LineString", "Polygon"],
+      "paint": {
+        "line-color": "yellow",
+        "line-width": 8
+      }
+    },
+    {
+      "id": "highlight-linestring",
+      "type": "line",
+      "source": "selected-feature",
+      "filter": [ "==", "$type", "LineString"],
+      "paint": {
+        "line-color": "red"
+      }
+    },
+    {
+      "id": "highlight-polygon",
+      "type": "fill",
+      "source": "selected-feature",
+      "filter": [ "==", "$type", "Polygon"],
+      "paint": {
+        "fill-color": "red"
       }
     }
   ]
