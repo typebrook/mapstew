@@ -143,7 +143,8 @@ mainRoadValues  = Set { "secondary", "motorway_link", "trunk_link", "primary_lin
 midRoadValues   = Set { "tertiary", "tertiary_link" }
 minorRoadValues = Set { "unclassified", "residential", "road", "living_street" }
 trackValues     = Set { "cycleway", "byway", "bridleway", "track" }
-pathValues      = Set { "footway", "path", "steps" }
+bigPathValues   = Set { "footway" }
+pathValues      = Set { "path", "steps" }
 linkValues      = Set { "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link" }
 
 function way_function(way)
@@ -236,8 +237,9 @@ function way_function(way)
 		if linkValues[highway]      then              minzoom = 11 end
 		if minorRoadValues[highway] then              minzoom = 12 end
 		if highway=="service"       then              minzoom = 12 end
+		if bigPathValues[highway]   then              minzoom = 12 end
 		if pathValues[highway]      then              minzoom = 13 end
-		if trackValues[highway]     then              minzoom = 14 end
+		if trackValues[highway]     then              minzoom = 13 end
 
 		-- Write to layer
 		if minzoom <= 14 then

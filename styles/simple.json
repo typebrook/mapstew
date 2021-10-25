@@ -174,7 +174,7 @@
       }
     },
     {
-      "id": "rudymap-hike",
+      "id": "rudymap-visitor",
       "type": "line",
       "source": "mapstew",
       "source-layer": "road",
@@ -182,7 +182,28 @@
       "filter": [
         "in",
         "highway",
-        "path"
+        "footway"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-width": 10,
+        "line-color": "#FFCCCC"
+       }
+    },
+    {
+      "id": "rudymap-hike",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 12,
+      "filter": [
+        "in",
+        "highway",
+        "path",
+        "footway"
       ],
       "layout": {
         "line-join": "round",
