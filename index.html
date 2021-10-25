@@ -88,10 +88,10 @@
         popup.remove()
         popup.addTo(map1)
         popup.setHTML(getFeatureHTML(features[index]))
-        popup.setLngLat(e.lngLat)
     }
 
     function getFeatureHTML (feature) {
+        console.log(feature)
         const l = new Long.fromNumber(feature.id)
         const layer = l.shru(46).toInt()
         const mask = Long.MAX_UNSIGNED_VALUE.shru(64-44)
