@@ -245,7 +245,7 @@ function way_function(way)
 		if minzoom <= 14 then
 			way:Layer("road", false)
             SetWayId(way)
-			way:MinZoom(minzoom)
+            SetMinZoomByLength(way, minzoom)
 			way:Attribute("highway", highway)
 			SetNameAttributes(way)
 			-- SetBrunnelAttributes(way)
@@ -329,6 +329,21 @@ function SetMinZoomByArea(way)
     elseif area>ZRES11^2 then way:MinZoom(12)
     elseif area>ZRES12^2 then way:MinZoom(13)
     else                      way:MinZoom(14) end
+end
+
+-- Set minimum zoom level by length
+function SetMinZoomByLength(way, zoom)
+    local length=way:Length()
+    local properZoom = 8
+    if     length>ZRES9 *20 then properZoom = 9
+    elseif length>ZRES10*20 then properZoom = 10
+    elseif length>ZRES11*20 then properZoom = 11
+    elseif length>ZRES12*20 then properZoom = 12
+    elseif length>ZRES13*20 then properZoom = 13
+    else                         properZoom = 14 end
+
+    if zoom < properZoom then zoom = properZoom end
+    way:MinZoom(zoom)
 end
 
 -- Write a way centroid to POI layer
