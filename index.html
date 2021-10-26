@@ -65,7 +65,12 @@
         var buffer = 10
         features = map1.queryRenderedFeatures(
             [[p.x-buffer, p.y-buffer], [p.x+buffer, p.y+buffer]]
-        ).filter(f => !f.layer.id.endsWith("-outline"))
+        ).filter(f => 
+            !f.layer.id.endsWith('-outline') &&
+            !f.layer.id.endsWith('-name') &&
+            !f.layer.id.endsWith('-decorate') &&
+            !f.layer.id.startsWith('highlight-')
+        )
         popup.remove()
         if (features.length == 1) {
             selectFeature(0)

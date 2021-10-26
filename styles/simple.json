@@ -190,7 +190,7 @@
       }
     },
     {
-      "id": "rudymap-visitor",
+      "id": "rudymap-decorate",
       "type": "line",
       "source": "mapstew",
       "source-layer": "road",
@@ -664,7 +664,8 @@
       "source": "selected-feature",
       "filter": [ "==", "$type", "LineString"],
       "paint": {
-        "line-color": "red"
+        "line-color": "red",
+        "line-width": 3
       }
     },
     {
