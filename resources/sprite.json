@@ -1,65 +1,72 @@
 {
-  "mountain": {
+  "skull": {
+    "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "width": 32,
-    "x": 128,
-    "y": 0
-  },
-  "p_wood-mixed": {
-    "height": 128,
-    "pixelRatio": 1,
-    "width": 128,
     "x": 0,
     "y": 0
   },
-  "s_camp_site": {
-    "height": 16,
-    "pixelRatio": 1,
-    "width": 16,
-    "x": 96,
-    "y": 128
-  },
-  "shield_motorway": {
+  "shield_tertiary": {
+    "width": 32,
     "height": 32,
     "pixelRatio": 1,
+    "x": 32,
+    "y": 0
+  },
+  "shield_secondary": {
     "width": 32,
-    "x": 160,
+    "height": 32,
+    "pixelRatio": 1,
+    "x": 64,
     "y": 0
   },
   "shield_primary": {
+    "width": 32,
     "height": 32,
     "pixelRatio": 1,
+    "x": 96,
+    "y": 0
+  },
+  "shield_motorway": {
     "width": 32,
+    "height": 32,
+    "pixelRatio": 1,
+    "x": 128,
+    "y": 0
+  },
+  "trig_c": {
+    "width": 32,
+    "height": 32,
+    "pixelRatio": 1,
+    "x": 160,
+    "y": 0
+  },
+  "trig_forest": {
+    "width": 32,
+    "height": 32,
+    "pixelRatio": 1,
     "x": 192,
     "y": 0
   },
-  "skull": {
+  "trig": {
+    "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "width": 32,
     "x": 224,
     "y": 0
   },
-  "trig": {
+  "mountain": {
+    "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "width": 32,
-    "x": 0,
-    "y": 128
+    "x": 256,
+    "y": 0
   },
-  "trig_c": {
-    "height": 32,
+  "s_camp_site": {
+    "width": 16,
+    "height": 16,
     "pixelRatio": 1,
-    "width": 32,
-    "x": 32,
-    "y": 128
-  },
-  "trig_forest": {
-    "height": 32,
-    "pixelRatio": 1,
-    "width": 32,
-    "x": 64,
-    "y": 128
+    "x": 288,
+    "y": 0
   }
 }
