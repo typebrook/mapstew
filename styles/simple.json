@@ -190,6 +190,58 @@
       }
     },
     {
+      "id": "highway-outline",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 9,
+      "filter": [
+        "in",
+        "highway",
+        "motorway",
+        "primary",
+        "secondary",
+        "tertiary"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-width": 8,
+        "line-color": "black"
+      }
+    },
+    {
+      "id": "highway",
+      "type": "line",
+      "source": "mapstew",
+      "source-layer": "road",
+      "filter": [
+        "in",
+        "highway",
+        "motorway",
+        "primary",
+        "secondary",
+        "tertiary"
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-width": 4,
+        "line-color": [
+          "match",
+          [ "get", "highway" ],
+          "motorway", "pink",
+          "primary", "yellow",
+          "secondary", "beige",
+          "#FFD69B"
+        ]
+      }
+    },
+    {
       "id": "rudymap-decorate",
       "type": "line",
       "source": "mapstew",
@@ -287,6 +339,64 @@
             ]
           ]
         }
+      }
+    },
+    {
+      "id": "highway-shield",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 6,
+      "filter": [
+        "in",
+        "highway",
+        "motorway",
+        "primary",
+        "secondary",
+        "tertiary"
+      ],
+      "layout": {
+        "icon-image": "shield_{highway}",
+        "icon-rotation-alignment": "viewport",
+        "icon-size": 0.8,
+        "symbol-sort-key": [
+          "match",
+          [ "get", "highway" ],
+          "motorway", 0,
+          "primary", 1,
+          2
+        ],
+        "text-field": "{ref}",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-rotation-alignment": "viewport",
+        "text-size": 10,
+        "icon-padding": 100,
+        "icon-ignore-placement": true
+      },
+      "paint": {
+        "text-color": [
+          "match",
+          [
+            "get",
+            "highway"
+          ],
+          "primary",
+          "#FFFFFF",
+          "#000000"
+        ],
+        "text-halo-color": "white",
+        "text-halo-width": [
+          "match",
+          [
+            "get",
+            "highway"
+          ],
+          "primary",
+          0,
+          1
+        ]
       }
     },
     {
@@ -545,10 +655,7 @@
         "text-font": ["Noto Sans Regular"],
         "text-size": 12,
         "text-padding": 50,
-        "symbol-sort-key": [
-          "to-number",
-          ["case", ["has", "_rank"], ["to-number", ["get", "_rank"]], 100]
-        ],
+        "symbol-sort-key": 100,
         "icon-padding": 50
       }
     },

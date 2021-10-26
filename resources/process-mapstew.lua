@@ -138,9 +138,9 @@ waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 -- Process way tags
 
-majorRoadValues = Set { "motorway", "trunk", "primary" }
-mainRoadValues  = Set { "secondary", "motorway_link", "trunk_link", "primary_link", "secondary_link" }
-midRoadValues   = Set { "tertiary", "tertiary_link" }
+majorRoadValues = Set { "motorway", "trunk" }
+mainRoadValues  = Set { "primary", "motorway_link", "trunk_link", "primary_link" }
+midRoadValues   = Set { "secondary", "tertiary", "secondary_link", "tertiary_link" }
 minorRoadValues = Set { "unclassified", "residential", "road", "living_street" }
 trackValues     = Set { "cycleway", "byway", "bridleway", "track" }
 bigPathValues   = Set { "footway" }
@@ -229,23 +229,25 @@ function way_function(way)
 	-- Set 'road'
 	if highway~="" then
 		local minzoom = 99
-		if majorRoadValues[highway] then              minzoom = 4 end
-		if highway == "trunk"       then              minzoom = 5
-		elseif highway == "primary" then              minzoom = 7 end
-		if mainRoadValues[highway]  then              minzoom = 9 end
-		if midRoadValues[highway]   then              minzoom = 11 end
-		if linkValues[highway]      then              minzoom = 11 end
-		if minorRoadValues[highway] then              minzoom = 12 end
-		if highway=="service"       then              minzoom = 12 end
-		if bigPathValues[highway]   then              minzoom = 12 end
-		if pathValues[highway]      then              minzoom = 13 end
-		if trackValues[highway]     then              minzoom = 13 end
+        local showAnyway = false
+		if majorRoadValues[highway] then  minzoom = 4 ; showAnyway = true end
+		if highway == "trunk"       then  minzoom = 5
+		elseif highway == "primary" then  minzoom = 7 end
+		if mainRoadValues[highway]  then  minzoom = 9 ; showAnyway = true end
+		if midRoadValues[highway]   then  minzoom = 12; showAnyway = true end
+		if linkValues[highway]      then  minzoom = 11 end
+		if minorRoadValues[highway] then  minzoom = 12 end
+		if highway=="service"       then  minzoom = 12 end
+		if bigPathValues[highway]   then  minzoom = 12 end
+		if pathValues[highway]      then  minzoom = 13 end
+		if trackValues[highway]     then  minzoom = 13 end
 
 		-- Write to layer
 		if minzoom <= 14 then
 			way:Layer("road", false)
             SetWayId(way)
-            SetMinZoomByLength(way, minzoom)
+            if showAnyway then way:MinZoom(minzoom)
+            else SetMinZoomByLength(way, minzoom) end
 			way:Attribute("highway", highway)
 			SetNameAttributes(way)
 			-- SetBrunnelAttributes(way)
@@ -253,6 +255,9 @@ function way_function(way)
 			-- for hike
 			if way:Holds("trail_visibility") then way:Attribute("trail_visibility", way:Find("trail_visibility")) end
 			if way:Holds("sac_scale")        then way:Attribute("sac_scale",        way:Find("sac_scale")) end
+
+			-- ref
+			if way:Holds("ref") then way:Attribute("ref", way:Find("ref")) end
 
 			-- service
 			if highway == "service" and service ~="" then way:Attribute("service", service) end
