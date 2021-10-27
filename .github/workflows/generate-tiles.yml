@@ -11,7 +11,7 @@ jobs:
   generate-tiles:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/typebrook/mapstew:75ea4cb
+      image: ghcr.io/typebrook/mapstew:a818597
       credentials:
         username: typebrook
         password: ${{ secrets.DOCKER_CONTAINER_REGISTRY_TOKEN }}

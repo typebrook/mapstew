@@ -1,5 +1,5 @@
 FROM debian:buster-slim
-LABEL Description="Tilemaker" Version="75ea4cb"
+LABEL Description="Tilemaker" Version="a818597"
 
 # install dependencies
 RUN apt-get update && \
@@ -10,8 +10,8 @@ COPY . /
 WORKDIR /
 
 # This zip file comes from latest Github Action artifacts:
-# https://github.com/systemed/tilemaker/actions/runs/1320503772
-# Build from https://github.com/systemed/tilemaker/tree/75ea4cb (2021.10.08)
+# https://github.com/systemed/tilemaker/actions/runs/107305749
+# Build from https://github.com/typebrook/tilemaker/tree/a818597 (2021.10.27)
 RUN unzip /tilemaker-ubuntu-18.04.zip && \
     chmod +x /build/tilemaker && \
     mv /build/tilemaker /usr/bin/tilemaker && \
