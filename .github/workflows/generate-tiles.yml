@@ -33,7 +33,9 @@ jobs:
         run: >
           tilemaker --input ${{ env.TARGET }} --output tiles/
           --config  ${{ env.TILEMAKER_CONFIG }}
-          --process ${{ env.TILEMAKER_PROCESS }}
+          --process ${{ env.TILEMAKER_PROCESS }};
+          osmconvert ${{ env.TARGET }} --out-timestamp | 
+          TZ=${{ env.TZ }} xargs date --iso-8601=minutes -d >tiles/timestamp
       
       - name: Apply config about deployment
         run: > 

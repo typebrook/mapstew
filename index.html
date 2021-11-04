@@ -13,6 +13,7 @@
         #map1 { position:absolute; top:0; left: 0; width:50%; height: 100% }
         #map2 { position:absolute; top:0; right: 0; width:50%; height: 100% }
         #menu { position: absolute; background: #fff; padding: 10px; font-family: 'Open Sans', sans-serif; }
+        #timestamp { position: absolute; background-color: #ffffff; line-height: 10px; font-size: small; padding-left: 10px; padding-right: 10px }
         .bigger { font-size: 16px; color: gray }
     </style>
 </head>
@@ -20,6 +21,7 @@
 
 <div id='map1'></div>
 <div id='map2'></div>
+<div id='timestamp'><p>圖資更新時間:</p><strong><p id='date'></p></strong></div>
 <script>
     let keysWithUniqueTag = [ "ele", "name" ]
 
@@ -143,6 +145,14 @@
             "features": []
         })
     }
+
+    var oReq = new XMLHttpRequest()
+    oReq.open("GET", "tiles/timestamp")
+    oReq.addEventListener("load", function transferComplete(evt) {
+      let timestamp = oReq.response
+      document.getElementById('date').textContent = timestamp
+    })
+    oReq.send()
 </script>
 
 </body>

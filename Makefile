@@ -7,6 +7,7 @@ tiles: data/taiwan-latest.osm.pbf
 	tilemaker $< --output=tiles/ --config resources/config-mapstew.json --process resources/process-mapstew.lua
 	jq '.tiles = ["<URL_PREFIX>/tiles/{z}/{x}/{y}.pbf"]' tiles/metadata.json >tiles/metadata.json.bak
 	mv tiles/metadata.json.bak tiles/metadata.json
+	osmconvert $< --out-timestamp | TZ=Asia/Taipei xargs date --iso-8601=minutes -d >tiles/timestamp
 
 clean:
 	rm -rf tiles/ data/ && git reset --hard
