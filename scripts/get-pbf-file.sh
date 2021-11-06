@@ -35,15 +35,21 @@ get_pbf_file_from_artifact() {
     echo Argument TOKEN_DOWNLOAD_ARTIFACT is not specified, fail to get OSM PBF file with Github API
     return 1
   else
-    echo Dwnloading artifact from latest action
+    echo Downloading artifact from latest action
   fi
 
-  curl --silent -L -H "Authorization: token $TOKEN_DOWNLOAD_ARTIFACT" $artifact_url -o $TARGET.zip || return 1
+  curl -L -H "Authorization: token $TOKEN_DOWNLOAD_ARTIFACT" $artifact_url -o $TARGET.zip || return 1
   ls -alh $TARGET.zip && unzip $TARGET.zip -d $DIR/
 
   # If OSM PBF file from last artifact asset is outdated over 2 days, then drop it
   DIFF=$(( $(date +%s) - $(osmconvert --out-timestamp $TARGET | xargs date +%s -d)  ))
-  [[ $DIFF > $(( 86400 * 2 )) ]] && rm $TARGET
+  if [[ $DIFF -gt $(( 86400 * 2 )) ]]; then
+    rm $TARGET
+    echo Last artifact is outdated with $DIFF seconds
+    return 1
+  else
+    return 0
+  fi
 }
 
 # Update OSM PBF file with osmctools
@@ -52,18 +58,18 @@ get_pbf_file_from_artifact() {
 update_pbf_file() {
   [[ ! -e $1 ]] && return 1
 
-  local ARGUMENT_POLY_FILE=
-  [[ -n $POLY_FILE ]] && ARGUMENT_POLY_FILE="-B=$POLY_FILE"
+  local ARGUMENT_POLY_FILE=${POLY_FILE:+-B=${POLY_FILE}}
 
   echo Updating OSM PBF file with osmctools...
-  osmupdate --verbose $1 $DIR/updated.osm.pbf --hour $ARGUMENT_POLY_FILE || {
+  osmupdate --verbose --hour $1 $DIR/updated.hour.osm.pbf $ARGUMENT_POLY_FILE || mv $1 $DIR/updated.hour.osm.pbf
+  osmupdate --verbose --minute $DIR/updated.hour.osm.pbf $DIR/updated.osm.pbf $ARGUMENT_POLY_FILE || {
     echo Fail to update $1 with osmupdate
     mv $1 $DIR/updated.osm.pbf
   }
   osmconvert --verbose $DIR/updated.osm.pbf -o=$TARGET -B=$POLY_FILE --drop-broken-refs
 
   [[ $1 != $TARGET ]] && rm $1
-  rm $DIR/update.osm.pbf
+  rm $DIR/updated.hour.osm.pbf $DIR/updated.osm.pbf
 }
 
 echo Checking latest artifacts...
