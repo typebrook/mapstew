@@ -47,40 +47,40 @@ get_pbf_file_from_artifact() {
 }
 
 # Update OSM PBF file with osmctools
+# $1 -> OSM PBF FILE with timestamp in 1 hour -> TARGET OSM PBF file
+#       (Updated with osmupdate)                 (Clip by poly file with osm convert)
 update_pbf_file() {
-  [[ ! -e $TARGET ]] && return 1
+  [[ ! -e $1 ]] && return 1
 
   local ARGUMENT_POLY_FILE=
   [[ -n $POLY_FILE ]] && ARGUMENT_POLY_FILE="-B=$POLY_FILE"
 
   echo Updating OSM PBF file with osmctools...
-  osmupdate --verbose $TARGET $DIR/updated.osm.pbf --hour $ARGUMENT_POLY_FILE || {
-    echo Fail to update $TARGET with osmupdate
-    mv $TARGET $DIR/updated.osm.pbf
+  osmupdate --verbose $1 $DIR/updated.osm.pbf --hour $ARGUMENT_POLY_FILE || {
+    echo Fail to update $1 with osmupdate
+    mv $1 $DIR/updated.osm.pbf
   }
   osmconvert --verbose $DIR/updated.osm.pbf -o=$TARGET -B=$POLY_FILE --drop-broken-refs
+
+  [[ $1 != $TARGET ]] && rm $1
+  rm $DIR/update.osm.pbf
 }
 
 echo Checking latest artifacts...
 artifact_url=$(artifact_url)
 
 if [[ -n $artifact_url ]]; then
-  get_pbf_file_from_artifact && [[ -e $TARGET ]] && update_pbf_file
+  get_pbf_file_from_artifact && [[ -e $TARGET ]] && update_pbf_file $TARGET
 fi
 
 
 # Get OSM PBF file from the given URL
 if [[ ! -e $TARGET ]]; then
-  echo Ready to download osm.pbf file from Geofabrik
-  curl -LO $OSM_DOWNLOAD_URL
+  echo Ready to download osm.pbf file from remote
+  curl --verbose -LO $OSM_DOWNLOAD_URL
   osm_file=${OSM_DOWNLOAD_URL##*/}
 
-  if [[ ! $osm_file =~ .pbf ]]; then
-    osmconvert $osm_file -o=$TARGET
-  else
-    mv $osm_file $TARGET
-  fi
-  update_pbf_file
+  update_pbf_file $osm_file
 fi
 
 [[ -e $TARGET ]] && echo osm.pbf file $TARGET is here && exit 0
