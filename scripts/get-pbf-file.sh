@@ -2,7 +2,7 @@
 
 set -o pipefail
 
-echo GEOFABRIK_DOWNLOAD_URL $GEOFABRIK_DOWNLOAD_URL
+echo OSM_DOWNLOAD_URL $OSM_DOWNLOAD_URL
 echo TARGET $TARGET
 echo
 
@@ -13,7 +13,7 @@ else
   DIR=.
 fi
 
-[[ -n $GEOFABRIK_DOWNLOAD_URL && -n $TARGET ]] || exit 1
+[[ -n $OSM_DOWNLOAD_URL && -n $TARGET ]] || exit 1
 
 # Check if iOSM PBF file is valid on latest action
 artifact_url() {
@@ -71,10 +71,17 @@ if [[ -n $artifact_url ]]; then
 fi
 
 
-# Get OSM PBF file from Geofabrik
+# Get OSM PBF file from the given URL
 if [[ ! -e $TARGET ]]; then
   echo Ready to download osm.pbf file from Geofabrik
-  curl -L $GEOFABRIK_DOWNLOAD_URL -o $TARGET && \
+  curl -LO $OSM_DOWNLOAD_URL
+  osm_file=${OSM_DOWNLOAD_URL##*/}
+
+  if [[ ! $osm_file =~ .pbf ]]; then
+    osmconvert $osm_file -o=$TARGET
+  else
+    mv $osm_file $TARGET
+  fi
   update_pbf_file
 fi
 
