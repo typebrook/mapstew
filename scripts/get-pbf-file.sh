@@ -40,6 +40,10 @@ get_pbf_file_from_artifact() {
 
   curl --silent -L -H "Authorization: token $TOKEN_DOWNLOAD_ARTIFACT" $artifact_url -o $TARGET.zip || return 1
   ls -alh $TARGET.zip && unzip $TARGET.zip -d $DIR/
+
+  # If OSM PBF file from last artifact asset is outdated over 2 days, then drop it
+  DIFF=$(( $(date +%s) - $(osmconvert --out-timestamp $TARGET | xargs date +%s -d)  ))
+  [[ $DIFF > $(( 86400 * 2 )) ]] && rm $TARGET
 }
 
 # Update OSM PBF file with osmctools
@@ -61,13 +65,7 @@ echo Checking latest artifacts...
 artifact_url=$(artifact_url)
 
 if [[ -n $artifact_url ]]; then
-  get_pbf_file_from_artifact && \
-  update_pbf_file || \
-  {
-    echo Fail to download artifact from latest action
-    # If fail to featch OSM PBF file, just remove it
-    [[ -e $TARGET ]] && rm $TARGET
-  }
+  get_pbf_file_from_artifact && [[ -e $TARGET ]] && update_pbf_file
 fi
 
 
