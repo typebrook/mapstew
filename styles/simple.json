@@ -11,7 +11,7 @@
   "sources": {
     "mapstew": {
       "type": "vector",
-      "url": "<URL_PREFIX>/tiles/metadata.json"
+      "url": "http://localhost:8000/tiles/metadata.json"
     },
     "terrain-rgb": {
       "type": "raster-dem",
@@ -22,8 +22,8 @@
       "data": {"type":"FeatureCollection", "features": []}
     }
   },
-  "sprite": "<URL_PREFIX>/resources/sprite",
-  "glyphs": "<URL_PREFIX>/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
+  "sprite": "http://localhost:8000/resources/sprite",
+  "glyphs": "http://localhost:8000/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -744,6 +744,30 @@
       "paint": {
         "icon-color": "rgba(0, 0, 0, 1)",
         "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "white",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "rudymap-hike-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 12,
+      "filter": [
+        "in",
+        "highway",
+        "path",
+        "footway"
+      ],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Bold"],
+        "text-size": 12,
+        "symbol-placement": "line"
+      },
+      "paint": {
+        "text-color": "red",
         "text-halo-color": "white",
         "text-halo-width": 1.5
       }
