@@ -665,6 +665,10 @@
         "text-padding": 50,
         "symbol-sort-key": 100,
         "icon-padding": 50
+      },
+      "paint": {
+        "text-halo-color": "white",
+        "text-halo-width": 1.5
       }
     },
     {
