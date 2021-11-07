@@ -69,7 +69,7 @@ update_pbf_file() {
   osmconvert --verbose $DIR/updated.osm.pbf -o=$TARGET -B=$POLY_FILE --drop-broken-refs
 
   [[ $1 != $TARGET ]] && rm $1
-  rm $DIR/updated.hour.osm.pbf $DIR/updated.osm.pbf
+  [[ -e $TARGET ]] && rm $DIR/updated*
 }
 
 echo Checking latest artifacts...
@@ -83,8 +83,8 @@ fi
 # Get OSM PBF file from the given URL
 if [[ ! -e $TARGET ]]; then
   echo Ready to download osm.pbf file from remote
-  curl --verbose -LO $OSM_DOWNLOAD_URL
-  osm_file=${OSM_DOWNLOAD_URL##*/}
+  curl --verbose -LO $OSM_DOWNLOAD_URL --output-dir $DIR
+  osm_file=$DIR/${OSM_DOWNLOAD_URL##*/}
 
   update_pbf_file $osm_file
 fi
