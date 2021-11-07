@@ -117,6 +117,16 @@
                 var tag = p
                 var value = feature.properties[p]
                 if (p == 'id') {
+                    var updateTimeReq = new XMLHttpRequest()
+                    updateTimeReq.open("GET", `https://www.openstreetmap.org/api/0.6/${value}.json`)
+                    updateTimeReq.addEventListener("load", function transferComplete(evt) {
+                      console.log( `https://www.openstreetmap.org/api/0.6/${value}.json`)
+                      console.log(updateTimeReq.response)
+                      let timestamp = JSON.parse(updateTimeReq.response).elements[0].timestamp
+                      document.getElementById('updateTime').textContent = Date(timestamp)
+                    })
+                    updateTimeReq.send()
+
                     value = `<a href="https://openstreetmap.org/${value}" target="_blank">${value}</a>`
                 } else if (!p.startsWith('_')) {
                     tag = `<a href="https://wiki.openstreetmap.org/wiki/Key:${p}" target="_blank">${p}</a>`
@@ -131,7 +141,10 @@
                 `
             }
         })
-        info += '</table></div>'
+        info += '</table>'
+        info += '<p>最後更新時間：<pr><br><i id=updateTime>查詢中...</i></p>'
+        info += '</div>'
+
         return info
     }
 
@@ -146,13 +159,13 @@
         })
     }
 
-    var oReq = new XMLHttpRequest()
-    oReq.open("GET", "tiles/timestamp")
-    oReq.addEventListener("load", function transferComplete(evt) {
-      let timestamp = oReq.response
+    var tilesTimeReq = new XMLHttpRequest()
+    tilesTimeReq.open("GET", "tiles/timestamp")
+    tilesTimeReq.addEventListener("load", function transferComplete(evt) {
+      let timestamp = tilesTimeReq.response
       document.getElementById('date').textContent = timestamp
     })
-    oReq.send()
+    tilesTimeReq.send()
 </script>
 
 </body>
