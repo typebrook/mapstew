@@ -20,7 +20,7 @@ RUN unzip /tilemaker-ubuntu-18.04.zip && \
     chmod +x /build/tilemaker && \
     install /build/tilemaker /usr/local/bin
 
-RUN git clone https://github.com/ramunasd/osmctools && \
+RUN git clone https://github.com/mjaschen/osmctools && \
     cd osmctools && \
     autoreconf --install && ./configure && make install
 
