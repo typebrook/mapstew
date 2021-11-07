@@ -70,10 +70,11 @@ function node_function(node)
 
 	-- Write 'tourism'
     local tourism = node:Find("tourism")
-	if tourism == "information" then
+	if tourismKeys[tourism] then
 		node:Layer("tourism", false)
 		SetNodeId(node)
 		SetNameAttributes(node)
+        node:Attribute("tourism", tourism) 
         local information = node:Find("information")
         local operator = node:Find("internet_access:operator")
 		if information == "mobile" and operation ~= "" then

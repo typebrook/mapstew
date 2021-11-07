@@ -779,11 +779,15 @@
       "source-layer": "tourism",
       "minzoom": 14,
       "maxzoom": 24,
-      "filter": ["has", "ref"],
+      "filter": [
+          "any",
+          ["has", "name"],
+          ["has", "ref"]
+      ],
       "layout": {
-        "text-field": "{ref}",
-        "text-font": ["Noto Sans Bold"],
-        "text-allow-overlap": true
+        "text-field": "{name}{ref}",
+        "text-allow-overlap": true,
+        "text-font": ["Noto Sans Bold"]
       },
       "paint": {
         "text-halo-color": "white",
@@ -801,8 +805,21 @@
       "layout": {
         "icon-size": 1.5,
         "icon-offset": [0, 15],
-        "icon-allow-overlap": true,
         "icon-image": "mobile-phone"
+      }
+    },
+    {
+      "id": "tourism-camp-site",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "tourism",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["in", "tourism", "camp_site"],
+      "layout": {
+        "icon-size": 1.5,
+        "icon-offset": [0, 15],
+        "icon-image": "s_camp_site"
       }
     },
     {
