@@ -123,9 +123,13 @@
                     updateTimeReq.addEventListener("load", function transferComplete(evt) {
                       console.log( `https://www.openstreetmap.org/api/0.6/${value}.json`)
                       console.log(updateTimeReq.response)
-                      let timestamp = JSON.parse(updateTimeReq.response).elements[0].timestamp
                       let timeField = document.getElementById('updateTime')
-                      if (timeField) timeField.textContent = new Date(timestamp)
+                      if (timeField) {
+                        let timestamp = JSON.parse(updateTimeReq.response).elements[0].timestamp
+                        timeField.textContent = new Date(timestamp).toLocaleString()
+                        let changeset = JSON.parse(updateTimeReq.response).elements[0].changeset
+                        timeField.href = `https://openstreetmap.org/changeset/${changeset}`
+                      }
                     })
                     updateTimeReq.send()
 
@@ -144,7 +148,7 @@
             }
         })
         info += '</table>'
-        info += '<p>最後更新時間：<pr><br><i id=updateTime>查詢中...</i></p>'
+        info += '<p>最後更新時間：<br><a id=updateTime>查詢中...</a></p>'
         info += '</div>'
 
         return info
