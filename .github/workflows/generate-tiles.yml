@@ -45,16 +45,15 @@ jobs:
           && git diff HEAD
 
       - name: Commit newly-generated tiles
-        run: > 
+        run: >
           git config --local user.email "typebrook@gmail.com";
           git config --local user.name "typebrook";
-          [ -n "$(git status tiles/ --short)" ]
-          && git branch gh-pages
+          git branch gh-pages
           && git checkout gh-pages
           && git add . --verbose | grep -v tiles/
           && git commit -m 'update' >/dev/null
           && git push --force --set-upstream origin gh-pages
-      
+
       - name: Upload updated PBF file as artifact for next workflow run
         uses: actions/upload-artifact@v2
         with:
