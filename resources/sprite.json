@@ -1,72 +1,72 @@
 {
+  "mobile-phone": {
+    "width": 19,
+    "height": 19,
+    "pixelRatio": 1,
+    "x": 0,
+    "y": 0
+  },
   "skull": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 0,
+    "x": 19,
     "y": 0
   },
   "shield_tertiary": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 32,
-    "y": 0
-  },
-  "shield_secondary": {
-    "width": 32,
-    "height": 32,
-    "pixelRatio": 1,
-    "x": 64,
+    "x": 51,
     "y": 0
   },
   "shield_primary": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 96,
+    "x": 83,
     "y": 0
   },
   "shield_motorway": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 128,
+    "x": 115,
     "y": 0
   },
   "trig_c": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 160,
+    "x": 147,
     "y": 0
   },
   "trig_forest": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 192,
+    "x": 179,
     "y": 0
   },
   "trig": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 224,
+    "x": 211,
     "y": 0
   },
   "mountain": {
     "width": 32,
     "height": 32,
     "pixelRatio": 1,
-    "x": 256,
+    "x": 243,
     "y": 0
   },
   "s_camp_site": {
     "width": 16,
     "height": 16,
     "pixelRatio": 1,
-    "x": 288,
+    "x": 275,
     "y": 0
   }
 }

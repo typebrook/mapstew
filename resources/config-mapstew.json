@@ -13,6 +13,7 @@
 
     "poi":              { "minzoom": 12, "maxzoom": 14 },
     "poi_detail":       { "minzoom": 14, "maxzoom": 14, "write_to": "poi" },
+    "tourism":          { "minzoom": 12, "maxzoom": 14 },
 
     "building":         { "minzoom": 13, "maxzoom": 14 },
     "road":             { "minzoom": 4,  "maxzoom": 14, "simplify_below": 13, "simplify_level": 0.0003 },

@@ -11,7 +11,7 @@
   "sources": {
     "mapstew": {
       "type": "vector",
-      "url": "<URL_PREFIX>/tiles/metadata.json"
+      "url": "http://localhost:8000/tiles/metadata.json"
     },
     "terrain-rgb": {
       "type": "raster-dem",
@@ -22,8 +22,8 @@
       "data": {"type":"FeatureCollection", "features": []}
     }
   },
-  "sprite": "<URL_PREFIX>/resources/sprite",
-  "glyphs": "<URL_PREFIX>/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
+  "sprite": "http://localhost:8000/resources/sprite",
+  "glyphs": "http://localhost:8000/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -149,7 +149,11 @@
             ],
             [
               15,
-              5
+              8
+            ],
+            [
+              20,
+              16
             ]
           ]
         }    
@@ -183,7 +187,11 @@
             ],
             [
               15,
-              3
+              5
+            ],
+            [
+              20,
+              10
             ]
           ]
         }    
@@ -644,6 +652,30 @@
       }
     },
     {
+      "id": "rudymap-hike-name",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "road",
+      "minzoom": 12,
+      "filter": [
+        "in",
+        "highway",
+        "path",
+        "footway"
+      ],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Bold"],
+        "text-size": 12,
+        "symbol-placement": "line"
+      },
+      "paint": {
+        "text-color": "red",
+        "text-halo-color": "white",
+        "text-halo-width": 1.5
+      }
+    },
+    {
       "id": "building-name",
       "type": "symbol",
       "source": "mapstew",
@@ -657,6 +689,10 @@
         "text-padding": 50,
         "symbol-sort-key": 100,
         "icon-padding": 50
+      },
+      "paint": {
+        "text-halo-color": "white",
+        "text-halo-width": 1.5
       }
     },
     {
@@ -734,6 +770,56 @@
         "text-color": "rgba(0, 0, 0, 1)",
         "text-halo-color": "white",
         "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "tourism",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "tourism",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": [
+          "any",
+          ["has", "name"],
+          ["has", "ref"]
+      ],
+      "layout": {
+        "text-field": "{name}{ref}",
+        "text-allow-overlap": true,
+        "text-font": ["Noto Sans Bold"]
+      },
+      "paint": {
+        "text-halo-color": "white",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "tourism-mobile",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "tourism",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["in", "information", "mobile"],
+      "layout": {
+        "icon-size": 1.5,
+        "icon-offset": [0, 15],
+        "icon-image": "mobile-phone"
+      }
+    },
+    {
+      "id": "tourism-camp-site",
+      "type": "symbol",
+      "source": "mapstew",
+      "source-layer": "tourism",
+      "minzoom": 14,
+      "maxzoom": 24,
+      "filter": ["in", "tourism", "camp_site"],
+      "layout": {
+        "icon-size": 1.5,
+        "icon-offset": [0, 15],
+        "icon-image": "s_camp_site"
       }
     },
     {
