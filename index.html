@@ -124,7 +124,8 @@
                       console.log( `https://www.openstreetmap.org/api/0.6/${value}.json`)
                       console.log(updateTimeReq.response)
                       let timestamp = JSON.parse(updateTimeReq.response).elements[0].timestamp
-                      document.getElementById('updateTime').textContent = new Date(timestamp)
+                      let timeField = document.getElementById('updateTime')
+                      if (timeField) timeField.textContent = new Date(timestamp)
                     })
                     updateTimeReq.send()
 
