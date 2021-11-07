@@ -50,7 +50,7 @@ jobs:
           git config --local user.name "typebrook";
           git branch gh-pages
           && git checkout gh-pages
-          && git add . --verbose | grep -v tiles/
+          && { git add . --verbose | grep -v tiles/ || true; }
           && git commit -m 'update' >/dev/null
           && git push --force --set-upstream origin gh-pages
 
