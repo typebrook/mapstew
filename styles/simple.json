@@ -11,7 +11,7 @@
   "sources": {
     "mapstew": {
       "type": "vector",
-      "url": "http://localhost:8000/tiles/metadata.json"
+      "url": "<URL_PREFIX>/tiles/metadata.json"
     },
     "terrain-rgb": {
       "type": "raster-dem",
@@ -22,8 +22,8 @@
       "data": {"type":"FeatureCollection", "features": []}
     }
   },
-  "sprite": "http://localhost:8000/resources/sprite",
-  "glyphs": "http://localhost:8000/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
+  "sprite": "<URL_PREFIX>/resources/sprite",
+  "glyphs": "<URL_PREFIX>/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
