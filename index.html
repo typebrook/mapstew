@@ -40,14 +40,14 @@
             version: 8,
             name: "rudymap",
             sources: {
-                osm: {
+                rudymap: {
                     type: "raster",
-                        tiles: [ "http://tile.happyman.idv.tw/mp/wmts/rudy/gm_grid/{z}/{x}/{y}.png" ],
+                        tiles: [ "https://tile.happyman.idv.tw/map/rudy/{z}/{x}/{y}.png" ],
                     minzoom: 0,
-                    maxzoom: 17
+                    maxzoom: 20
                 }
             },
-            layers: [ { id: "osm", type: "raster", source: "osm", } ]
+            layers: [ { id: "rudymap", type: "raster", source: "rudymap", } ]
         },
         center: center,
         zoom: zoom
