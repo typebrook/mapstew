@@ -8,6 +8,8 @@
     <script src="https://unpkg.com/maplibre-gl@1.15.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-sync-move@0.3.0/index.min.js"></script>
     <script src="https://unpkg.com/long@4.0.0/dist/long.js"></script>
+    <script src="scripts/note.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body { margin:0; padding:0; }
         #map1 { position:absolute; top:0; left: 0; width:50%; height: 100% }
@@ -151,6 +153,8 @@
         info += '</table>'
         info += '<p>最後更新時間：<br><a id=updateTime>查詢中...</a></p>'
         info += '</div>'
+        info += '<textArea id="report" style="font-size:12px" cols="15" rows="5" placeholder="請填寫圖資需要修正的地方"></textArea>'
+        info += '<button onclick="sendNote();">送出</button>'
 
         return info
     }
@@ -166,13 +170,15 @@
         })
     }
 
-    var tilesTimeReq = new XMLHttpRequest()
-    tilesTimeReq.open("GET", "tiles/timestamp")
-    tilesTimeReq.addEventListener("load", function transferComplete(evt) {
-      let timestamp = tilesTimeReq.response
-      document.getElementById('date').textContent = timestamp
-    })
-    tilesTimeReq.send()
+    function sendNote () {
+        let text = document.getElementById("report").value 
+        const lngLat = popup.getLngLat();
+        createNoteWithOSM(lngLat.lng, lngLat.lat, text)
+    }
+
+    $.get("tiles/timestamp", function(data) {
+        document.getElementById('date').textContent = data
+    });
 </script>
 
 </body>
