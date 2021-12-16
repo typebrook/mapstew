@@ -1,0 +1,130 @@
+{
+  "bounds": [
+    118.1036,
+    20.727990000000005,
+    122.9312,
+    26.603049999999996
+  ],
+  "name": "mapstew",
+  "version": "0.1",
+  "description": "Tile schema for hiking",
+  "minzoom": 2,
+  "maxzoom": 14,
+  "vector_layers": [
+    {
+      "id": "place",
+      "fields": {
+        "id": "String",
+        "name": "String",
+        "place": "String"
+      },
+      "minzoom": 0,
+      "maxzoom": 14
+    },
+    {
+      "id": "boundary",
+      "fields": {
+        "admin_level": "Number",
+        "id": "String",
+        "name": "String"
+      },
+      "minzoom": 0,
+      "maxzoom": 14
+    },
+    {
+      "id": "poi",
+      "fields": {
+        "_class": "String",
+        "_rank": "Number",
+        "_subclass": "String",
+        "id": "String",
+        "name": "String"
+      },
+      "minzoom": 12,
+      "maxzoom": 14
+    },
+    {
+      "id": "tourism",
+      "fields": {
+        "id": "String",
+        "information": "String",
+        "internet_access:operator": "String",
+        "name": "String",
+        "ref": "String",
+        "tourism": "String"
+      },
+      "minzoom": 12,
+      "maxzoom": 14
+    },
+    {
+      "id": "building",
+      "fields": {
+        "_class": "String",
+        "_rank": "Number",
+        "_subclass": "String",
+        "id": "String",
+        "name": "String"
+      },
+      "minzoom": 13,
+      "maxzoom": 14
+    },
+    {
+      "id": "road",
+      "fields": {
+        "access": "String",
+        "highway": "String",
+        "id": "String",
+        "name": "String",
+        "oneway": "String",
+        "ref": "String",
+        "sac_scale": "String",
+        "service": "String",
+        "trail_visibility": "String"
+      },
+      "minzoom": 4,
+      "maxzoom": 14
+    },
+    {
+      "id": "peak",
+      "fields": {
+        "ele": "Number",
+        "id": "String",
+        "name": "String",
+        "natural": "String",
+        "survey_point": "String"
+      },
+      "minzoom": 11,
+      "maxzoom": 14
+    },
+    {
+      "id": "water",
+      "fields": {
+        "_area": "Number",
+        "id": "String",
+        "intermittent": "String",
+        "landuse": "String",
+        "name": "String",
+        "natural": "String",
+        "water": "String",
+        "waterway": "String"
+      },
+      "minzoom": 6,
+      "maxzoom": 14
+    },
+    {
+      "id": "waterway",
+      "fields": {
+        "brunnel": "String",
+        "id": "String",
+        "intermittent": "Number",
+        "name": "String",
+        "waterway": "String"
+      },
+      "minzoom": 8,
+      "maxzoom": 14
+    }
+  ],
+  "tiles": [
+    "https://typebrook.github.io/mapstew/tiles/{z}/{x}/{y}.pbf"
+  ]
+}

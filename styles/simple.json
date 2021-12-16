@@ -11,7 +11,7 @@
   "sources": {
     "mapstew": {
       "type": "vector",
-      "url": "<URL_PREFIX>/tiles/metadata.json"
+      "url": "https://typebrook.github.io/mapstew/tiles/metadata.json"
     },
     "terrain-rgb": {
       "type": "raster-dem",
@@ -22,8 +22,8 @@
       "data": {"type":"FeatureCollection", "features": []}
     }
   },
-  "sprite": "<URL_PREFIX>/resources/sprite",
-  "glyphs": "<URL_PREFIX>/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
+  "sprite": "https://typebrook.github.io/mapstew/resources/sprite",
+  "glyphs": "https://typebrook.github.io/mapstew/static/fonts/KlokanTech%20{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
