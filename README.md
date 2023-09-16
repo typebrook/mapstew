@@ -16,7 +16,7 @@ See the rendered tiles on https://typebrook.github.io/mapstew, tile schema is ba
 1. Use Github workflow to fetch latest `osm.pbf` daily (Taiwan by default), and update it as [Github release asset](https://github.com/typebrook/mapstew/releases/tag/daily-taiwan-pbf) called `taiwan-daily.osm.obf`.
 
 
-2. Use Github workflow to update `taiwan-daily.osm.pbf` release asset in step 1 (with `osmctools`). And also upload it as release asset called `taiwan-latest.osm.pb
+2. Use Github workflow to update `taiwan-daily.osm.pbf` release asset in step 1 (with `osmctools`). And also upload it as release asset called `taiwan-latest.osm.pbf`
 
 
 3. Use Github workflow to generate tiles hourly (with `taiwan-latest.osm.pbf` from step 2), and commit them into `gh-pages` bran
